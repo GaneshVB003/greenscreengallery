@@ -1,0 +1,13 @@
+# requirements.txt
+
+# Web framework for the application
+Flask==3.0.0
+
+# Cloudinary SDK for Python (for interacting with Cloudinary API/Uploader)
+cloudinary==1.38.0
+
+# Reads key-value pairs from a .env file and sets them as environment variables
+python-dotenv==1.0.0
+
+# Note: 'os' and 'logging' are part of Python's standard library
+# and do not need to be included in requirements.txt.
