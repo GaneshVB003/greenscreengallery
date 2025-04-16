@@ -1,5 +1,7 @@
 # requirements.txt
-
+Flask
+gunicorn
+# ... any other libraries you use (like requests)
 # Web framework for the application
 Flask==3.0.0
 
