@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- SEO Meta Tags -->
-    <title>Green Screen Vault - Free Overlays & Clips for Videos (Download Now)</title>
+    <title>Green Screen Vault - Free Overlays & Clips (Fixed)</title>
     <meta name="description" content="Discover and download thousands of free green screen overlays, effects, transitions, and video clips. Perfect for YouTube, streaming, social media, and film projects. Upload your own chroma key footage, including meme templates!"/>
     <meta name="keywords" content="green screen, chroma key, video overlay, free download, video effects, transitions, stock footage, video clips, meme template, green screen download, video editing assets, content creator resources, premiere pro, after effects, final cut pro, davinci resolve, obs studio, cc0 license"/>
     <meta name="robots" content="index, follow">
@@ -70,7 +70,7 @@
 
         /* --- Gallery & Cards --- */
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 1.5rem; }
-        .card { background: #1f1f1f; border-radius: 1rem; overflow: hidden; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; animation: fadeInUp 0.5s ease-in-out both; position: relative; display: flex; flex-direction: column; }
+        .card { background: #1f1f1f; border-radius: 1rem; overflow: hidden; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease, border-width 0.4s ease; animation: fadeInUp 0.5s ease-in-out both; position: relative; display: flex; flex-direction: column; }
         html[data-theme="light"] .card { background: #ffffff; color: black; border-color: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 10px 30px rgba(0, 255, 136, 0.28); border-color: #00ff88; }
         html[data-theme="light"] .card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.12); border-color: #10b981; }
@@ -78,10 +78,10 @@
         .video-container video { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
         .video-container::after { content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255, 255, 255, 0.8); opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
         .video-container:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        .video-container video.playing + ::after { opacity: 0 !important; }
+        .video-container video.playing + ::after, .video-container.playing::after { opacity: 0 !important; } /* Hide play icon when container has 'playing' class */
         .card-content { padding: 1rem; flex-grow: 1; }
-        .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; font-size: 1rem; }
-        .uploader-name { font-size: 0.8rem; opacity: 0.8; /* Slightly more visible */ text-align: right; margin-bottom: 0.5rem; color: #bbb; }
+        .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; font-size: 1rem; word-break: break-all; /* Prevent long titles breaking layout */ }
+        .uploader-name { font-size: 0.8rem; opacity: 0.8; text-align: right; margin-bottom: 0.5rem; color: #bbb; }
         html[data-theme="light"] .uploader-name { opacity: 0.9; color: #555; }
         .card-footer { padding: 0 1rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; }
         html[data-theme="light"] .card-footer { border-top-color: #e2e8f0; }
@@ -102,7 +102,7 @@
         .action-popup { display: none; position: absolute; bottom: 45px; right: 5px; background-color: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 0.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); z-index: 50; animation: popUpFadeIn 0.2s ease-out; min-width: 130px; }
         html[data-theme="light"] .action-popup { background-color: #ffffff; border-color: #ccc; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
         .action-popup button { display: flex; align-items: center; gap: 0.5rem; width: 100%; background: none; border: none; color: #00ccff; padding: 0.6rem 0.8rem; text-align: left; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background-color 0.15s, color 0.15s; }
-        .action-popup button i { transition: transform 0.2s ease-out; display: inline-block; }
+        .action-popup button i { transition: transform 0.2s ease-out; display: inline-block; width: 1rem; /* Ensure consistent icon alignment */ text-align: center; }
         .action-popup button:hover i { transform: scale(1.1) rotate(-3deg); } /* Icon wiggle */
         html[data-theme="light"] .action-popup button { color: #0c4a6e; }
         .action-popup button:hover { background-color: #3a3a3a; }
@@ -123,6 +123,7 @@
         }
         /* Fade out animation for modal close */
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        .modal-backdrop.modal-fade-out { animation: fadeOut 0.3s ease-out forwards; /* Apply fade out to backdrop */}
         .modal-backdrop.modal-fade-out .modal-box {
             animation: fadeOut 0.3s ease-out forwards; /* Apply simple fade out to box on close */
         }
@@ -162,7 +163,7 @@
         .modal-button-delete:hover { background-color: #dd2222; }
         html[data-theme="light"] .modal-button-delete { background-color: #dc2626; color: white; }
         html[data-theme="light"] .modal-button-delete:hover { background-color: #b91c1c; }
-        .modal-error { color: #ff5555; font-size: 0.85rem; margin-top: -0.5rem; margin-bottom: 1rem; min-height: 1.2em; text-align: center; }
+        .modal-error { color: #ff5555; font-size: 0.85rem; margin-top: -0.5rem; margin-bottom: 1rem; min-height: 1.2em; text-align: center; display: block; }
         .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); border: none; font-size: 1.5rem; color: #aaa; cursor: pointer; line-height: 1; z-index: 51; padding: 0.1rem 0.5rem; border-radius: 50%; transition: background-color 0.2s, color 0.2s, transform 0.2s; }
         html[data-theme="light"] .modal-close-btn { background: rgba(0,0,0,0.05); color: #777; }
         .modal-close-btn:hover { background: rgba(255,255,255,0.2); color: #fff; transform: scale(1.1) rotate(90deg); }
@@ -192,8 +193,8 @@
         .search-container input { flex-grow: 1; padding: 0.7rem 1rem 0.7rem 2.5rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
         .search-container::before { content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #888; font-size: 0.9rem; transition: color 0.2s, transform 0.2s; pointer-events: none;} /* Added pointer-events */
         html[data-theme="light"] .search-container::before { color: #777; }
-        .search-container input:focus ~ ::before { color: #00ccff; transform: translateY(-50%) scale(1.1);} /* Icon color/size change on focus */
-        html[data-theme="light"] .search-container input:focus ~ ::before { color: #38bdf8; }
+        .search-container input:focus + ::before { color: #00ccff; transform: translateY(-50%) scale(1.1);} /* Icon color/size change on focus - corrected selector */
+        html[data-theme="light"] .search-container input:focus + ::before { color: #38bdf8; }
         .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.3); }
         html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
         html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3); }
@@ -208,14 +209,14 @@
         @media (max-width: 480px) { #introText { font-size: 1.8rem; } }
 
         /* --- Load More Button --- */
-        #loadMoreBtn { display: block; margin: 2.5rem auto; padding: 0.8rem 2.5rem; font-weight: bold; cursor: pointer; border-radius: 0.5rem; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; font-size: 0.9rem; background: #00ccff; color: black; border: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        #loadMoreBtn { display: block; margin: 2.5rem auto; padding: 0.8rem 2.5rem; font-weight: bold; cursor: pointer; border-radius: 0.5rem; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s, opacity 0.2s; font-size: 0.9rem; background: #00ccff; color: black; border: none; text-transform: uppercase; letter-spacing: 0.5px; }
         html[data-theme="light"] #loadMoreBtn { background: #38bdf8; color: white; }
         #loadMoreBtn:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); box-shadow: 0 5px 10px rgba(0, 204, 255, 0.3); }
         html[data-theme="dark"] #loadMoreBtn:hover:not(:disabled) { background-color: #00ddff; }
         html[data-theme="light"] #loadMoreBtn:hover:not(:disabled) { background-color: #0ea5e9; box-shadow: 0 5px 10px rgba(56, 189, 248, 0.3); }
         #loadMoreBtn:disabled { background: #555; cursor: not-allowed; transform: none; opacity: 0.6; box-shadow: none; }
         html[data-theme="light"] #loadMoreBtn:disabled { background: #a1a1aa; }
-        #loadMoreBtn .fa-spinner { animation: spin 1s linear infinite; display: inline-block; } /* Ensure spinner spins */
+        #loadMoreBtn .fa-spinner { animation: spin 1s linear infinite; display: inline-block; margin-right: 0.5rem; } /* Ensure spinner spins and has space */
 
         /* --- Info Section --- */
         .info-section { padding: 3rem 1.5rem; text-align: center; border-top: 1px solid #222; margin-top: 2rem; }
@@ -304,6 +305,34 @@
         .progress-bar { height: 100%; background: linear-gradient(270deg, #00ff88, #00ccff); animation: glow 1.5s infinite alternate; width: 0%; transition: width 0.4s ease; border-radius: 10px; }
         #uploadStatus { margin-top: 0.8rem; font-size: 0.9rem; min-height: 1.4em; text-align: center;}
 
+        /* --- Gallery Messages --- */
+        .gallery-message {
+             text-align: center;
+             width: 100%;
+             grid-column: 1 / -1; /* Span all columns */
+             font-size: 1.1rem; /* Slightly larger */
+             padding: 2rem;
+             margin-top: 1rem;
+             border-radius: 0.5rem;
+        }
+        .gallery-message.info { color: #9ca3af; /* Gray */ } /* Dark theme */
+        html[data-theme="light"] .gallery-message.info { color: #4b5563; } /* Light theme */
+        .gallery-message.error { color: #f87171; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); } /* Red */
+        html[data-theme="light"] .gallery-message.error { color: #dc2626; background-color: #fee2e2; border: 1px solid #fecaca;}
+        .gallery-message.empty { color: #60a5fa; /* Blue */ }
+        html[data-theme="light"] .gallery-message.empty { color: #3b82f6; }
+
+        /* Ensure card fade-out works */
+        .card.deleting {
+            opacity: 0;
+            transform: scale(0.9);
+            height: 0;
+            margin: 0;
+            padding: 0;
+            border-width: 0;
+            overflow: hidden;
+        }
+
     </style>
 </head>
 <body>
@@ -352,6 +381,7 @@
         <div class="search-container">
             <label for="search" class="sr-only">Search Videos:</label>
             <input type="search" id="search" placeholder="Search clips by title or uploader..." aria-label="Search green screen clips">
+            <!-- Search icon added via CSS ::before -->
         </div>
     </div>
 
@@ -359,8 +389,8 @@
     <main>
         <!-- Gallery -->
         <div class="gallery" id="gallery" aria-live="polite">
-            <!-- Dynamic Content: Placeholder while loading -->
-             <p class="text-center w-full col-span-full text-lg p-8">🔄 Loading Videos...</p>
+            <!-- Initial loading message -->
+             <p class="gallery-message info" id="gallery-loading-msg">🔄 Loading Videos...</p>
         </div>
 
         <!-- Load More Button -->
@@ -461,12 +491,12 @@
              <button type="button" class="modal-close-btn" data-action="close-prompt" aria-label="Close Prompt">×</button>
             <h2 id="promptTitle">Prompt</h2>
             <div id="promptContent" class="mt-4 mb-4">
-                <!-- Dynamic content goes here -->
-                <p class="modal-error" id="promptError" aria-live="assertive"></p>
+                 <!-- Dynamic content goes here (input field or confirmation text) -->
+                 <p class="modal-error" id="promptError" aria-live="assertive"></p> <!-- Error message container -->
             </div>
             <div class="modal-buttons">
                  <button type="button" class="modal-button-cancel" id="promptCancelBtn" data-action="close-prompt">Cancel</button>
-                <button type="button" class="modal-button-confirm" id="promptConfirmBtn">Confirm</button>
+                 <button type="button" class="modal-button-confirm" id="promptConfirmBtn">Confirm</button>
             </div>
         </div>
     </div>
@@ -474,7 +504,7 @@
     <!-- Upload Success Modal -->
     <div class="modal-backdrop" id="uploadSuccessPopup">
         <div class="modal-box text-center">
-             <button type="button" class="modal-close-btn" data-action="close-success" aria-label="Close Success Popup">×</button>
+             <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Success Popup">×</button> <!-- Use close-modal generic action -->
             <h2 class="text-2xl"><i class="fas fa-rocket text-blue-400 mr-2" aria-hidden="true"></i>Upload Complete!</h2>
             <div id="uploadSuccessContent" class="my-5"> <!-- Increased margin -->
                 <p>Thank you, <strong id="successUploaderName" class="text-green-400"></strong>!</p>
@@ -482,7 +512,7 @@
                 <p class="mt-3 text-sm text-gray-400">Sharing helps the creative community grow!</p>
             </div>
             <div class="modal-buttons justify-center">
-                 <button type="button" class="modal-button-confirm" data-action="close-modal">Awesome!</button>
+                 <button type="button" class="modal-button-confirm" data-action="close-modal">Awesome!</button> <!-- Use close-modal generic action -->
             </div>
         </div>
     </div>
@@ -494,7 +524,7 @@
               <h2>Terms & Privacy</h2>
               <div class="terms-content" tabindex="0"> <!-- Make content scrollable and focusable -->
                   <!-- Full T&C Text Here -->
-                   <h3>Terms and Conditions</h3><p><em>Last updated: 2024-05-15</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services, located at [Your Website URL - Replace This]. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page.</p>
+                   <h3>Terms and Conditions</h3><p><em>Last updated: 2024-05-16</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services, located at [Your Website URL - Replace This]. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page.</p>
                     <h4>License (CC0)</h4>
                     <p>Unless otherwise stated, Green Screen Vault and/or its licensors own the intellectual property rights for original site design and functionality. <strong>User-uploaded content (videos) is licensed under Creative Commons Zero (CC0) - Public Domain Dedication upon successful upload.</strong> This means:</p>
                     <ul>
@@ -521,7 +551,7 @@
                      <p>We reserve the right to revise these terms at any time. By using this website you are expected to review these terms on a regular basis.</p>
 
                    <hr class="my-6 border-gray-600 dark:border-gray-700">
-                   <h3>Privacy Policy</h3><p><em>Effective Date: 2024-05-15</em></p>
+                   <h3>Privacy Policy</h3><p><em>Effective Date: 2024-05-16</em></p>
                    <p>We value your privacy. This Privacy Policy explains how Green Screen Vault ("we", "us", "our") handles information when you use our website and services.</p>
                    <h4>Information We Collect</h4>
                    <ul>
@@ -636,10 +666,16 @@
 
 
     <script>
-             // --- Global Constants & State ---
-        const CLOUD_NAME = 'dogxcu1sj'; // *** YOUR Cloud Name ***
-        const UPLOAD_PRESET = 'gs_overlay'; // *** The EXACT name of your UNSIGNED Upload Preset ***
-        const VIDEOS_PER_LOAD = 12;
+        // --- Global Constants & State ---
+        // =====================================================================
+        // === IMPORTANT: CONFIGURE YOUR CLOUDINARY ACCOUNT DETAILS HERE ===
+        // =====================================================================
+        const CLOUD_NAME = 'dogxcu1sj'; // *** REPLACE WITH YOUR Cloudinary Cloud Name ***
+        const UPLOAD_PRESET = 'gs_overlay'; // *** REPLACE WITH The EXACT name of your UNSIGNED Upload Preset ***
+        // =====================================================================
+        const VIDEOS_PER_LOAD = 12; // How many videos to load per batch
+        const VIDEO_FETCH_ENDPOINT = '/videos'; // *** REPLACE if your backend endpoint is different ***
+        const VIDEO_DELETE_ENDPOINT_BASE = '/delete'; // *** REPLACE if your backend delete endpoint is different ***
 
         let allVideos = []; // Holds all fetched video data (from backend)
         let displayedVideos = []; // Holds the currently sorted/filtered videos for display
@@ -650,17 +686,17 @@
         let currentSearchQuery = ''; // Default search state
         let postUploadData = null; // Temp storage between Cloudinary success and title modal
         let currentPromptCallback = null; // Callback for the generic prompt modal
+        let isFetching = false; // Flag to prevent multiple fetches
 
         // --- Utility Functions ---
         const $ = (selector) => document.querySelector(selector);
         const $$ = (selector) => document.querySelectorAll(selector);
-        const log = (...args) => console.log('[GSV]', ...args); // Changed prefix for clarity
+        const log = (...args) => console.log('[GSV]', ...args);
         const err = (...args) => console.error('[GSV ERROR]', ...args);
 
         function safeGetElementById(id) {
             const el = document.getElementById(id);
-            // No error logging here to avoid console spam if called before element exists
-            // Check for null where the element is actually used.
+            // Removed error logging here to avoid console spam if called before element exists
             return el;
         }
 
@@ -680,7 +716,7 @@
             if (modal && modal.classList.contains('modal-backdrop')) {
                 modal.style.display = 'flex';
                 // Basic focus trapping: focus the first interactive element or the modal box itself
-                const focusableElement = modal.querySelector('button, input, [tabindex="0"], a[href]');
+                const focusableElement = modal.querySelector('button:not([disabled]), input:not([disabled]), [tabindex="0"], a[href]');
                 const modalBox = modal.querySelector('.modal-box');
                 if (focusableElement) {
                     focusableElement.focus();
@@ -688,6 +724,8 @@
                     modalBox.setAttribute('tabindex', '-1'); // Make it focusable if no interactive elements found
                     modalBox.focus();
                 }
+                 // Disable body scroll when modal is open
+                 // document.body.style.overflow = 'hidden';
             } else {
                  err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
             }
@@ -696,17 +734,23 @@
         function hideModal(modalId) {
             log(`Hiding modal: ${modalId}`);
             const modal = safeGetElementById(modalId);
-            if (modal && modal.classList.contains('modal-backdrop')) {
+            if (modal && modal.classList.contains('modal-backdrop') && modal.style.display !== 'none') {
                  modal.classList.add('modal-fade-out');
+                 // Re-enable body scroll when modal is closed
+                 // document.body.style.overflow = '';
+
+                // Use setTimeout matching animation duration + slight buffer
                 setTimeout(() => {
-                    modal.style.display = 'none';
-                    modal.classList.remove('modal-fade-out');
-                    const errorEl = modal.querySelector('.modal-error');
-                    if (errorEl) errorEl.textContent = '';
-                    // Remove temporary tabindex if added
-                    const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
-                    if(modalBox) modalBox.removeAttribute('tabindex');
-                }, 300); // Match CSS animation duration
+                    if (modal) { // Check again in case it was removed quickly
+                        modal.style.display = 'none';
+                        modal.classList.remove('modal-fade-out');
+                        const errorEl = modal.querySelector('.modal-error');
+                        if (errorEl) errorEl.textContent = '';
+                        // Remove temporary tabindex if added
+                        const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
+                        if(modalBox) modalBox.removeAttribute('tabindex');
+                    }
+                }, 350); // Match CSS animation duration + buffer
             }
         }
 
@@ -721,7 +765,7 @@
             } catch (error) {
                 err("Initialization failed:", error);
                 const gallery = safeGetElementById('gallery');
-                if (gallery) gallery.innerHTML = '<p class="text-red-500 p-4 text-center col-span-full">Error loading page. Please refresh.</p>';
+                if (gallery) displayGalleryMessage('Error loading page. Please refresh.', 'error');
             }
         });
 
@@ -750,8 +794,8 @@
             const searchInput = safeGetElementById('search');
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             const viewTermsLink = safeGetElementById('viewTermsLink');
-            const showAboutLink = safeGetElementById('showAboutLink'); // New
-            const showContactLink = safeGetElementById('showContactLink'); // New
+            const showAboutLink = safeGetElementById('showAboutLink');
+            const showContactLink = safeGetElementById('showContactLink');
             const selectUploadBtn = safeGetElementById('selectUploadBtn');
             const termsAcceptBtn = safeGetElementById('termsAcceptBtn');
             const postUploadSaveBtn = safeGetElementById('postUploadSaveBtn');
@@ -764,6 +808,7 @@
                 const passInput = safeGetElementById('deletePassword');
                 const status = safeGetElementById('uploadStatus');
                 const progressContainer = safeGetElementById('progressContainer');
+                const uploadButton = safeGetElementById('selectUploadBtn'); // Ensure button is re-enabled
                 if(uploaderInput) uploaderInput.value = '';
                 if(passInput) passInput.value = '';
                 if(status) status.textContent = '';
@@ -772,6 +817,7 @@
                     const progressBar = safeGetElementById('progressBar');
                     if(progressBar) progressBar.style.width = '0%';
                 }
+                if (uploadButton) uploadButton.disabled = false; // Re-enable on open
                 showModal('uploadPopup');
             });
 
@@ -820,18 +866,19 @@
             // Modal Close/Action Buttons (using event delegation on document)
             document.addEventListener('click', (event) => {
                 const target = event.target;
-                const action = target.closest('[data-action]')?.dataset.action; // Check closest element with action
 
                 // Generic modal close (button or backdrop click)
-                 const modal = target.closest('.modal-backdrop');
-                 if (target.classList.contains('modal-backdrop') || action === 'close-modal') {
-                    if(modal) hideModal(modal.id);
+                 const modalBackdrop = target.closest('.modal-backdrop');
+                 const closeAction = target.closest('[data-action="close-modal"]');
+                 if (target.classList.contains('modal-backdrop') || closeAction) {
+                    if(modalBackdrop) hideModal(modalBackdrop.id);
                  }
-                 // Specific modal actions (keep existing)
-                 // else if (action === 'close-terms') hideModal('termsModal'); // Handled by close-modal now
+
+                 // Specific modal actions triggered by data-action
+                 const action = target.closest('[data-action]')?.dataset.action;
+                 if (action === 'skip-title') closePostUploadModal(true); // true = skipped
                  else if (action === 'close-prompt') hideModal('promptModal');
-                 else if (action === 'close-success') hideModal('uploadSuccessPopup');
-                 else if (action === 'skip-title') closePostUploadModal(true); // true = skipped
+                 // close-modal is handled above
 
                  // Close action popups if clicked outside
                 const openPopup = document.querySelector('.action-popup[style*="display: block"]');
@@ -865,6 +912,7 @@
              if (videoContainer) {
                  const video = videoContainer.querySelector('video');
                  if(video) togglePlay(video);
+                 event.stopPropagation(); // Prevent other clicks if video container clicked
                  return; // Handled
              }
 
@@ -878,6 +926,7 @@
                  } else {
                     err("Could not find publicId for menu button click.");
                  }
+                 event.stopPropagation(); // Prevent other clicks if menu button clicked
                  return; // Handled
              }
 
@@ -888,6 +937,7 @@
                  const publicId = card?.dataset.publicId;
                  if (!publicId) {
                      err("Could not find publicId for action button click.");
+                     event.stopPropagation();
                      return; // Handled (error)
                  }
                  // Hide the popup immediately
@@ -901,6 +951,7 @@
                  } else if (actionButton.classList.contains('delete-action')) {
                     triggerDelete(publicId);
                  }
+                 event.stopPropagation(); // Prevent other clicks if action button clicked
                  return; // Handled
              }
         }
@@ -1000,14 +1051,14 @@
         }
 
         // --- Modal Helpers (Generic Prompt) ---
-        function showPromptModal({ title, contentHTML, inputLabel = '', inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmClass = '' }) {
+        function showPromptModal({ title, contentHTML = '', inputLabel = '', inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmClass = '' }) {
             log(`Showing prompt modal: "${title}"`);
             const modalId = 'promptModal';
             const titleEl = safeGetElementById('promptTitle');
             const contentDiv = safeGetElementById('promptContent');
             const confirmBtn = safeGetElementById('promptConfirmBtn');
             const cancelBtn = safeGetElementById('promptCancelBtn');
-            const errorEl = safeGetElementById('promptError');
+            const errorEl = safeGetElementById('promptError'); // Ensure error element is part of the structure
 
             if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) {
                 err("Prompt modal elements missing.");
@@ -1017,35 +1068,47 @@
             // Reset
             titleEl.innerHTML = title; // Allow icons in title
             contentDiv.innerHTML = ''; // Clear previous content first
-            errorEl.innerText = '';
-            contentDiv.appendChild(errorEl); // Re-append error placeholder at the end
+            errorEl.innerText = ''; // Clear previous error text
+            errorEl.style.display = 'none'; // Hide error initially
+            contentDiv.appendChild(errorEl); // Ensure error container is always present at the end of contentDiv
 
+            // Set button classes
             confirmBtn.className = 'modal-button-confirm'; // Reset base class
              if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' '));
+             else if(confirmClass === 'cancel') { // Special case for using cancel style on confirm button
+                confirmBtn.className = 'modal-button-cancel';
+             }
+
+            let inputEl = null; // Variable to hold the input element if created
 
             if (isConfirmation) {
+                // Display confirmation text
                 const p = document.createElement('p');
                 p.innerHTML = contentHTML;
                 contentDiv.insertBefore(p, errorEl); // Insert confirmation text before error message
             } else {
+                 // Display any static HTML content provided
                  if(contentHTML) {
                     const staticContent = document.createElement('div');
                     staticContent.innerHTML = contentHTML;
                     contentDiv.insertBefore(staticContent, errorEl);
                  }
+                 // Create label and input field
                  const labelEl = document.createElement('label');
                  labelEl.htmlFor = 'promptInput';
                  labelEl.innerText = inputLabel;
                  labelEl.className = 'block mb-2 font-semibold text-sm';
 
-                 const inputEl = document.createElement('input');
+                 inputEl = document.createElement('input'); // Assign to inputEl
                  inputEl.type = inputType;
                  inputEl.id = 'promptInput';
                  inputEl.placeholder = placeholder;
                  inputEl.value = initialValue;
-                  const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-                  const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-1";
-                  const themeInputClasses = theme === 'light' ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200" : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
+                 const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                 const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-1";
+                 const themeInputClasses = theme === 'light'
+                    ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200"
+                    : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
                  inputEl.className = `${baseInputClasses} ${themeInputClasses}`;
 
                  contentDiv.insertBefore(labelEl, errorEl);
@@ -1057,22 +1120,24 @@
 
             currentPromptCallback = callback; // Store the callback
 
-            // Re-attach event listener to prevent multiple callbacks stacking up
+            // Re-attach event listener using cloning to prevent multiple callbacks stacking up
             const newConfirmBtn = confirmBtn.cloneNode(true); // Clone to remove old listeners
             confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
             safeGetElementById('promptConfirmBtn').addEventListener('click', handlePromptConfirm);
 
-            // Also re-attach cancel listener (if it uses specific logic beyond data-action)
+            // Ensure cancel button uses data-action for consistency
             const newCancelBtn = cancelBtn.cloneNode(true);
+            newCancelBtn.setAttribute('data-action', 'close-prompt'); // Use data-action
             cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-             // Optional: If promptCancelBtn needs specific logic:
-             // safeGetElementById('promptCancelBtn').addEventListener('click', handlePromptCancel);
-             // But using data-action="close-prompt" is usually sufficient via the delegated listener.
 
             showModal(modalId);
-            if (!isConfirmation) safeGetElementById('promptInput')?.focus();
-            else safeGetElementById('promptConfirmBtn')?.focus(); // Focus confirm for confirmations
+
+            // Focus logic
+            if (inputEl) inputEl.focus(); // Focus input if it exists
+            else if (isConfirmation) safeGetElementById('promptConfirmBtn')?.focus(); // Focus confirm for confirmations
+
         }
+
 
         function handlePromptConfirm() {
             log("Prompt confirm button clicked.");
@@ -1080,9 +1145,10 @@
                 const input = safeGetElementById('promptInput');
                 const value = input ? input.value : true; // Pass true for confirmation prompts without input
                 currentPromptCallback(value); // Execute the stored callback
+                // Don't automatically hide here; callback should decide (e.g., on error vs success)
             } else {
                 err("No callback registered for prompt confirmation.");
-                hideModal('promptModal'); // Close anyway
+                hidePromptModal(); // Close anyway if no callback found
             }
         }
 
@@ -1096,7 +1162,7 @@
             const errorElement = safeGetElementById('promptError');
             if (errorElement) {
                 errorElement.innerText = message;
-                errorElement.style.display = message ? 'block' : 'none';
+                errorElement.style.display = message ? 'block' : 'none'; // Show only if message exists
             } else {
                 err("Cannot show prompt error, element #promptError not found.");
             }
@@ -1116,6 +1182,8 @@
             const savedTheme = localStorage.getItem('theme') || 'dark';
             log(`Initializing theme: ${savedTheme}`);
             document.documentElement.setAttribute('data-theme', savedTheme);
+            // Apply initial filter button styles based on loaded theme
+             setActiveFilterButton();
         }
 
         function toggleTheme() {
@@ -1126,10 +1194,15 @@
              html.setAttribute('data-theme', newTheme);
              localStorage.setItem('theme', newTheme);
              setActiveFilterButton(); // Update filter button style immediately
-             // Update Cloudinary widget theme if widget object exists (advanced)
-             // if (window.cloudinaryWidgetInstance) {
-             //     window.cloudinaryWidgetInstance.update({ theme: newTheme });
-             // }
+             // Update Prompt Modal input style if visible
+             const promptInput = safeGetElementById('promptInput');
+             if (promptInput && safeGetElementById('promptModal')?.style.display === 'flex') {
+                  const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-1";
+                  const themeInputClasses = newTheme === 'light'
+                    ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200"
+                    : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
+                 promptInput.className = `${baseInputClasses} ${themeInputClasses}`;
+             }
         }
 
         // --- Upload Logic ---
@@ -1144,9 +1217,14 @@
 
             if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status || !uploadButton) {
                 err("Upload modal elements missing.");
-                status.innerText = '❌ Internal error: Missing form elements.';
+                if(status) status.innerText = '❌ Internal error: Missing form elements.';
                 return;
             }
+             if (!CLOUD_NAME || !UPLOAD_PRESET) {
+                 err("Cloudinary CLOUD_NAME or UPLOAD_PRESET is not configured in the script.");
+                 status.innerText = '❌ Configuration Error: Cloudinary details missing.';
+                 return;
+             }
 
             const uploaderName = uploaderNameInput.value.trim() || 'Anonymous';
             const delPass = delPassInput.value.trim();
@@ -1163,62 +1241,69 @@
             status.innerText = 'Initializing widget...';
             progressBar.style.width = '0%';
             progressContainer.style.display = 'block';
-            uploadButton.disabled = true; // Disable button
+            uploadButton.disabled = true; // Disable button during upload process
 
             try {
                 // Ensure Cloudinary object exists
-                 if (typeof cloudinary === 'undefined') {
-                     throw new Error("Cloudinary script not loaded.");
+                 if (typeof cloudinary === 'undefined' || typeof cloudinary.openUploadWidget !== 'function') {
+                     throw new Error("Cloudinary script not loaded or invalid.");
                  }
 
                 const widget = cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
                     sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'],
                     resourceType: 'video',
-                    multiple: false, clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
+                    multiple: false, // Keep single upload for simplicity with title/pass flow
+                    clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
                     maxFileSize: 300000000, // Approx 300MB limit
                     folder: 'gs_overlay_vault', // Optional: organize uploads in Cloudinary
                     theme: document.documentElement.getAttribute("data-theme") || "dark" // Match site theme
                 }, (error, result) => {
-                    const currentUploadButton = safeGetElementById('selectUploadBtn'); // Re-select button inside callback scope
+                    // Re-select elements within callback scope to ensure they exist if modal was closed/reopened (unlikely here but safer)
+                    const currentUploadButton = safeGetElementById('selectUploadBtn');
+                    const currentStatus = safeGetElementById('uploadStatus');
+                    const currentProgressBar = safeGetElementById('progressBar');
+                    const currentProgressContainer = safeGetElementById('progressContainer');
+
 
                     if (error) {
                         err("Cloudinary Widget Error:", error);
-                        status.innerText = `❌ Error: ${error.status || error.message || 'Upload failed'}`;
-                        progressContainer.style.display = 'none';
-                         if(currentUploadButton) currentUploadButton.disabled = false;
+                        if(currentStatus) currentStatus.innerText = `❌ Error: ${error.statusText || error.message || 'Upload failed'}`;
+                        if(currentProgressContainer) currentProgressContainer.style.display = 'none';
+                         if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
                     } else if (result && result.event) {
                         log("Cloudinary Event:", result.event, result.info || '');
                         switch (result.event) {
                             case "upload-added":
-                                status.innerText = 'Starting upload...';
+                                if(currentStatus) currentStatus.innerText = 'Starting upload...';
                                 break;
                             case "uploadprogress":
                                 if (result.info && result.info.total_bytes) {
                                     const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
-                                    if (progressBar) {
-                                        progressBar.style.width = `${percent}%`;
-                                        progressBar.setAttribute('aria-valuenow', percent);
+                                    if (currentProgressBar) {
+                                        currentProgressBar.style.width = `${percent}%`;
+                                        currentProgressBar.setAttribute('aria-valuenow', percent);
                                     }
-                                    status.innerText = `Uploading... ${percent}%`;
+                                    if(currentStatus) currentStatus.innerText = `Uploading... ${percent}%`;
                                 } else {
-                                    status.innerText = `Uploading...`; // Fallback if byte info missing
+                                    if(currentStatus) currentStatus.innerText = `Uploading...`; // Fallback if byte info missing
                                 }
                                 break;
                             case "success":
                                 log("Cloudinary Success:", result.info);
                                 if (!result.info?.public_id || !result.info?.secure_url) {
                                      err("Cloudinary success event missing critical data:", result.info);
-                                     status.innerText = `❌ Error: Upload data incomplete.`;
-                                     progressContainer.style.display = 'none';
+                                     if(currentStatus) currentStatus.innerText = `❌ Error: Upload data incomplete.`;
+                                     if(currentProgressContainer) currentProgressContainer.style.display = 'none';
                                      if(currentUploadButton) currentUploadButton.disabled = false;
                                      return;
                                 }
-                                status.innerText = `✅ Processing...`;
-                                if (progressBar) {
-                                    progressBar.style.width = '100%';
-                                    progressBar.setAttribute('aria-valuenow', 100);
+                                if(currentStatus) currentStatus.innerText = `✅ Processing...`;
+                                if (currentProgressBar) {
+                                    currentProgressBar.style.width = '100%';
+                                    currentProgressBar.setAttribute('aria-valuenow', 100);
                                 }
+                                // Store data needed for the next step (post-upload modal)
                                 postUploadData = {
                                     publicId: result.info.public_id,
                                     originalFilename: result.info.original_filename,
@@ -1226,51 +1311,56 @@
                                     secureUrl: result.info.secure_url
                                 };
                                 try {
+                                    // Save password and uploader name to local storage IMMEDIATELY after successful upload
                                     localStorage.setItem(`pass_${result.info.public_id}`, delPass);
                                     uploaderNames[result.info.public_id] = uploaderName;
                                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
                                     log(`Password and uploader name saved locally for ${result.info.public_id}`);
                                 } catch(e) {
                                     err("Error saving password/uploader to localStorage:", e);
-                                     status.innerText = '✅ Uploaded, but failed to save password locally!';
+                                     if(currentStatus) currentStatus.innerText = '✅ Uploaded, but failed to save password locally!';
                                      // Proceed anyway, but user won't be able to delete later via UI
                                 }
-                                // Widget auto-closes on success, don't need explicit close handling here
+                                // Widget auto-closes on success, the "close" event will handle next steps
                                 break;
                              case "close":
                                 log("Cloudinary Widget Closed.");
-                                // Only transition if upload succeeded
+                                // Only transition to details modal if upload was successful (postUploadData is set)
                                 if (postUploadData) {
-                                    hideModal('uploadPopup');
-                                    showPostUploadDetailsModal(postUploadData);
+                                    hideModal('uploadPopup'); // Hide upload popup first
+                                    showPostUploadDetailsModal(postUploadData); // Show details popup
                                 } else {
-                                    // If closed manually *during* upload or after error
-                                    if (status.innerText.includes('Uploading') || status.innerText.includes('Initializing')) {
-                                        status.innerText = 'Upload cancelled or failed.';
+                                    // If closed manually *during* upload or after error, just re-enable button
+                                    if (currentStatus && (currentStatus.innerText.includes('Uploading') || currentStatus.innerText.includes('Initializing'))) {
+                                        currentStatus.innerText = 'Upload cancelled or failed.';
                                     }
-                                    progressContainer.style.display = 'none';
-                                    if(currentUploadButton) currentUploadButton.disabled = false;
+                                    if(currentProgressContainer) currentProgressContainer.style.display = 'none';
+                                    if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable button
                                 }
                                 break;
-                            case "abort":
+                            case "abort": // User aborted upload
                             case "queue-too-large":
-                            case "bytes-total-exceeded": // Added more specific error cases
+                            case "bytes-total-exceeded":
                             case "max-files-exceeded":
-                                status.innerText = `❌ Upload Error: ${result.event.replace(/-/g, ' ')}`; // Make event name readable
-                                progressContainer.style.display = 'none';
-                                if(currentUploadButton) currentUploadButton.disabled = false;
+                                const eventText = result.event.replace(/-/g, ' '); // Make event name readable
+                                if(currentStatus) currentStatus.innerText = `❌ Upload Error: ${eventText}`;
+                                if(currentProgressContainer) currentProgressContainer.style.display = 'none';
+                                if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
+                                break;
+                            default:
+                                // Log other events if needed for debugging
+                                // log("Other Cloudinary event:", result.event);
                                 break;
                         }
                     }
                 });
-                // Store widget instance if needed for theme updates etc.
+                // Store widget instance if needed for theme updates etc. (optional)
                 // window.cloudinaryWidgetInstance = widget;
             } catch (widgetError) {
                 err("Error opening Cloudinary Widget:", widgetError);
-                status.innerText = "❌ Failed to open upload widget. Script might be missing.";
-                progressContainer.style.display = 'none';
-                 const currentUploadButton = safeGetElementById('selectUploadBtn');
-                 if (currentUploadButton) currentUploadButton.disabled = false;
+                if(status) status.innerText = "❌ Failed to open upload widget. Script might be missing or misconfigured.";
+                if(progressContainer) progressContainer.style.display = 'none';
+                if (uploadButton) uploadButton.disabled = false; // Re-enable button
             }
         }
 
@@ -1283,11 +1373,11 @@
              if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) {
                  err("Post-upload modal elements missing.");
                  // Fallback: add video with default title immediately if modal elements fail
-                 closePostUploadModal(true);
+                 closePostUploadModal(true); // Treat as skipped
                  return;
              }
 
-             titleInput.value = formatTitle(data.originalFilename || data.publicId);
+             titleInput.value = formatTitle(data.publicId, data.originalFilename); // Use helper
              uploaderSpan.textContent = data.uploaderName || 'Anonymous';
              errorMsg.textContent = '';
              saveBtn.disabled = false;
@@ -1297,7 +1387,7 @@
         }
 
         function savePostUploadDetails() {
-            log("Saving post-upload details...");
+             log("Saving post-upload details...");
              if (!postUploadData) { err("Cannot save, postUploadData is missing!"); return; }
              const titleInput = safeGetElementById('postUploadTitleInput');
              const errorMsg = safeGetElementById('postUploadError');
@@ -1315,8 +1405,14 @@
              saveBtn.disabled = true; errorMsg.textContent = '';
 
              renamedTitles[postUploadData.publicId] = newTitle;
-             localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
-             log("Title saved locally.");
+             try {
+                 localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                 log("Title saved locally.");
+             } catch (e) {
+                 err("Error saving title to localStorage:", e);
+                 errorMsg.textContent = "Failed to save title locally.";
+                 // Optionally proceed without local save, or stop
+             }
 
              // Add to main video list and refresh UI
               const newVideoData = {
@@ -1324,7 +1420,9 @@
                  created_at: new Date().toISOString(), // Use current time as approximation
                  secure_url: postUploadData.secureUrl,
                  original_filename: postUploadData.originalFilename // Keep original name if needed
+                 // Add other relevant fields your backend might return if needed for filtering/sorting
               };
+              // Ensure we add the video *even* if localstorage fails
               allVideos.unshift(newVideoData); // Add to beginning of the master list
               applyFiltersAndRender(true); // Refresh gallery view immediately with the new video at the top (if sorted by recent)
 
@@ -1337,13 +1435,19 @@
              log(`Closing post-upload modal (skipped: ${skipped})`);
              if (skipped && postUploadData) {
                  log("Title skipped, using default title.");
-                 const defaultTitle = formatTitle(postUploadData.originalFilename || postUploadData.publicId);
-                 // Still save the uploader name if it was set
+                 const defaultTitle = formatTitle(postUploadData.publicId, postUploadData.originalFilename);
+
+                 // Ensure uploader name is still saved if provided during upload
                  if (!uploaderNames[postUploadData.publicId]) {
-                     uploaderNames[postUploadData.publicId] = postUploadData.uploaderName;
-                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                    uploaderNames[postUploadData.publicId] = postUploadData.uploaderName;
+                    try {
+                        localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                    } catch (e) {
+                        err("Error saving uploader name (on skip) to localStorage:", e);
+                    }
                  }
-                 // Add to main video list even if skipped
+
+                 // Add to main video list even if title was skipped
                  const newVideoData = {
                     public_id: postUploadData.publicId,
                     created_at: new Date().toISOString(),
@@ -1364,33 +1468,35 @@
              const theme = document.documentElement.getAttribute("data-theme") || "dark";
              // Define classes clearly
              const baseClasses = {
-                inactive: ['border-transparent', 'text-opacity-80'],
-                active: ['border-2', 'shadow-md', 'text-opacity-100']
+                inactive: ['border-transparent', 'opacity-80', 'hover:opacity-100'], // Adjusted opacity
+                active: ['border-2', 'shadow-md', 'opacity-100'] // Adjusted opacity
              };
              const themeClasses = {
-                dark: {
-                    inactive: ['bg-cyan-600', 'text-black'],
-                    active: ['bg-green-400', 'text-black', 'border-green-500', 'shadow-lg', 'shadow-green-500/30']
-                },
-                light: {
-                    inactive: ['bg-blue-400', 'text-white'],
-                    active: ['bg-indigo-600', 'text-white', 'border-indigo-700']
-                }
+                 dark: {
+                     inactive: ['bg-gray-600', 'text-gray-100', 'hover:bg-gray-500'], // Slightly lighter hover
+                     active: ['bg-green-400', 'text-black', 'border-green-600', 'shadow-lg', 'shadow-green-500/30']
+                 },
+                 light: {
+                     inactive: ['bg-gray-300', 'text-gray-700', 'hover:bg-gray-400'], // Adjusted light inactive
+                     active: ['bg-indigo-600', 'text-white', 'border-indigo-700']
+                 }
              };
              const currentThemeClasses = theme === 'light' ? themeClasses.light : themeClasses.dark;
+             // Combine all possible classes to ensure clean removal
              const allPossibleClasses = [
                  ...baseClasses.inactive, ...baseClasses.active,
                  ...themeClasses.dark.inactive, ...themeClasses.dark.active,
                  ...themeClasses.light.inactive, ...themeClasses.light.active
-             ];
+             ].filter(c => c); // Filter out any potentially undefined classes
 
              if (!buttonElement) {
                  buttonElement = $(`.filter-options .filter-btn[data-filter="${currentFilter}"]`);
              }
 
              $$('.filter-options .filter-btn').forEach(btn => {
-                 btn.classList.remove(...allPossibleClasses); // Remove all potential style classes
+                 btn.classList.remove(...allPossibleClasses); // Remove all potential style classes first
                  btn.setAttribute('aria-selected', 'false');
+                 // Apply the correct set of classes
                  if (btn === buttonElement) {
                      btn.classList.add(...baseClasses.active, ...currentThemeClasses.active);
                      btn.setAttribute('aria-selected', 'true');
@@ -1406,121 +1512,117 @@
                  // Attempt to style the default 'recent' button if it exists and matches the current filter
                  const defaultBtn = safeGetElementById('filter-recent');
                  if (defaultBtn && currentFilter === 'recent') {
-                     defaultBtn.classList.remove(...baseClasses.inactive, ...currentThemeClasses.inactive);
+                     defaultBtn.classList.remove(...allPossibleClasses); // Clean slate
                      defaultBtn.classList.add(...baseClasses.active, ...currentThemeClasses.active);
                      defaultBtn.setAttribute('aria-selected', 'true');
+                      log(`Applied active style to default 'recent' button.`);
                  }
              }
         }
 
         // --- Video Loading, Filtering, Sorting & Rendering ---
         async function fetchAndRenderVideos() {
+            if (isFetching) {
+                log("Fetch already in progress, skipping.");
+                return;
+            }
+            isFetching = true;
             log("Fetching initial video list...");
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
+
             if (!gallery || !loadMoreBtn) {
                 err("Gallery or Load More button not found during fetch.");
+                isFetching = false;
                 return;
             }
 
-            gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Fetching video list...</p>';
-            loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
+            // Display loading message immediately
+             displayGalleryMessage('🔄 Fetching video list...', 'info');
+             loadMoreBtn.style.display = 'none';
+             loadMoreBtn.disabled = true;
 
             try {
-                // *** REPLACE WITH YOUR ACTUAL BACKEND ENDPOINT ***
-                // This endpoint should return a JSON array of video objects from Cloudinary,
-                // ideally including public_id, secure_url, created_at, and optionally original_filename.
-                // Example using Cloudinary Node.js SDK on backend:
-                // const results = await cloudinary.search.expression('resource_type:video AND folder:gs_overlay_vault').sort_by('created_at','desc').max_results(500).execute();
-                // return results.resources; // Send this array as JSON
-                // Simulate fetch delay
-                // await new Promise(resolve => setTimeout(resolve, 1000));
-                // ** SIMULATED DATA - REPLACE THIS FETCH CALL **
-                 // const response = await fetch('/api/videos'); // Replace with your actual endpoint
-                 // Simulate response for testing without a backend
-                      async function fetchAndRenderVideos() {
-            log("Fetching initial video list...");
-            const gallery = safeGetElementById("gallery");
-            const loadMoreBtn = safeGetElementById('loadMoreBtn');
-            if (!gallery || !loadMoreBtn) {
-                err("Gallery or Load More button not found during fetch.");
-                return;
-            }
-
-            gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Fetching video list...</p>';
-            loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
-
-            try {
-                // *** FIXED: Replace simulation with actual fetch call ***
-                // Use the endpoint that works for index.html (likely /videos)
-                const response = await fetch('/videos');
+                log(`Fetching from endpoint: ${VIDEO_FETCH_ENDPOINT}`);
+                const response = await fetch(VIDEO_FETCH_ENDPOINT);
 
                 if (!response.ok) {
-                     let errorMsg = `Server error: ${response.status} ${response.statusText}`;
-                     try {
-                        // Try to get more details from the response body if available
+                    let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
+                    try {
                         const errorData = await response.json();
                         errorMsg = errorData.message || errorData.details || errorData.error || errorMsg;
-                     } catch (e) {
-                        // Ignore if parsing error body fails
+                        err("Server error details:", errorData);
+                    } catch (e) {
                         log("Could not parse error response body:", e);
-                     }
-                     throw new Error(errorMsg);
+                        // Try to get text if JSON parsing fails
+                        try {
+                            const errorText = await response.text();
+                            if (errorText) errorMsg += ` - ${errorText.substring(0, 100)}`; // Show snippet
+                        } catch (textErr) { /* Ignore */ }
+                    }
+                    throw new Error(errorMsg);
                 }
+
                 allVideos = await response.json();
 
                 if (!Array.isArray(allVideos)) {
-                    console.error("Received data:", allVideos); // Log the problematic data
-                    throw new Error("Invalid data format received from server (expected an array).");
+                    err("Invalid data format received from server (expected an array).", allVideos);
+                    throw new Error("Invalid data format received from server.");
                 }
                 log(`Fetched ${allVideos.length} total videos.`);
 
-                 if (allVideos.length === 0) {
-                     gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">📪 No videos found yet! Be the first to upload.</p>';
+                if (allVideos.length === 0) {
+                     displayGalleryMessage('📪 No videos found yet! Be the first to upload.', 'empty');
+                     isFetching = false;
                      return; // Stop here if no videos
                  }
-                applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
+
+                 // Success: Clear loading message and proceed
+                 clearGalleryMessages();
+                 applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
 
             } catch (error) {
-                err("Failed to fetch videos:", error);
-                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}. Please try again later.</p>`;
-                loadMoreBtn.style.display = 'none';
+                err("Failed to fetch videos:", error); // Log the full error object
+                const displayMessage = error instanceof Error ? error.message : String(error); // Get message or stringify
+                displayGalleryMessage(`❌ Error loading videos: ${displayMessage}. Please check console and backend logs.`, 'error');
+                loadMoreBtn.style.display = 'none'; // Hide load more on error
+            } finally {
+                isFetching = false; // Allow fetching again
             }
         }
-                 // ** END SIMULATED DATA **
 
-                if (!response.ok) {
-                     let errorMsg = `Server error: ${response.status}`;
-                     try { const errorData = await response.json(); errorMsg = errorData.message || errorMsg; } catch (e) {}
-                     throw new Error(errorMsg);
-                }
-                allVideos = await response.json();
+         // --- Gallery Message Helpers ---
+         function displayGalleryMessage(message, type = 'info') { // types: info, error, empty
+             const gallery = safeGetElementById("gallery");
+             if (!gallery) return;
+             // Remove any existing messages first
+             clearGalleryMessages();
+             // Create and append new message
+             const msgElement = document.createElement('p');
+             msgElement.className = `gallery-message ${type}`;
+             msgElement.textContent = message;
+             gallery.appendChild(msgElement);
+         }
 
-                if (!Array.isArray(allVideos)) {
-                    console.error("Received data:", allVideos); // Log the problematic data
-                    throw new Error("Invalid data format received from server (expected an array).");
-                }
-                log(`Fetched ${allVideos.length} total videos.`);
-
-                 if (allVideos.length === 0) {
-                     gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">📪 No videos found yet! Be the first to upload.</p>';
-                     return; // Stop here if no videos
-                 }
-                applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
-
-            } catch (error) {
-                err("Failed to fetch videos:", error);
-                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}. Please try again later.</p>`;
-                loadMoreBtn.style.display = 'none';
-            }
-        }
+         function clearGalleryMessages() {
+            const gallery = safeGetElementById("gallery");
+            if (!gallery) return;
+            const messages = gallery.querySelectorAll('.gallery-message');
+            messages.forEach(msg => msg.remove());
+            // Also remove the initial loading message if it's still there
+            const initialLoadingMsg = safeGetElementById('gallery-loading-msg');
+            if(initialLoadingMsg) initialLoadingMsg.remove();
+         }
 
         function applyFiltersAndRender(resetRendering = false) {
             log(`Applying filters. Filter: ${currentFilter}, Search: "${currentSearchQuery}", Reset: ${resetRendering}`);
             const gallery = safeGetElementById("gallery");
             if (!gallery) return;
 
-            // Filtering
+            // Clear existing messages before filtering
+            clearGalleryMessages();
+
+            // Filtering by Search Query
             let filtered = allVideos;
             if (currentSearchQuery) {
                 const query = currentSearchQuery.toLowerCase();
@@ -1541,17 +1643,17 @@
              try {
                 switch (currentFilter) {
                     case 'popular':
-                        // Placeholder: Currently Random sort.
-                        // Requires backend logic (e.g., view/download counts) for real popularity.
+                        // Placeholder: Requires backend logic (e.g., view/download counts)
+                        // For now, maybe sort by original filename length (longer might be less common?) or just random
                         filtered.sort(() => Math.random() - 0.5);
-                        log("Sorted by 'popular' (currently random).");
+                        log("Sorted by 'popular' (currently random). Implement backend logic for real popularity.");
                         break;
                     case 'recent': default:
                          // Ensure created_at exists and is valid before sorting
                          filtered.sort((a, b) => {
                              const dateA = a?.created_at ? new Date(a.created_at).getTime() : 0;
                              const dateB = b?.created_at ? new Date(b.created_at).getTime() : 0;
-                             // Handle invalid dates gracefully - push them to the end or treat as equal
+                             // Handle invalid dates gracefully - push them to the end
                              if (isNaN(dateA) && isNaN(dateB)) return 0;
                              if (isNaN(dateA)) return 1; // Put invalid A after valid B
                              if (isNaN(dateB)) return -1; // Put invalid B after valid A
@@ -1570,10 +1672,10 @@
             // Rendering
             if (resetRendering) {
                 currentVideoIndex = 0; // Reset pagination index
-                gallery.innerHTML = ''; // Clear previous gallery content
-                // Show temporary message only if there are results to load
+                gallery.innerHTML = ''; // Clear previous gallery content completely
+                // Display temporary message only if there are results to load
                 if (displayedVideos.length > 0) {
-                    gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Applying Filters & Loading...</p>';
+                    displayGalleryMessage('🔄 Applying Filters & Loading...', 'info');
                     // Delay rendering slightly to ensure UI updates
                     setTimeout(() => renderVideoBatch(true), 50);
                 } else {
@@ -1584,16 +1686,14 @@
             }
         }
 
+
         function renderVideoBatch(isInitialRender = false) {
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             if (!gallery || !loadMoreBtn) return;
 
             // Clear loading/filtering message if it exists
-            const loadingMsg = gallery.querySelector('p.col-span-full');
-            if (loadingMsg && loadingMsg.textContent.includes('Applying Filters') || loadingMsg?.textContent.includes('Loading Videos')) {
-                gallery.innerHTML = ''; // Clear the placeholder message
-            }
+            clearGalleryMessages();
 
             const fragment = document.createDocumentFragment();
             const startIndex = currentVideoIndex;
@@ -1601,25 +1701,23 @@
 
             log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered/sorted: ${displayedVideos.length})`);
 
-             if (isInitialRender && displayedVideos.length === 0) { // Handle No Results specifically on initial render
+             if (displayedVideos.length === 0) { // Handle No Results specifically
                  const message = currentSearchQuery
                                ? `📪 No results found for "${currentSearchQuery}". Try a different search?`
-                               : '📪 No videos match the current filter.';
-                 gallery.innerHTML = `<p class="text-center w-full col-span-full text-lg p-8">${message}</p>`;
+                               : (allVideos.length === 0 ? '📪 No videos found yet! Be the first to upload.' : '📪 No videos match the current filter.');
+                 displayGalleryMessage(message, 'empty');
                  loadMoreBtn.style.display = 'none';
                  return;
              }
 
-             // Don't show loading state if nothing to load
+             // Don't show loading state on button if nothing new to load in this call
             if (startIndex >= endIndex) {
-                 log("No more videos to render in this batch.");
-                 // Ensure 'end of list' message logic runs below
+                 log("No more videos to render in this batch call.");
             } else {
                  // Disable button while loading this batch
                  loadMoreBtn.disabled = true;
-                 loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+                 loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Loading...';
             }
-
 
             for (let i = startIndex; i < endIndex; i++) {
                 const file = displayedVideos[i];
@@ -1629,10 +1727,11 @@
                      continue; // Skip this item
                 }
                 const publicId = file.public_id;
-                const safeId = publicId.replace(/[^a-zA-Z0-9_-]/g, '_'); // Ensure ID is CSS/JS safe
+                // Ensure ID is safe for CSS selectors and JS lookups
+                const safeId = publicId.replace(/[^a-zA-Z0-9_-]/g, '_');
                 const title = renamedTitles[publicId] || formatTitle(publicId, file.original_filename);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
-                const videoUrl = file.secure_url;
+                const videoUrl = file.secure_url; // Use the secure URL directly
 
                  // Generate thumbnail URL using Cloudinary transformations
                  // w_300: width 300px, h_169: height 169px (16:9), c_fill: crop to fill
@@ -1645,16 +1744,14 @@
                 card.style.animationDelay = `${(i - startIndex) * 0.05}s`; // Stagger animation
                 card.className = 'card';
                 card.dataset.publicId = publicId; // Store ID for actions
-
-                // Keep original filename for potential use in formatTitle later
-                card.dataset.originalFilename = file.original_filename || '';
+                card.dataset.originalFilename = file.original_filename || ''; // Store original filename
 
                 card.innerHTML = `
                     <div class="video-container">
-                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}" title="Click to play/pause: ${title}" data-original-filename="${file.original_filename || ''}">
+                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}" title="Click to play/pause: ${title}" data-public-id="${publicId}">
                             <source src="${videoUrl}" type="video/mp4">
                              <!-- Offer WebM as alternative for browsers that support it -->
-                             <source src="${videoUrl.replace(/\.[^/.]+$/, '.webm')}" type="video/webm">
+                             <source src="${videoUrl.replace(/\.mp4$/, '.webm')}" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1663,7 +1760,7 @@
                         <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                     </div>
                     <div class="card-footer">
-                        <a href="${videoUrl}" download="${title.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4" class="download-btn" title="Download ${title}">
+                        <a href="${videoUrl}" download="${title.replace(/[^a-z0-9_\-.]/gi, '_')}.mp4" class="download-btn" title="Download ${title}">
                              <i class="fas fa-download text-xs" aria-hidden="true"></i><span class="ml-1">Download</span>
                         </a>
                         <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
@@ -1672,8 +1769,8 @@
                         </button>
                     </div>
                     <div class="action-popup" id="actionPopup_${safeId}" role="menu">
-                        <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw w-4" aria-hidden="true"></i>Rename</button>
-                        <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw w-4" aria-hidden="true"></i>Delete</button>
+                        <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>Rename</button>
+                        <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>Delete</button>
                     </div>
                 `;
                 fragment.appendChild(card);
@@ -1682,23 +1779,8 @@
             gallery.appendChild(fragment);
             currentVideoIndex = endIndex; // Update the index for the next load
 
-            // Update Load More button state
-            if (currentVideoIndex < displayedVideos.length) {
-                loadMoreBtn.style.display = 'block';
-                loadMoreBtn.disabled = false;
-                loadMoreBtn.innerHTML = 'Load More Videos';
-            } else {
-                loadMoreBtn.style.display = 'none';
-                 log("All currently filtered/sorted videos rendered.");
-                 // Add end-of-list message only if there are items in the gallery and message isn't already there
-                 const endMsgExists = gallery.querySelector('.end-of-list-message');
-                 if (gallery.children.length > 0 && !endMsgExists) {
-                     const endMsg = document.createElement('p');
-                     endMsg.className = 'text-center w-full col-span-full text-sm text-gray-500 mt-4 end-of-list-message';
-                     endMsg.textContent = "✨ You've reached the end! ✨";
-                     gallery.appendChild(endMsg);
-                 }
-            }
+            // Update Load More button state AFTER rendering
+            updateLoadMoreButtonState();
         }
 
         function formatTitle(publicId, originalFilename = null) {
@@ -1717,24 +1799,28 @@
                 name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
                 // Capitalize first letter of each word
                 name = name.split(' ')
-                           .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
+                           .map(word => word && word.length > 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
                            .join(' ').trim();
                 // Remove potential leftover multiple spaces
                 name = name.replace(/\s{2,}/g, ' ');
                 // Handle cases where the name might just be random characters or empty after cleaning
-                return name.length > 2 ? name : `Video (${publicId.slice(-6)})`; // Use last 6 chars of ID if title is too short/generic
+                return name && name.length > 2 ? name : `Video (${publicId.slice(-6)})`; // Use last 6 chars of ID if title is too short/generic
             } catch (e) {
                 err("Error formatting title from:", nameSource, e);
-                return `Video (${publicId.slice(-6)})`; // Fallback using ID
+                // Provide a simple fallback using the last part of the public_id
+                const idParts = publicId.split('/');
+                return idParts[idParts.length - 1] || "Untitled Video";
             }
         }
+
 
         // --- Video Card Actions ---
         function togglePlay(videoElement) {
             if (!videoElement) { err("togglePlay: videoElement is null"); return; }
             const container = videoElement.closest('.video-container');
             const card = videoElement.closest('.card'); // Need card for ID
-            if (!card) { err("togglePlay: Cannot find parent card."); return; }
+            const publicId = videoElement.dataset.publicId; // Get ID from video element itself
+            if (!publicId) { err("togglePlay: Cannot find publicId on video element."); return; }
 
             try {
                 if (videoElement.paused) {
@@ -1747,21 +1833,33 @@
                          }
                      });
                     // Play this video
-                    videoElement.play().then(() => {
-                        log(`Playing video: ${card.dataset.publicId}`);
+                    const playPromise = videoElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            log(`Playing video: ${publicId}`);
+                            videoElement.classList.add('playing');
+                            container?.classList.add('playing'); // Add class to container too (for hiding play icon)
+                        }).catch(e => {
+                             err(`Play error for ${publicId}:`, e);
+                             // Handle specific errors like user interaction required if needed
+                             displayGalleryMessage(`Could not play video: ${e.message}`, 'error'); // Inform user
+                        });
+                    } else {
+                        // Fallback for browsers not returning a promise (less common now)
+                        log(`Playing video (no promise): ${publicId}`);
                         videoElement.classList.add('playing');
-                        container?.classList.add('playing'); // Add class to container too (for hiding play icon)
-                    }).catch(e => {
-                         err(`Play error for ${card.dataset.publicId}:`, e);
-                         // Handle specific errors like user interaction required if needed
-                    });
+                        container?.classList.add('playing');
+                    }
                 } else {
                     videoElement.pause();
-                    log(`Paused video: ${card.dataset.publicId}`);
+                    log(`Paused video: ${publicId}`);
                     videoElement.classList.remove('playing');
                     container?.classList.remove('playing');
                 }
-            } catch (e) { err("Error in togglePlay:", e); }
+            } catch (e) {
+                err("Error in togglePlay:", e);
+                 displayGalleryMessage(`Playback error: ${e.message}`, 'error');
+            }
         }
 
         function toggleActionMenu(publicId, buttonElement) {
@@ -1809,9 +1907,9 @@
                  showPromptModal({
                      title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Password Missing",
                      isConfirmation: true,
-                     contentHTML: `<p>The deletion password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser or cleared your storage.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
+                     contentHTML: `<p>The deletion password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser, cleared your storage, or the password failed to save during upload.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
                      confirmText: "OK",
-                     confirmClass: 'modal-button-cancel', // Use cancel style for info button
+                     confirmClass: 'cancel', // Use cancel style for info button
                      callback: () => hidePromptModal() // Just close the info modal
                  });
                  return;
@@ -1827,11 +1925,12 @@
                  callback: (enteredPassword) => {
                      if (!enteredPassword) { // Handle empty input
                          showPromptError('Password cannot be empty.');
+                         // Keep modal open
                          return;
                      }
                      if (enteredPassword === storedPass) {
                          log(`Password verified for ${actionName} on ${publicId}.`);
-                         hidePromptModal();
+                         hidePromptModal(); // Hide prompt *before* executing action
                          actionCallback(); // Execute the intended action (rename or delete)
                      } else {
                          log("Incorrect password entered.");
@@ -1852,7 +1951,7 @@
              const card = $(`div.card[data-public-id="${publicId}"]`);
              // Try to get original filename from data attribute if possible
              const originalFilename = card?.dataset.originalFilename;
-             const currentTitle = renamedTitles[publicId] || formatTitle(publicId, originalFilename); // Use helper with potential original name
+             const currentTitle = renamedTitles[publicId] || formatTitle(publicId, originalFilename); // Use helper
 
              showPromptModal({
                  title: "<i class='fas fa-pencil-alt mr-2'></i> Rename Video",
@@ -1866,7 +1965,16 @@
                      if (newTitle && newTitle !== currentTitle) {
                          log(`Renaming ${publicId} locally from "${currentTitle}" to "${newTitle}"`);
                          renamedTitles[publicId] = newTitle;
-                         localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                         try {
+                             localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                             log("Title saved locally.");
+                         } catch (e) {
+                             err("Error saving renamed title to localStorage:", e);
+                             showPromptError("Failed to save title locally.");
+                             // Don't proceed if local save fails? Or allow UI update anyway?
+                             // Let's allow UI update but log error.
+                         }
+
 
                          // Update DOM immediately
                          if (card) {
@@ -1875,13 +1983,13 @@
                              const videoEl = card.querySelector('video');
                              if (titleEl) { titleEl.textContent = newTitle; titleEl.title = newTitle; }
                              if (downloadLink) {
-                                const safeFilename = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+                                const safeFilename = `${newTitle.replace(/[^a-z0-9_\-.]/gi, '_')}.mp4`;
                                 downloadLink.download = safeFilename;
                                 downloadLink.title = `Download ${newTitle}`;
                              }
                               if (videoEl) videoEl.title = `Click to play/pause: ${newTitle}`;
                          }
-                         hidePromptModal();
+                         hidePromptModal(); // Hide on success
                          log("Rename successful (locally).");
                          // Optional: Call a backend endpoint to save the title server-side if needed
                          // updateBackendTitle(publicId, newTitle);
@@ -1910,118 +2018,100 @@
              showPromptModal({
                  isConfirmation: true, // This tells the modal not to show an input field
                  title: "<i class='fas fa-trash-alt text-red-500 mr-2'></i> Confirm Deletion",
-                 contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2">"${title}"?</p><p class="text-red-400 font-semibold">This action cannot be undone.</p>`,
+                 contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2 break-words">"${title}"?</p><p class="text-red-400 font-semibold">This action requires server interaction and cannot be undone.</p>`,
                  confirmText: "Yes, Delete Forever",
                  cancelText: "Cancel",
                  confirmClass: 'modal-button-delete', // Use red button style
-                 callback: (confirmed) => {
-                     if (confirmed) { // Callback provides 'true' if confirm button was clicked
-                         log(`Deletion confirmed for ${publicId}. Initiating deletion...`);
-                         hidePromptModal();
+                 callback: async (confirmed) => { // Make callback async to await fetch
+                     if (confirmed) {
+                         log(`Deletion confirmed for ${publicId}. Initiating server deletion...`);
+                         hidePromptModal(); // Hide confirmation modal
                          const cardToDelete = $(`div.card[data-public-id="${publicId}"]`);
 
-                         // 1. Visually remove card immediately with animation
-                         if (cardToDelete) {
-                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease, border 0.4s ease';
-                              cardToDelete.style.opacity = '0';
-                              cardToDelete.style.transform = 'scale(0.9)';
-                              cardToDelete.style.height = '0';
-                              cardToDelete.style.margin = '0';
-                              cardToDelete.style.padding = '0';
-                              cardToDelete.style.borderWidth = '0'; // Make border disappear
-                              cardToDelete.style.overflow = 'hidden'; // Prevent content spill during animation
-                              setTimeout(() => {
-                                 cardToDelete.remove();
-                                 // Check if gallery is empty after removing card
-                                 if (safeGetElementById('gallery')?.children.length === 0) {
-                                    applyFiltersAndRender(true); // Re-render to show 'no videos' message
-                                 } else {
-                                     // Check if load more button needs updating (less common here, but good practice)
-                                     updateLoadMoreButtonState();
-                                 }
-                              }, 400); // Match transition duration
-                         } else {
-                              log("Card already removed from DOM?");
-                         }
+                         // Add visual indicator while deleting
+                         if (cardToDelete) cardToDelete.style.opacity = '0.5';
 
-                         // 2. Attempt server deletion (Requires a backend endpoint)
-                         // This endpoint needs to handle authentication/authorization implicitly
-                         // or explicitly (e.g., sending the password - NOT RECOMMENDED unless over HTTPS and handled securely)
-                         // A better approach is a backend session or token identifying the user.
-                         // For this example, we assume the backend uses the password stored during upload (if available server-side)
-                         // or just deletes based on public_id if security isn't a major concern for this simple example.
-                         log(`Sending delete request to backend for ${publicId}`);
-                         // *** REPLACE WITH YOUR BACKEND DELETE ENDPOINT ***
-                         // fetch(`/api/delete/${encodeURIComponent(publicId)}`, {
-                         //    method: "DELETE",
-                         //    headers: { 'Content-Type': 'application/json' },
-                         //    // Body might include password ONLY if absolutely necessary and secured
-                         //    // body: JSON.stringify({ password: localStorage.getItem(`pass_${publicId}`) })
-                         // })
-                         // ** SIMULATING BACKEND RESPONSE **
-                         new Promise(async (resolve, reject) => {
-                             await new Promise(res => setTimeout(res, 500)); // Simulate network delay
-                             // Simulate success
-                             resolve({ ok: true, status: 200, json: async () => ({ status: "success", message: "Deleted from Cloudinary" }) });
-                             // Simulate failure
-                             // reject(new Error("Simulated server error: Permission denied"));
-                         })
-                         // ** END SIMULATION **
-                             .then(async response => {
-                                 if (!response.ok) {
-                                     let errorMsg = `Server Error: ${response.status}`;
-                                     try { const errData = await response.json(); errorMsg = errData.message || `Failed with status ${response.status}`; } catch (e) {}
-                                     throw new Error(errorMsg);
-                                 }
-                                  // Check for successful deletion status, might be 200 OK or 204 No Content
-                                  // or a JSON response like { status: "success" }
-                                  if (response.status === 204) { // 204 No Content is a common success indicator for DELETE
-                                       return { status: "success" };
-                                  }
-                                  // If expecting JSON, parse it
-                                  const data = await response.json();
-                                  if (data.status !== "success") {
-                                       throw new Error(data.message || "Deletion reported failed by server.");
-                                  }
-                                  return data;
-                             })
-                             .then(data => { // Backend confirmed success
-                                 log(`Successfully deleted ${publicId} from server (simulated or real).`);
+                         try {
+                            // *** BACKEND INTERACTION REQUIRED ***
+                            // This assumes your backend has an endpoint at /delete/:public_id (or configured base)
+                            // that handles the actual deletion from Cloudinary and its own database.
+                            // The backend MUST handle authentication/authorization itself.
+                            // We are NOT sending the password here for security reasons.
+                            const deleteUrl = `${VIDEO_DELETE_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
+                            log(`Sending DELETE request to: ${deleteUrl}`);
 
-                                 // 3. Clean up local storage *only on confirmed server success*
-                                 localStorage.removeItem(`pass_${publicId}`);
-                                 delete renamedTitles[publicId];
-                                 delete uploaderNames[publicId];
+                            const response = await fetch(deleteUrl, { method: 'DELETE' });
+
+                            if (!response.ok) {
+                                let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
+                                try {
+                                    const errData = await response.json();
+                                    errorMsg = errData.message || `Failed with status ${response.status}`;
+                                    err("Server deletion error details:", errData);
+                                } catch (e) { /* Ignore if parsing fails */ }
+                                throw new Error(errorMsg);
+                            }
+
+                            // Check for success response (e.g., 200 OK with JSON, or 204 No Content)
+                            let responseData = { status: "success", message: "Deleted successfully." }; // Assume success for 204
+                            if (response.status === 200) {
+                                responseData = await response.json();
+                                if (responseData.status !== "success") {
+                                    throw new Error(responseData.message || "Deletion reported failed by server.");
+                                }
+                            }
+                            log(`Successfully deleted ${publicId} from server. Response:`, responseData);
+
+                            // 1. Animate and remove card from DOM on server success
+                            if (cardToDelete) {
+                                 cardToDelete.classList.add('deleting'); // Add class for transition
+                                 cardToDelete.addEventListener('transitionend', () => {
+                                    cardToDelete.remove();
+                                    // Check if gallery is empty after removing card
+                                    if (safeGetElementById('gallery')?.children.length === 0) {
+                                        applyFiltersAndRender(true); // Re-render to show 'no videos' message
+                                    } else {
+                                        updateLoadMoreButtonState(); // Check button state
+                                    }
+                                 }, { once: true });
+                            } else {
+                                 log("Card already removed or not found for DOM removal.");
+                            }
+
+                             // 2. Clean up local storage *only on confirmed server success*
+                             localStorage.removeItem(`pass_${publicId}`);
+                             delete renamedTitles[publicId];
+                             delete uploaderNames[publicId];
+                             try {
                                  localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
                                  localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
                                  log(`Cleaned up local storage for ${publicId}.`);
+                             } catch (e) {
+                                 err("Error cleaning up localStorage after delete:", e);
+                             }
 
-                                 // 4. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
-                                 allVideos = allVideos.filter(v => v.public_id !== publicId);
-                                 displayedVideos = displayedVideos.filter(v => v.public_id !== publicId);
 
-                                 // 5. Update Load More button state if necessary
-                                 updateLoadMoreButtonState();
+                             // 3. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
+                             allVideos = allVideos.filter(v => v.public_id !== publicId);
+                             displayedVideos = displayedVideos.filter(v => v.public_id !== publicId);
 
-                             })
-                             .catch(err => {
-                                 err(`Deletion failed for ${publicId}:`, err);
-                                 // Deletion failed: Inform user
-                                 showPromptModal({
-                                     title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
-                                     isConfirmation: true,
-                                     contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${err.message}</p><p>The video might reappear after a refresh. The visual removal might be temporary. Please try again later or contact support if the issue persists.</p>`,
-                                     confirmText: "OK",
-                                     confirmClass: 'modal-button-cancel',
-                                     callback: () => {
-                                         hidePromptModal();
-                                         // Optional: Force a full refresh to reflect the actual server state
-                                         // applyFiltersAndRender(true);
-                                         // Or maybe just log the issue without re-rendering immediately
-                                         log("User notified of deletion failure. Card may reappear on refresh.");
-                                     }
-                                 });
+                             // 4. Update Load More button state if necessary
+                             updateLoadMoreButtonState();
+
+                         } catch (error) {
+                             err(`Deletion failed for ${publicId}:`, error);
+                             // Restore card opacity if deletion failed
+                             if (cardToDelete) cardToDelete.style.opacity = '1';
+                             // Show error to user
+                             showPromptModal({
+                                 title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
+                                 isConfirmation: true,
+                                 contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${error.message}</p><p>Please try again later or contact support if the issue persists.</p>`,
+                                 confirmText: "OK",
+                                 confirmClass: 'cancel',
+                                 callback: () => hidePromptModal()
                              });
+                         }
                      } else {
                         log("Deletion cancelled by user.");
                         hidePromptModal(); // Just close if cancelled
@@ -2038,10 +2128,11 @@
 
              if (currentVideoIndex >= displayedVideos.length) {
                  loadMoreBtn.style.display = 'none';
-                 const endMsgExists = gallery.querySelector('.end-of-list-message');
-                 if (gallery.children.length > 0 && !endMsgExists) {
+                 // Only add 'end of list' message if there are videos displayed and message isn't already there
+                 const endMsgExists = gallery.querySelector('.gallery-message.end-of-list');
+                 if (displayedVideos.length > 0 && !endMsgExists && gallery.children.length > 0) { // Check children length too
                       const endMsg = document.createElement('p');
-                      endMsg.className = 'text-center w-full col-span-full text-sm text-gray-500 mt-4 end-of-list-message';
+                      endMsg.className = 'gallery-message info end-of-list'; // Added end-of-list class
                       endMsg.textContent = "✨ You've reached the end! ✨";
                       gallery.appendChild(endMsg);
                  }
@@ -2049,9 +2140,11 @@
                   loadMoreBtn.style.display = 'block';
                   loadMoreBtn.disabled = false;
                   loadMoreBtn.innerHTML = 'Load More Videos';
+                   // Remove 'end of list' message if it exists and there are more to load
+                  const endMsg = gallery.querySelector('.gallery-message.end-of-list');
+                  if(endMsg) endMsg.remove();
              }
         }
-
 
     </script>
 
