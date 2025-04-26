@@ -1438,21 +1438,55 @@
                 // ** SIMULATED DATA - REPLACE THIS FETCH CALL **
                  // const response = await fetch('/api/videos'); // Replace with your actual endpoint
                  // Simulate response for testing without a backend
-                 const response = {
-                    ok: true,
-                    status: 200,
-                    json: async () => {
-                        // Generate some dummy data if needed for frontend testing
-                        const dummyData = [
-                            { public_id: 'gs_overlay_vault/sample_overlay_1', secure_url: 'https://res.cloudinary.com/demo/video/upload/sample_overlay_1.mp4', created_at: '2024-05-14T10:00:00Z', original_filename: 'Cool_Effect_1.mp4' },
-                            { public_id: 'gs_overlay_vault/another_transition', secure_url: 'https://res.cloudinary.com/demo/video/upload/another_transition.mp4', created_at: '2024-05-13T15:30:00Z', original_filename: 'Simple_Wipe.mov' },
-                            { public_id: 'gs_overlay_vault/meme_template_example', secure_url: 'https://res.cloudinary.com/demo/video/upload/meme_template_example.mp4', created_at: '2024-05-15T09:00:00Z', original_filename: 'Surprised_Cat_Meme_GS.mp4' },
-                            // Add more dummy objects as needed
-                        ];
-                         // return dummyData; // Use dummy data
-                         return []; // Use to test empty state
-                    }
-                };
+                      async function fetchAndRenderVideos() {
+            log("Fetching initial video list...");
+            const gallery = safeGetElementById("gallery");
+            const loadMoreBtn = safeGetElementById('loadMoreBtn');
+            if (!gallery || !loadMoreBtn) {
+                err("Gallery or Load More button not found during fetch.");
+                return;
+            }
+
+            gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Fetching video list...</p>';
+            loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
+
+            try {
+                // *** FIXED: Replace simulation with actual fetch call ***
+                // Use the endpoint that works for index.html (likely /videos)
+                const response = await fetch('/videos');
+
+                if (!response.ok) {
+                     let errorMsg = `Server error: ${response.status} ${response.statusText}`;
+                     try {
+                        // Try to get more details from the response body if available
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.details || errorData.error || errorMsg;
+                     } catch (e) {
+                        // Ignore if parsing error body fails
+                        log("Could not parse error response body:", e);
+                     }
+                     throw new Error(errorMsg);
+                }
+                allVideos = await response.json();
+
+                if (!Array.isArray(allVideos)) {
+                    console.error("Received data:", allVideos); // Log the problematic data
+                    throw new Error("Invalid data format received from server (expected an array).");
+                }
+                log(`Fetched ${allVideos.length} total videos.`);
+
+                 if (allVideos.length === 0) {
+                     gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">📪 No videos found yet! Be the first to upload.</p>';
+                     return; // Stop here if no videos
+                 }
+                applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
+
+            } catch (error) {
+                err("Failed to fetch videos:", error);
+                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}. Please try again later.</p>`;
+                loadMoreBtn.style.display = 'none';
+            }
+        }
                  // ** END SIMULATED DATA **
 
                 if (!response.ok) {
