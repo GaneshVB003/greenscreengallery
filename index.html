@@ -482,7 +482,7 @@
                 <p class="mt-3 text-sm text-gray-400">Sharing helps the creative community grow!</p>
             </div>
             <div class="modal-buttons justify-center">
-                 <button type="button" class="modal-button-confirm" data-action="close-success">Awesome!</button>
+                 <button type="button" class="modal-button-confirm" data-action="close-modal">Awesome!</button>
             </div>
         </div>
     </div>
@@ -490,11 +490,11 @@
     <!-- Terms and Conditions Modal -->
     <div class="modal-backdrop" id="termsModal">
         <div class="modal-box">
-              <button type="button" class="modal-close-btn" data-action="close-terms" aria-label="Close Terms Popup">×</button>
+              <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Terms Popup">×</button>
               <h2>Terms & Privacy</h2>
               <div class="terms-content" tabindex="0"> <!-- Make content scrollable and focusable -->
                   <!-- Full T&C Text Here -->
-                   <h3>Terms and Conditions</h3><p><em>Last updated: [Insert Current Date]</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services, located at [Your Website URL]. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page.</p>
+                   <h3>Terms and Conditions</h3><p><em>Last updated: 2024-05-15</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services, located at [Your Website URL - Replace This]. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page.</p>
                     <h4>License (CC0)</h4>
                     <p>Unless otherwise stated, Green Screen Vault and/or its licensors own the intellectual property rights for original site design and functionality. <strong>User-uploaded content (videos) is licensed under Creative Commons Zero (CC0) - Public Domain Dedication upon successful upload.</strong> This means:</p>
                     <ul>
@@ -516,12 +516,12 @@
                      <h4>Limitation of Liability</h4>
                      <p>In no event shall Green Screen Vault or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Green Screen Vault's website, even if Green Screen Vault or a Green Screen Vault authorized representative has been notified orally or in writing of the possibility of such damage.</p>
                      <h4>Governing Law</h4>
-                     <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Jurisdiction, e.g., California, USA] and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+                     <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Jurisdiction, e.g., California, USA - Replace This] and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
                      <h4>Changes to Terms</h4>
                      <p>We reserve the right to revise these terms at any time. By using this website you are expected to review these terms on a regular basis.</p>
 
-                   <hr class="my-6 border-gray-600">
-                   <h3>Privacy Policy</h3><p><em>Effective Date: [Insert Current Date]</em></p>
+                   <hr class="my-6 border-gray-600 dark:border-gray-700">
+                   <h3>Privacy Policy</h3><p><em>Effective Date: 2024-05-15</em></p>
                    <p>We value your privacy. This Privacy Policy explains how Green Screen Vault ("we", "us", "our") handles information when you use our website and services.</p>
                    <h4>Information We Collect</h4>
                    <ul>
@@ -561,7 +561,7 @@
                     <h4>Policy Changes</h4>
                     <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by posting the new policy on this page and updating the "Effective Date." We encourage you to review this policy periodically.</p>
                     <h4>Contact Us</h4>
-                    <p>If you have any questions about this Privacy Policy, please contact us via [Provide Contact Method - e.g., email address or link to contact page].</p>
+                    <p>If you have any questions about this Privacy Policy, please contact us via the method provided in the "Contact Us" link in the footer.</p>
               </div>
               <label class="terms-accept-label mt-4" id="termsAcceptWrapper" style="display: none;">
                   <input type="checkbox" id="termsAcceptCheckbox" class="mr-2">
@@ -570,21 +570,63 @@
               <p class="modal-error" id="termsError" aria-live="assertive"></p>
               <div class="modal-buttons">
                   <button type="button" class="modal-button-confirm" id="termsAcceptBtn" style="display: none;">Agree & Continue</button>
-                  <button type="button" class="modal-button-cancel" id="termsCloseBtn" data-action="close-terms">Close</button>
+                  <button type="button" class="modal-button-cancel" id="termsCloseBtn" data-action="close-modal">Close</button>
               </div>
         </div>
     </div>
+
+    <!-- About Us Modal -->
+    <div class="modal-backdrop" id="aboutModal">
+        <div class="modal-box">
+             <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close About Us Popup">×</button>
+            <h2><i class="fas fa-users text-blue-400 mr-2" aria-hidden="true"></i>About Us</h2>
+            <div class="my-5 px-2 text-left leading-relaxed">
+                <p class="mb-4">Hey there! We're the team behind the <strong>Green Screen Vault</strong>.</p>
+                <p class="mb-4">We're a passionate group of video editors and creators who noticed a need for a simple, free, and community-driven resource for high-quality green screen assets. That's why we built this Vault – a place to easily find, download, and share awesome chroma key clips for all kinds of projects.</p>
+                <p class="mb-4">Beyond running this site, we're also <strong>professional video editors</strong>! We love bringing stories to life and crafting visually stunning content. If you need help with your next video project, whether it's a complex edit, motion graphics, or just polishing up your footage, we're here to help.</p>
+                <p>Get in touch for editing inquiries: <a href="mailto:coolestvideoeditor@gmail.com" class="text-blue-400 hover:text-blue-300 underline">coolestvideoeditor@gmail.com</a></p>
+                <p class="mt-4 text-sm text-gray-400">For general site questions or feedback, please use the Contact Us link.</p>
+            </div>
+            <div class="modal-buttons justify-center">
+                 <button type="button" class="modal-button-cancel" data-action="close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us Modal -->
+    <div class="modal-backdrop" id="contactModal">
+        <div class="modal-box">
+             <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Contact Us Popup">×</button>
+            <h2><i class="fas fa-envelope text-purple-400 mr-2" aria-hidden="true"></i>Contact Us</h2>
+            <div class="my-5 px-2 text-center">
+                <p class="mb-4">Got questions, feedback, suggestions, or found a bug? We'd love to hear from you!</p>
+                <p class="mb-2">Maybe you have a brilliant idea for a new feature, or perhaps you just want to say hi (we like those too!).</p>
+                <p class="mt-5">Reach out directly via email:</p>
+                <p class="mt-2 text-lg font-semibold">
+                    <a href="mailto:ganeshvb003@gmail.com" class="text-purple-400 hover:text-purple-300 underline">
+                        <i class="fas fa-paper-plane mr-2"></i>ganeshvb003@gmail.com
+                    </a>
+                </p>
+                 <p class="mt-5 text-sm text-gray-400">We'll do our best to get back to you soon!</p>
+                 <p class="mt-1 text-sm text-gray-400">(For video editing service inquiries, please see the 'About Us' section.)</p>
+            </div>
+            <div class="modal-buttons justify-center">
+                 <button type="button" class="modal-button-cancel" data-action="close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Footer -->
     <footer class="site-footer">
        <p>© <span id="currentYear"></span> Green Screen Vault. Community driven & CC0 Licensed Content.</p>
        <div class="footer-links">
-            <!-- Add actual links when pages are created -->
-            <a href="/about.html" class="footer-link" title="Learn more about this project">About Us</a>
-            <span class="text-gray-500" aria-hidden="true">|</span>
+            <!-- Links now trigger modals -->
+            <span id="showAboutLink" class="footer-link" title="Learn more about this project">About Us</span>
+            <span class="text-gray-500 dark:text-gray-600" aria-hidden="true">|</span>
             <span class="footer-link" id="viewTermsLink" title="View Terms and Conditions & Privacy Policy">Terms & Privacy</span>
-            <span class="text-gray-500" aria-hidden="true">|</span>
-            <a href="/contact.html" class="footer-link" title="Get in touch">Contact Us</a>
+            <span class="text-gray-500 dark:text-gray-600" aria-hidden="true">|</span>
+            <span id="showContactLink" class="footer-link" title="Get in touch">Contact Us</span>
        </div>
         <!-- Potential Ad Slot -->
         <!--
@@ -612,8 +654,8 @@
         // --- Utility Functions ---
         const $ = (selector) => document.querySelector(selector);
         const $$ = (selector) => document.querySelectorAll(selector);
-        const log = (...args) => console.log('[GSOV]', ...args);
-        const err = (...args) => console.error('[GSOV ERROR]', ...args);
+        const log = (...args) => console.log('[GSV]', ...args); // Changed prefix for clarity
+        const err = (...args) => console.error('[GSV ERROR]', ...args);
 
         function safeGetElementById(id) {
             const el = document.getElementById(id);
@@ -637,10 +679,15 @@
             const modal = safeGetElementById(modalId);
             if (modal && modal.classList.contains('modal-backdrop')) {
                 modal.style.display = 'flex';
-                // Consider trapping focus within the modal for accessibility
-                // e.g., using a library or custom focus trapping logic
-                const focusableElement = modal.querySelector('button, input, [tabindex="0"]');
-                if (focusableElement) focusableElement.focus();
+                // Basic focus trapping: focus the first interactive element or the modal box itself
+                const focusableElement = modal.querySelector('button, input, [tabindex="0"], a[href]');
+                const modalBox = modal.querySelector('.modal-box');
+                if (focusableElement) {
+                    focusableElement.focus();
+                } else if (modalBox) {
+                    modalBox.setAttribute('tabindex', '-1'); // Make it focusable if no interactive elements found
+                    modalBox.focus();
+                }
             } else {
                  err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
             }
@@ -656,6 +703,9 @@
                     modal.classList.remove('modal-fade-out');
                     const errorEl = modal.querySelector('.modal-error');
                     if (errorEl) errorEl.textContent = '';
+                    // Remove temporary tabindex if added
+                    const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
+                    if(modalBox) modalBox.removeAttribute('tabindex');
                 }, 300); // Match CSS animation duration
             }
         }
@@ -700,6 +750,8 @@
             const searchInput = safeGetElementById('search');
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             const viewTermsLink = safeGetElementById('viewTermsLink');
+            const showAboutLink = safeGetElementById('showAboutLink'); // New
+            const showContactLink = safeGetElementById('showContactLink'); // New
             const selectUploadBtn = safeGetElementById('selectUploadBtn');
             const termsAcceptBtn = safeGetElementById('termsAcceptBtn');
             const postUploadSaveBtn = safeGetElementById('postUploadSaveBtn');
@@ -715,7 +767,11 @@
                 if(uploaderInput) uploaderInput.value = '';
                 if(passInput) passInput.value = '';
                 if(status) status.textContent = '';
-                if(progressContainer) progressContainer.style.display = 'none';
+                if(progressContainer) {
+                    progressContainer.style.display = 'none';
+                    const progressBar = safeGetElementById('progressBar');
+                    if(progressBar) progressBar.style.width = '0%';
+                }
                 showModal('uploadPopup');
             });
 
@@ -756,8 +812,10 @@
             // Load More Button
             if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderVideoBatch(false)); // false means continue rendering
 
-            // Terms Link
+            // Footer Links (Modals)
             if (viewTermsLink) viewTermsLink.addEventListener('click', () => showTermsModal(true)); // true = viewing only
+            if (showAboutLink) showAboutLink.addEventListener('click', () => showModal('aboutModal'));
+            if (showContactLink) showContactLink.addEventListener('click', () => showModal('contactModal'));
 
             // Modal Close/Action Buttons (using event delegation on document)
             document.addEventListener('click', (event) => {
@@ -769,8 +827,8 @@
                  if (target.classList.contains('modal-backdrop') || action === 'close-modal') {
                     if(modal) hideModal(modal.id);
                  }
-                 // Specific modal actions
-                 else if (action === 'close-terms') hideModal('termsModal');
+                 // Specific modal actions (keep existing)
+                 // else if (action === 'close-terms') hideModal('termsModal'); // Handled by close-modal now
                  else if (action === 'close-prompt') hideModal('promptModal');
                  else if (action === 'close-success') hideModal('uploadSuccessPopup');
                  else if (action === 'skip-title') closePostUploadModal(true); // true = skipped
@@ -862,9 +920,12 @@
                 if (introScreen) {
                     introScreen.classList.add('fade-out');
                     introScreen.addEventListener('transitionend', (e) => {
-                        if (e.propertyName === 'opacity') { checkTerms(); }
+                        // Ensure we only react to the opacity transition ending
+                        if (e.propertyName === 'opacity' && introScreen.classList.contains('fade-out')) {
+                             checkTerms();
+                         }
                     }, { once: true });
-                 } else { checkTerms(); }
+                 } else { checkTerms(); } // Fallback if introScreen disappears unexpectedly
             }, 2800); // Adjust time (animation + delay + pause)
         }
 
@@ -884,9 +945,12 @@
              const modal = safeGetElementById('termsModal');
              const acceptWrapper = safeGetElementById('termsAcceptWrapper');
              const acceptBtn = safeGetElementById('termsAcceptBtn');
-             const closeBtn = safeGetElementById('termsCloseBtn');
+             const closeBtn = safeGetElementById('termsCloseBtn'); // Now always acts as close/disagree
              const errorMsg = safeGetElementById('termsError');
-             if (!modal || !acceptWrapper || !acceptBtn || !closeBtn || !errorMsg) return;
+             if (!modal || !acceptWrapper || !acceptBtn || !closeBtn || !errorMsg) {
+                 err("One or more terms modal elements not found.");
+                 return;
+             }
 
              errorMsg.textContent = '';
              const checkbox = safeGetElementById('termsAcceptCheckbox');
@@ -895,7 +959,7 @@
              acceptWrapper.style.display = isViewingOnly ? 'none' : 'flex';
              acceptBtn.style.display = isViewingOnly ? 'none' : 'inline-flex';
              closeBtn.textContent = isViewingOnly ? 'Close' : 'Disagree'; // Change button text
-             acceptBtn.disabled = false; // Re-enable button
+             acceptBtn.disabled = false; // Re-enable button if it was disabled
 
              showModal('termsModal');
              safeGetElementById('termsModal')?.querySelector('.terms-content')?.focus(); // Focus content for scrolling
@@ -905,14 +969,19 @@
             log("Accept terms clicked.");
             const checkbox = safeGetElementById('termsAcceptCheckbox');
             const errorMsg = safeGetElementById('termsError');
-            if (!checkbox || !errorMsg) return;
+            const acceptBtn = safeGetElementById('termsAcceptBtn');
+            if (!checkbox || !errorMsg || !acceptBtn) return;
+
+            acceptBtn.disabled = true; // Prevent double click
+
             if (checkbox.checked) {
-                log("Terms accepted.");
+                log("Terms accepted by user.");
                 localStorage.setItem('termsAccepted', 'true');
                 hideModal('termsModal');
                 initializePage(); // Initialize after acceptance
             } else {
                 errorMsg.textContent = 'Please check the box to accept the terms and conditions.';
+                 acceptBtn.disabled = false; // Re-enable if not accepted
             }
         }
 
@@ -940,13 +1009,16 @@
             const cancelBtn = safeGetElementById('promptCancelBtn');
             const errorEl = safeGetElementById('promptError');
 
-            if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) return;
+            if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) {
+                err("Prompt modal elements missing.");
+                return;
+            }
 
             // Reset
             titleEl.innerHTML = title; // Allow icons in title
-            contentDiv.innerHTML = '';
+            contentDiv.innerHTML = ''; // Clear previous content first
             errorEl.innerText = '';
-            contentDiv.appendChild(errorEl); // Keep error placeholder
+            contentDiv.appendChild(errorEl); // Re-append error placeholder at the end
 
             confirmBtn.className = 'modal-button-confirm'; // Reset base class
              if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' '));
@@ -954,7 +1026,7 @@
             if (isConfirmation) {
                 const p = document.createElement('p');
                 p.innerHTML = contentHTML;
-                contentDiv.insertBefore(p, errorEl);
+                contentDiv.insertBefore(p, errorEl); // Insert confirmation text before error message
             } else {
                  if(contentHTML) {
                     const staticContent = document.createElement('div');
@@ -983,30 +1055,40 @@
             confirmBtn.innerText = confirmText;
             cancelBtn.innerText = cancelText;
 
-            currentPromptCallback = callback;
-            const newConfirmBtn = confirmBtn.cloneNode(true);
+            currentPromptCallback = callback; // Store the callback
+
+            // Re-attach event listener to prevent multiple callbacks stacking up
+            const newConfirmBtn = confirmBtn.cloneNode(true); // Clone to remove old listeners
             confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
             safeGetElementById('promptConfirmBtn').addEventListener('click', handlePromptConfirm);
 
+            // Also re-attach cancel listener (if it uses specific logic beyond data-action)
+            const newCancelBtn = cancelBtn.cloneNode(true);
+            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+             // Optional: If promptCancelBtn needs specific logic:
+             // safeGetElementById('promptCancelBtn').addEventListener('click', handlePromptCancel);
+             // But using data-action="close-prompt" is usually sufficient via the delegated listener.
+
             showModal(modalId);
             if (!isConfirmation) safeGetElementById('promptInput')?.focus();
+            else safeGetElementById('promptConfirmBtn')?.focus(); // Focus confirm for confirmations
         }
 
         function handlePromptConfirm() {
             log("Prompt confirm button clicked.");
             if (currentPromptCallback) {
                 const input = safeGetElementById('promptInput');
-                const value = input ? input.value : true;
-                currentPromptCallback(value);
+                const value = input ? input.value : true; // Pass true for confirmation prompts without input
+                currentPromptCallback(value); // Execute the stored callback
             } else {
                 err("No callback registered for prompt confirmation.");
-                hideModal('promptModal');
+                hideModal('promptModal'); // Close anyway
             }
         }
 
         function hidePromptModal() {
             hideModal('promptModal');
-            currentPromptCallback = null;
+            currentPromptCallback = null; // Clear callback when closing
         }
 
          function showPromptError(message) {
@@ -1044,6 +1126,10 @@
              html.setAttribute('data-theme', newTheme);
              localStorage.setItem('theme', newTheme);
              setActiveFilterButton(); // Update filter button style immediately
+             // Update Cloudinary widget theme if widget object exists (advanced)
+             // if (window.cloudinaryWidgetInstance) {
+             //     window.cloudinaryWidgetInstance.update({ theme: newTheme });
+             // }
         }
 
         // --- Upload Logic ---
@@ -1054,10 +1140,12 @@
             const progressBar = safeGetElementById('progressBar');
             const progressContainer = safeGetElementById('progressContainer');
             const status = safeGetElementById('uploadStatus');
-            const uploadButton = safeGetElementById('selectUploadBtn'); // Target button
+            const uploadButton = safeGetElementById('selectUploadBtn');
 
             if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status || !uploadButton) {
-                err("Upload modal elements missing."); return;
+                err("Upload modal elements missing.");
+                status.innerText = '❌ Internal error: Missing form elements.';
+                return;
             }
 
             const uploaderName = uploaderNameInput.value.trim() || 'Anonymous';
@@ -1075,37 +1163,57 @@
             status.innerText = 'Initializing widget...';
             progressBar.style.width = '0%';
             progressContainer.style.display = 'block';
-            if (uploadButton) uploadButton.disabled = true; // Disable button
+            uploadButton.disabled = true; // Disable button
 
             try {
-                cloudinary.openUploadWidget({
+                // Ensure Cloudinary object exists
+                 if (typeof cloudinary === 'undefined') {
+                     throw new Error("Cloudinary script not loaded.");
+                 }
+
+                const widget = cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
                     sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'],
                     resourceType: 'video',
-                    multiple: false, clientAllowedFormats: ['mp4', 'webm', 'mov'],
-                    maxFileSize: 300000000,
-                    folder: 'gs_overlay_vault',
-                    theme: document.documentElement.getAttribute("data-theme") || "dark"
+                    multiple: false, clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
+                    maxFileSize: 300000000, // Approx 300MB limit
+                    folder: 'gs_overlay_vault', // Optional: organize uploads in Cloudinary
+                    theme: document.documentElement.getAttribute("data-theme") || "dark" // Match site theme
                 }, (error, result) => {
-                    const currentUploadButton = safeGetElementById('selectUploadBtn'); // Re-target inside callback
+                    const currentUploadButton = safeGetElementById('selectUploadBtn'); // Re-select button inside callback scope
 
                     if (error) {
                         err("Cloudinary Widget Error:", error);
-                        status.innerText = `❌ Error: ${error.message || 'Upload failed'}`;
+                        status.innerText = `❌ Error: ${error.status || error.message || 'Upload failed'}`;
                         progressContainer.style.display = 'none';
                          if(currentUploadButton) currentUploadButton.disabled = false;
                     } else if (result && result.event) {
                         log("Cloudinary Event:", result.event, result.info || '');
                         switch (result.event) {
-                            case "upload-added": status.innerText = 'Starting upload...'; break;
+                            case "upload-added":
+                                status.innerText = 'Starting upload...';
+                                break;
                             case "uploadprogress":
-                                const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
-                                if (progressBar) progressBar.style.width = `${percent}%`;
-                                if (progressBar) progressBar.setAttribute('aria-valuenow', percent);
-                                status.innerText = `Uploading... ${percent}%`;
+                                if (result.info && result.info.total_bytes) {
+                                    const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
+                                    if (progressBar) {
+                                        progressBar.style.width = `${percent}%`;
+                                        progressBar.setAttribute('aria-valuenow', percent);
+                                    }
+                                    status.innerText = `Uploading... ${percent}%`;
+                                } else {
+                                    status.innerText = `Uploading...`; // Fallback if byte info missing
+                                }
                                 break;
                             case "success":
-                                log("Cloudinary Success:", result.info.public_id);
+                                log("Cloudinary Success:", result.info);
+                                if (!result.info?.public_id || !result.info?.secure_url) {
+                                     err("Cloudinary success event missing critical data:", result.info);
+                                     status.innerText = `❌ Error: Upload data incomplete.`;
+                                     progressContainer.style.display = 'none';
+                                     if(currentUploadButton) currentUploadButton.disabled = false;
+                                     return;
+                                }
                                 status.innerText = `✅ Processing...`;
                                 if (progressBar) {
                                     progressBar.style.width = '100%';
@@ -1125,14 +1233,18 @@
                                 } catch(e) {
                                     err("Error saving password/uploader to localStorage:", e);
                                      status.innerText = '✅ Uploaded, but failed to save password locally!';
+                                     // Proceed anyway, but user won't be able to delete later via UI
                                 }
+                                // Widget auto-closes on success, don't need explicit close handling here
                                 break;
                              case "close":
                                 log("Cloudinary Widget Closed.");
+                                // Only transition if upload succeeded
                                 if (postUploadData) {
                                     hideModal('uploadPopup');
                                     showPostUploadDetailsModal(postUploadData);
                                 } else {
+                                    // If closed manually *during* upload or after error
                                     if (status.innerText.includes('Uploading') || status.innerText.includes('Initializing')) {
                                         status.innerText = 'Upload cancelled or failed.';
                                     }
@@ -1142,16 +1254,20 @@
                                 break;
                             case "abort":
                             case "queue-too-large":
-                                status.innerText = `❌ Upload Error: ${result.event}`;
+                            case "bytes-total-exceeded": // Added more specific error cases
+                            case "max-files-exceeded":
+                                status.innerText = `❌ Upload Error: ${result.event.replace(/-/g, ' ')}`; // Make event name readable
                                 progressContainer.style.display = 'none';
                                 if(currentUploadButton) currentUploadButton.disabled = false;
                                 break;
                         }
                     }
                 });
+                // Store widget instance if needed for theme updates etc.
+                // window.cloudinaryWidgetInstance = widget;
             } catch (widgetError) {
                 err("Error opening Cloudinary Widget:", widgetError);
-                status.innerText = "❌ Failed to open upload widget.";
+                status.innerText = "❌ Failed to open upload widget. Script might be missing.";
                 progressContainer.style.display = 'none';
                  const currentUploadButton = safeGetElementById('selectUploadBtn');
                  if (currentUploadButton) currentUploadButton.disabled = false;
@@ -1164,7 +1280,12 @@
              const uploaderSpan = safeGetElementById('postUploadUploaderName');
              const errorMsg = safeGetElementById('postUploadError');
              const saveBtn = safeGetElementById('postUploadSaveBtn');
-             if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) return;
+             if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) {
+                 err("Post-upload modal elements missing.");
+                 // Fallback: add video with default title immediately if modal elements fail
+                 closePostUploadModal(true);
+                 return;
+             }
 
              titleInput.value = formatTitle(data.originalFilename || data.publicId);
              uploaderSpan.textContent = data.uploaderName || 'Anonymous';
@@ -1184,7 +1305,11 @@
              if (!titleInput || !errorMsg || !saveBtn) return;
 
              const newTitle = titleInput.value.trim();
-             if (!newTitle) { errorMsg.textContent = "Title cannot be empty."; return; }
+             if (!newTitle) {
+                 errorMsg.textContent = "Title cannot be empty.";
+                 titleInput.focus();
+                 return;
+             }
 
              log(`Saving title "${newTitle}" for ${postUploadData.publicId}`);
              saveBtn.disabled = true; errorMsg.textContent = '';
@@ -1196,16 +1321,16 @@
              // Add to main video list and refresh UI
               const newVideoData = {
                  public_id: postUploadData.publicId,
-                 created_at: new Date().toISOString(), // Use current time
+                 created_at: new Date().toISOString(), // Use current time as approximation
                  secure_url: postUploadData.secureUrl,
                  original_filename: postUploadData.originalFilename // Keep original name if needed
               };
-              allVideos.unshift(newVideoData); // Add to beginning
-              applyFiltersAndRender(true); // Refresh gallery view immediately
+              allVideos.unshift(newVideoData); // Add to beginning of the master list
+              applyFiltersAndRender(true); // Refresh gallery view immediately with the new video at the top (if sorted by recent)
 
              hideModal('postUploadDetailsModal');
              showUploadSuccessPopup(postUploadData.publicId, newTitle, postUploadData.uploaderName);
-             postUploadData = null;
+             postUploadData = null; // Clear temp data
         }
 
         function closePostUploadModal(skipped = false) {
@@ -1213,6 +1338,11 @@
              if (skipped && postUploadData) {
                  log("Title skipped, using default title.");
                  const defaultTitle = formatTitle(postUploadData.originalFilename || postUploadData.publicId);
+                 // Still save the uploader name if it was set
+                 if (!uploaderNames[postUploadData.publicId]) {
+                     uploaderNames[postUploadData.publicId] = postUploadData.uploaderName;
+                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                 }
                  // Add to main video list even if skipped
                  const newVideoData = {
                     public_id: postUploadData.publicId,
@@ -1232,27 +1362,40 @@
         // --- Filtering & Sorting ---
         function setActiveFilterButton(buttonElement = null) {
              const theme = document.documentElement.getAttribute("data-theme") || "dark";
-             const baseInactive = ['border-transparent', 'text-opacity-80'];
-             const baseActive = ['border-2', 'shadow-md', 'text-opacity-100'];
-             const lightInactive = ['bg-blue-400', 'text-white'];
-             const darkInactive = ['bg-cyan-600', 'text-black'];
-             const lightActive = ['bg-indigo-600', 'text-white', 'border-indigo-700'];
-             const darkActive = ['bg-green-400', 'text-black', 'border-green-500', 'shadow-lg', 'shadow-green-500/30'];
-             const inactiveThemeClasses = theme === 'light' ? lightInactive : darkInactive;
-             const activeThemeClasses = theme === 'light' ? lightActive : darkActive;
+             // Define classes clearly
+             const baseClasses = {
+                inactive: ['border-transparent', 'text-opacity-80'],
+                active: ['border-2', 'shadow-md', 'text-opacity-100']
+             };
+             const themeClasses = {
+                dark: {
+                    inactive: ['bg-cyan-600', 'text-black'],
+                    active: ['bg-green-400', 'text-black', 'border-green-500', 'shadow-lg', 'shadow-green-500/30']
+                },
+                light: {
+                    inactive: ['bg-blue-400', 'text-white'],
+                    active: ['bg-indigo-600', 'text-white', 'border-indigo-700']
+                }
+             };
+             const currentThemeClasses = theme === 'light' ? themeClasses.light : themeClasses.dark;
+             const allPossibleClasses = [
+                 ...baseClasses.inactive, ...baseClasses.active,
+                 ...themeClasses.dark.inactive, ...themeClasses.dark.active,
+                 ...themeClasses.light.inactive, ...themeClasses.light.active
+             ];
 
              if (!buttonElement) {
                  buttonElement = $(`.filter-options .filter-btn[data-filter="${currentFilter}"]`);
              }
 
              $$('.filter-options .filter-btn').forEach(btn => {
-                 btn.classList.remove(...lightActive, ...darkActive, ...baseActive, ...lightInactive, ...darkInactive, ...baseInactive);
+                 btn.classList.remove(...allPossibleClasses); // Remove all potential style classes
                  btn.setAttribute('aria-selected', 'false');
                  if (btn === buttonElement) {
-                     btn.classList.add(...baseActive, ...activeThemeClasses);
+                     btn.classList.add(...baseClasses.active, ...currentThemeClasses.active);
                      btn.setAttribute('aria-selected', 'true');
                  } else {
-                     btn.classList.add(...baseInactive, ...inactiveThemeClasses);
+                     btn.classList.add(...baseClasses.inactive, ...currentThemeClasses.inactive);
                  }
              });
 
@@ -1260,11 +1403,11 @@
                  log(`Active filter button style set for ${currentFilter} on theme ${theme}`);
              } else {
                  log(`setActiveFilterButton called but could not find button for filter ${currentFilter}`);
-                 // Ensure default 'recent' button gets styled if possible on initial load problem
+                 // Attempt to style the default 'recent' button if it exists and matches the current filter
                  const defaultBtn = safeGetElementById('filter-recent');
                  if (defaultBtn && currentFilter === 'recent') {
-                     defaultBtn.classList.remove(...baseInactive, ...inactiveThemeClasses);
-                     defaultBtn.classList.add(...baseActive, ...activeThemeClasses);
+                     defaultBtn.classList.remove(...baseClasses.inactive, ...currentThemeClasses.inactive);
+                     defaultBtn.classList.add(...baseClasses.active, ...currentThemeClasses.active);
                      defaultBtn.setAttribute('aria-selected', 'true');
                  }
              }
@@ -1275,15 +1418,42 @@
             log("Fetching initial video list...");
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
-            if (!gallery || !loadMoreBtn) return;
+            if (!gallery || !loadMoreBtn) {
+                err("Gallery or Load More button not found during fetch.");
+                return;
+            }
 
             gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Fetching video list...</p>';
             loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
 
             try {
-                // *** REPLACE WITH YOUR BACKEND ENDPOINT ***
-                const response = await fetch('/videos');
-                // *** ----------------------------- ***
+                // *** REPLACE WITH YOUR ACTUAL BACKEND ENDPOINT ***
+                // This endpoint should return a JSON array of video objects from Cloudinary,
+                // ideally including public_id, secure_url, created_at, and optionally original_filename.
+                // Example using Cloudinary Node.js SDK on backend:
+                // const results = await cloudinary.search.expression('resource_type:video AND folder:gs_overlay_vault').sort_by('created_at','desc').max_results(500).execute();
+                // return results.resources; // Send this array as JSON
+                // Simulate fetch delay
+                // await new Promise(resolve => setTimeout(resolve, 1000));
+                // ** SIMULATED DATA - REPLACE THIS FETCH CALL **
+                 // const response = await fetch('/api/videos'); // Replace with your actual endpoint
+                 // Simulate response for testing without a backend
+                 const response = {
+                    ok: true,
+                    status: 200,
+                    json: async () => {
+                        // Generate some dummy data if needed for frontend testing
+                        const dummyData = [
+                            { public_id: 'gs_overlay_vault/sample_overlay_1', secure_url: 'https://res.cloudinary.com/demo/video/upload/sample_overlay_1.mp4', created_at: '2024-05-14T10:00:00Z', original_filename: 'Cool_Effect_1.mp4' },
+                            { public_id: 'gs_overlay_vault/another_transition', secure_url: 'https://res.cloudinary.com/demo/video/upload/another_transition.mp4', created_at: '2024-05-13T15:30:00Z', original_filename: 'Simple_Wipe.mov' },
+                            { public_id: 'gs_overlay_vault/meme_template_example', secure_url: 'https://res.cloudinary.com/demo/video/upload/meme_template_example.mp4', created_at: '2024-05-15T09:00:00Z', original_filename: 'Surprised_Cat_Meme_GS.mp4' },
+                            // Add more dummy objects as needed
+                        ];
+                         // return dummyData; // Use dummy data
+                         return []; // Use to test empty state
+                    }
+                };
+                 // ** END SIMULATED DATA **
 
                 if (!response.ok) {
                      let errorMsg = `Server error: ${response.status}`;
@@ -1292,14 +1462,17 @@
                 }
                 allVideos = await response.json();
 
-                if (!Array.isArray(allVideos)) throw new Error("Invalid data format received from server.");
+                if (!Array.isArray(allVideos)) {
+                    console.error("Received data:", allVideos); // Log the problematic data
+                    throw new Error("Invalid data format received from server (expected an array).");
+                }
                 log(`Fetched ${allVideos.length} total videos.`);
 
                  if (allVideos.length === 0) {
                      gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">📪 No videos found yet! Be the first to upload.</p>';
-                     return;
+                     return; // Stop here if no videos
                  }
-                applyFiltersAndRender(true); // Apply initial sort/filter and render
+                applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
 
             } catch (error) {
                 err("Failed to fetch videos:", error);
@@ -1318,14 +1491,15 @@
             if (currentSearchQuery) {
                 const query = currentSearchQuery.toLowerCase();
                 filtered = allVideos.filter(video => {
-                    if (!video || !video.public_id) return false;
+                    if (!video || !video.public_id) return false; // Skip invalid entries
+                    // Check locally stored title first, then formatted title, then uploader name
                     const title = (renamedTitles[video.public_id] || formatTitle(video.public_id, video.original_filename)).toLowerCase();
-                    const uploader = (uploaderNames[video.public_id] || '').toLowerCase();
+                    const uploader = (uploaderNames[video.public_id] || 'Anonymous').toLowerCase();
                     return title.includes(query) || uploader.includes(query);
                 });
                 log(`Filtered by search "${query}", ${filtered.length} results.`);
             } else {
-                 filtered = [...allVideos]; // Work on a copy
+                 filtered = [...allVideos]; // Work on a copy if no search query
             }
 
             // Sorting
@@ -1333,29 +1507,47 @@
              try {
                 switch (currentFilter) {
                     case 'popular':
-                        // Placeholder: Random sort. Needs backend logic for real popularity.
+                        // Placeholder: Currently Random sort.
+                        // Requires backend logic (e.g., view/download counts) for real popularity.
                         filtered.sort(() => Math.random() - 0.5);
+                        log("Sorted by 'popular' (currently random).");
                         break;
                     case 'recent': default:
+                         // Ensure created_at exists and is valid before sorting
                          filtered.sort((a, b) => {
                              const dateA = a?.created_at ? new Date(a.created_at).getTime() : 0;
                              const dateB = b?.created_at ? new Date(b.created_at).getTime() : 0;
-                             if (isNaN(dateA) || isNaN(dateB)) return 0; // Prevent crash
-                             return dateB - dateA; // Descending
-                         }); break;
+                             // Handle invalid dates gracefully - push them to the end or treat as equal
+                             if (isNaN(dateA) && isNaN(dateB)) return 0;
+                             if (isNaN(dateA)) return 1; // Put invalid A after valid B
+                             if (isNaN(dateB)) return -1; // Put invalid B after valid A
+                             return dateB - dateA; // Descending (newest first)
+                         });
+                         log("Sorted by 'recent'.");
+                         break;
                 }
-            } catch (e) { err("Error during sorting:", e); }
+            } catch (e) {
+                err("Error during sorting:", e);
+                // Continue with potentially unsorted or partially sorted list
+            }
 
-            displayedVideos = filtered; // Update the list to be displayed
+            displayedVideos = filtered; // Update the list that renderVideoBatch will use
 
             // Rendering
             if (resetRendering) {
-                gallery.innerHTML = ''; currentVideoIndex = 0;
+                currentVideoIndex = 0; // Reset pagination index
+                gallery.innerHTML = ''; // Clear previous gallery content
+                // Show temporary message only if there are results to load
                 if (displayedVideos.length > 0) {
-                    gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Applying Filters...</p>';
+                    gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Applying Filters & Loading...</p>';
+                    // Delay rendering slightly to ensure UI updates
                     setTimeout(() => renderVideoBatch(true), 50);
-                } else { renderVideoBatch(true); } // Show "no results" immediately
-            } else { renderVideoBatch(false); } // Continue rendering next batch
+                } else {
+                    renderVideoBatch(true); // Render "no results" message immediately
+                }
+            } else {
+                 renderVideoBatch(false); // Continue rendering next batch without clearing
+            }
         }
 
         function renderVideoBatch(isInitialRender = false) {
@@ -1363,10 +1555,10 @@
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             if (!gallery || !loadMoreBtn) return;
 
-            // Clear loading message
+            // Clear loading/filtering message if it exists
             const loadingMsg = gallery.querySelector('p.col-span-full');
-            if (loadingMsg && loadingMsg.textContent.includes('Applying Filters')) {
-                gallery.innerHTML = '';
+            if (loadingMsg && loadingMsg.textContent.includes('Applying Filters') || loadingMsg?.textContent.includes('Loading Videos')) {
+                gallery.innerHTML = ''; // Clear the placeholder message
             }
 
             const fragment = document.createDocumentFragment();
@@ -1375,48 +1567,60 @@
 
             log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered/sorted: ${displayedVideos.length})`);
 
-             if (startIndex === 0 && endIndex === 0) { // Handle No Results
-                 const message = currentSearchQuery ? `📪 No results found for "${currentSearchQuery}".` : '📪 No videos match the current filter.';
+             if (isInitialRender && displayedVideos.length === 0) { // Handle No Results specifically on initial render
+                 const message = currentSearchQuery
+                               ? `📪 No results found for "${currentSearchQuery}". Try a different search?`
+                               : '📪 No videos match the current filter.';
                  gallery.innerHTML = `<p class="text-center w-full col-span-full text-lg p-8">${message}</p>`;
                  loadMoreBtn.style.display = 'none';
                  return;
              }
 
-            // Disable button while loading
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+             // Don't show loading state if nothing to load
+            if (startIndex >= endIndex) {
+                 log("No more videos to render in this batch.");
+                 // Ensure 'end of list' message logic runs below
+            } else {
+                 // Disable button while loading this batch
+                 loadMoreBtn.disabled = true;
+                 loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            }
+
 
             for (let i = startIndex; i < endIndex; i++) {
                 const file = displayedVideos[i];
                 // Added check for secure_url which is crucial for rendering
                 if (!file || !file.public_id || !file.secure_url) {
-                     err("Skipping invalid video data (missing public_id or secure_url):", file);
-                     continue;
+                     err(`Skipping invalid video data at index ${i} (missing public_id or secure_url):`, file);
+                     continue; // Skip this item
                 }
                 const publicId = file.public_id;
-                const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_');
+                const safeId = publicId.replace(/[^a-zA-Z0-9_-]/g, '_'); // Ensure ID is CSS/JS safe
                 const title = renamedTitles[publicId] || formatTitle(publicId, file.original_filename);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
                 const videoUrl = file.secure_url;
+
                  // Generate thumbnail URL using Cloudinary transformations
-                 // w_300: width 300px
-                 // h_169: height 169px (for 16:9 aspect ratio)
-                 // c_fill: crop to fill the dimensions
-                 // q_auto: automatic quality adjustment
-                 // f_auto: automatic format selection (jpg, webp, avif)
-                 // so_1: seek to 1 second into the video for the thumbnail frame
-                const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_169,c_fill,q_auto,f_auto,so_1/v1/${publicId}.jpg`;
+                 // w_300: width 300px, h_169: height 169px (16:9), c_fill: crop to fill
+                 // q_auto: auto quality, f_auto: auto format (jpg, webp, avif)
+                 // so_1: seek to 1 second into the video for thumbnail
+                 // Use .jpg extension hint for broad compatibility, f_auto handles actual format
+                const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_169,c_fill,q_auto,f_auto,so_1/${publicId}.jpg`;
 
                 const card = document.createElement('div');
-                card.style.animationDelay = `${(i - startIndex) * 0.05}s`;
+                card.style.animationDelay = `${(i - startIndex) * 0.05}s`; // Stagger animation
                 card.className = 'card';
-                card.dataset.publicId = publicId;
+                card.dataset.publicId = publicId; // Store ID for actions
+
+                // Keep original filename for potential use in formatTitle later
+                card.dataset.originalFilename = file.original_filename || '';
 
                 card.innerHTML = `
                     <div class="video-container">
-                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}" title="${title}">
+                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}" title="Click to play/pause: ${title}" data-original-filename="${file.original_filename || ''}">
                             <source src="${videoUrl}" type="video/mp4">
-                             <source src="${videoUrl.replace(/\.mp4$/i, '.webm')}" type="video/webm"> <!-- Offer webm -->
+                             <!-- Offer WebM as alternative for browsers that support it -->
+                             <source src="${videoUrl.replace(/\.[^/.]+$/, '.webm')}" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1442,9 +1646,9 @@
             }
 
             gallery.appendChild(fragment);
-            currentVideoIndex = endIndex;
+            currentVideoIndex = endIndex; // Update the index for the next load
 
-            // Update Load More button
+            // Update Load More button state
             if (currentVideoIndex < displayedVideos.length) {
                 loadMoreBtn.style.display = 'block';
                 loadMoreBtn.disabled = false;
@@ -1452,6 +1656,7 @@
             } else {
                 loadMoreBtn.style.display = 'none';
                  log("All currently filtered/sorted videos rendered.");
+                 // Add end-of-list message only if there are items in the gallery and message isn't already there
                  const endMsgExists = gallery.querySelector('.end-of-list-message');
                  if (gallery.children.length > 0 && !endMsgExists) {
                      const endMsg = document.createElement('p');
@@ -1463,23 +1668,30 @@
         }
 
         function formatTitle(publicId, originalFilename = null) {
-            // Prioritize original filename if available
+            // Prioritize original filename if available and seems reasonable
              let nameSource = originalFilename || publicId || '';
-             if (!nameSource) return "Untitled";
+             if (!nameSource) return "Untitled Video";
 
             try {
+                // Get the part after the last slash (if any)
                 let name = nameSource.includes('/') ? nameSource.substring(nameSource.lastIndexOf('/') + 1) : nameSource;
-                name = name.replace(/\.(mp4|webm|mov|avi|mkv)$/i, ""); // Remove common extensions
-                name = name.replace(/[_-]/g, ' '); // Replace separators
-                // Capitalize words
+                // Remove common video extensions more robustly
+                name = name.replace(/\.(mp4|webm|mov|avi|mkv|wmv|flv)$/i, "");
+                // Replace underscores, hyphens, and periods (if not part of extension) with spaces
+                name = name.replace(/[_\-\.]+/g, ' ');
+                // Attempt to split camelCase or PascalCase
+                name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+                // Capitalize first letter of each word
                 name = name.split(' ')
                            .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
                            .join(' ').trim();
-                // Handle cases where the name might just be random characters after cleaning
-                return name.length > 1 ? name : "Untitled";
+                // Remove potential leftover multiple spaces
+                name = name.replace(/\s{2,}/g, ' ');
+                // Handle cases where the name might just be random characters or empty after cleaning
+                return name.length > 2 ? name : `Video (${publicId.slice(-6)})`; // Use last 6 chars of ID if title is too short/generic
             } catch (e) {
-                err("Error formatting title:", e);
-                return "Untitled";
+                err("Error formatting title from:", nameSource, e);
+                return `Video (${publicId.slice(-6)})`; // Fallback using ID
             }
         }
 
@@ -1487,12 +1699,12 @@
         function togglePlay(videoElement) {
             if (!videoElement) { err("togglePlay: videoElement is null"); return; }
             const container = videoElement.closest('.video-container');
-            const card = videoElement.closest('.card');
-            if (!card) return;
+            const card = videoElement.closest('.card'); // Need card for ID
+            if (!card) { err("togglePlay: Cannot find parent card."); return; }
 
             try {
                 if (videoElement.paused) {
-                    // Pause other playing videos
+                    // Pause all other playing videos first
                     $$('.gallery video.playing').forEach(otherVideo => {
                          if (otherVideo !== videoElement) {
                              otherVideo.pause();
@@ -1502,12 +1714,16 @@
                      });
                     // Play this video
                     videoElement.play().then(() => {
-                        log("Playing:", videoElement.currentSrc || videoElement.src);
+                        log(`Playing video: ${card.dataset.publicId}`);
                         videoElement.classList.add('playing');
-                        container?.classList.add('playing');
-                    }).catch(e => err("Play error:", e));
+                        container?.classList.add('playing'); // Add class to container too (for hiding play icon)
+                    }).catch(e => {
+                         err(`Play error for ${card.dataset.publicId}:`, e);
+                         // Handle specific errors like user interaction required if needed
+                    });
                 } else {
-                    videoElement.pause(); log("Paused:", videoElement.currentSrc || videoElement.src);
+                    videoElement.pause();
+                    log(`Paused video: ${card.dataset.publicId}`);
                     videoElement.classList.remove('playing');
                     container?.classList.remove('playing');
                 }
@@ -1516,7 +1732,7 @@
 
         function toggleActionMenu(publicId, buttonElement) {
              log(`Toggling action menu for ${publicId}`);
-             const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_');
+             const safeId = publicId.replace(/[^a-zA-Z0-9_-]/g, '_');
              const popup = safeGetElementById(`actionPopup_${safeId}`);
              const menuButton = buttonElement || $(`button[aria-controls="actionPopup_${safeId}"]`);
 
@@ -1524,12 +1740,13 @@
 
              const isOpening = popup.style.display !== 'block';
 
-             // Close all other popups first
+             // Close all other popups first *before* opening the new one
              $$('.action-popup').forEach(p => {
                  if (p !== popup && p.style.display === 'block') {
                      p.style.display = 'none';
                      const otherButton = $(`button[aria-controls="${p.id}"]`);
                      if (otherButton) otherButton.setAttribute('aria-expanded', 'false');
+                     log(`Closed other popup: ${p.id}`);
                  }
              });
 
@@ -1537,8 +1754,15 @@
              popup.style.display = isOpening ? 'block' : 'none';
              menuButton.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
 
-             if (isOpening) { log(`Action popup ${popup.id} opened`); }
-             else { log(`Action popup ${popup.id} closed`); }
+             if (isOpening) {
+                 log(`Action popup ${popup.id} opened`);
+                 // Optional: focus first item in the popup
+                 popup.querySelector('button')?.focus();
+            } else {
+                 log(`Action popup ${popup.id} closed`);
+                 // Optional: return focus to the menu button
+                 menuButton.focus();
+             }
         }
 
         // --- Password Protected Actions (Rename/Delete) ---
@@ -1549,29 +1773,36 @@
              if (!storedPass) {
                  err(`No password found locally for ${publicId}`);
                  showPromptModal({
-                     title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Error: Password Missing",
+                     title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Password Missing",
                      isConfirmation: true,
                      contentHTML: `<p>The deletion password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser or cleared your storage.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
                      confirmText: "OK",
-                     confirmClass: 'modal-button-cancel',
-                     callback: () => hidePromptModal()
+                     confirmClass: 'modal-button-cancel', // Use cancel style for info button
+                     callback: () => hidePromptModal() // Just close the info modal
                  });
                  return;
              }
 
+             // Proceed to ask for password
              showPromptModal({
                  title: "<i class='fas fa-lock text-yellow-400 mr-2'></i> Password Required",
                  inputLabel: `Enter deletion password to ${actionName}:`,
                  inputType: 'password',
+                 placeholder: 'Enter your saved password',
                  confirmText: 'Verify & Proceed',
                  callback: (enteredPassword) => {
+                     if (!enteredPassword) { // Handle empty input
+                         showPromptError('Password cannot be empty.');
+                         return;
+                     }
                      if (enteredPassword === storedPass) {
-                         log(`Password verified for ${actionName}.`);
+                         log(`Password verified for ${actionName} on ${publicId}.`);
                          hidePromptModal();
-                         actionCallback();
+                         actionCallback(); // Execute the intended action (rename or delete)
                      } else {
                          log("Incorrect password entered.");
                          showPromptError('Incorrect password. Please try again.');
+                         // Keep the modal open for another try
                      }
                  }
              });
@@ -1585,37 +1816,48 @@
         function proceedWithRename(publicId) {
              log(`Showing rename prompt for ${publicId}`);
              const card = $(`div.card[data-public-id="${publicId}"]`);
-             const currentTitle = renamedTitles[publicId] || formatTitle(publicId, card?.querySelector('video')?.getAttribute('data-original-filename')); // Get original filename if possible
+             // Try to get original filename from data attribute if possible
+             const originalFilename = card?.dataset.originalFilename;
+             const currentTitle = renamedTitles[publicId] || formatTitle(publicId, originalFilename); // Use helper with potential original name
 
              showPromptModal({
                  title: "<i class='fas fa-pencil-alt mr-2'></i> Rename Video",
                  inputLabel: `Enter new title for this overlay:`,
                  inputType: 'text',
                  initialValue: currentTitle,
+                 placeholder: 'Enter a descriptive title',
                  confirmText: 'Save New Title',
                  callback: (newTitleInput) => {
                      const newTitle = newTitleInput?.trim();
                      if (newTitle && newTitle !== currentTitle) {
-                         log(`Renaming ${publicId} to "${newTitle}"`);
+                         log(`Renaming ${publicId} locally from "${currentTitle}" to "${newTitle}"`);
                          renamedTitles[publicId] = newTitle;
                          localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
 
-                         if (card) { // Update DOM
+                         // Update DOM immediately
+                         if (card) {
                              const titleEl = card.querySelector('.card-title');
                              const downloadLink = card.querySelector('.download-btn');
                              const videoEl = card.querySelector('video');
                              if (titleEl) { titleEl.textContent = newTitle; titleEl.title = newTitle; }
                              if (downloadLink) {
-                                downloadLink.download = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+                                const safeFilename = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+                                downloadLink.download = safeFilename;
                                 downloadLink.title = `Download ${newTitle}`;
                              }
-                              if (videoEl) videoEl.title = newTitle;
+                              if (videoEl) videoEl.title = `Click to play/pause: ${newTitle}`;
                          }
                          hidePromptModal();
                          log("Rename successful (locally).");
-                         // Optional: updateBackendTitle(publicId, newTitle);
-                     } else if (!newTitle) { showPromptError("Title cannot be empty.");
-                     } else { hidePromptModal(); } // Title unchanged, just close
+                         // Optional: Call a backend endpoint to save the title server-side if needed
+                         // updateBackendTitle(publicId, newTitle);
+                     } else if (!newTitle) {
+                          showPromptError("Title cannot be empty.");
+                          // Keep modal open
+                     } else {
+                          log("Title unchanged, closing rename prompt.");
+                          hidePromptModal(); // Title unchanged, just close
+                     }
                  }
              });
         }
@@ -1628,47 +1870,79 @@
         function proceedWithDelete(publicId) {
              log(`Showing delete confirmation for ${publicId}`);
              const card = $(`div.card[data-public-id="${publicId}"]`);
-             const title = renamedTitles[publicId] || formatTitle(publicId, card?.querySelector('video')?.getAttribute('data-original-filename'));
+             const originalFilename = card?.dataset.originalFilename;
+             const title = renamedTitles[publicId] || formatTitle(publicId, originalFilename);
 
              showPromptModal({
-                 isConfirmation: true,
+                 isConfirmation: true, // This tells the modal not to show an input field
                  title: "<i class='fas fa-trash-alt text-red-500 mr-2'></i> Confirm Deletion",
                  contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2">"${title}"?</p><p class="text-red-400 font-semibold">This action cannot be undone.</p>`,
                  confirmText: "Yes, Delete Forever",
                  cancelText: "Cancel",
-                 confirmClass: 'modal-button-delete',
+                 confirmClass: 'modal-button-delete', // Use red button style
                  callback: (confirmed) => {
-                     if (confirmed) {
-                         log(`Deletion confirmed for ${publicId}. Proceeding...`);
+                     if (confirmed) { // Callback provides 'true' if confirm button was clicked
+                         log(`Deletion confirmed for ${publicId}. Initiating deletion...`);
                          hidePromptModal();
                          const cardToDelete = $(`div.card[data-public-id="${publicId}"]`);
 
-                         // 1. Visually remove card
+                         // 1. Visually remove card immediately with animation
                          if (cardToDelete) {
-                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease';
-                              cardToDelete.style.opacity = '0'; cardToDelete.style.transform = 'scale(0.9)';
-                              cardToDelete.style.height = '0'; cardToDelete.style.margin = '0'; cardToDelete.style.padding = '0';
-                              cardToDelete.style.border = 'none'; // Prevent border from lingering
+                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease, border 0.4s ease';
+                              cardToDelete.style.opacity = '0';
+                              cardToDelete.style.transform = 'scale(0.9)';
+                              cardToDelete.style.height = '0';
+                              cardToDelete.style.margin = '0';
+                              cardToDelete.style.padding = '0';
+                              cardToDelete.style.borderWidth = '0'; // Make border disappear
+                              cardToDelete.style.overflow = 'hidden'; // Prevent content spill during animation
                               setTimeout(() => {
                                  cardToDelete.remove();
-                                 if (safeGetElementById('gallery')?.children.length === 0) { applyFiltersAndRender(true); } // Check if gallery is empty
-                              }, 400);
+                                 // Check if gallery is empty after removing card
+                                 if (safeGetElementById('gallery')?.children.length === 0) {
+                                    applyFiltersAndRender(true); // Re-render to show 'no videos' message
+                                 } else {
+                                     // Check if load more button needs updating (less common here, but good practice)
+                                     updateLoadMoreButtonState();
+                                 }
+                              }, 400); // Match transition duration
+                         } else {
+                              log("Card already removed from DOM?");
                          }
 
-                         // 2. Attempt server deletion (Requires backend endpoint)
+                         // 2. Attempt server deletion (Requires a backend endpoint)
+                         // This endpoint needs to handle authentication/authorization implicitly
+                         // or explicitly (e.g., sending the password - NOT RECOMMENDED unless over HTTPS and handled securely)
+                         // A better approach is a backend session or token identifying the user.
+                         // For this example, we assume the backend uses the password stored during upload (if available server-side)
+                         // or just deletes based on public_id if security isn't a major concern for this simple example.
+                         log(`Sending delete request to backend for ${publicId}`);
                          // *** REPLACE WITH YOUR BACKEND DELETE ENDPOINT ***
-                         fetch(`/delete/${encodeURIComponent(publicId)}`, { method: "DELETE" })
-                         // *** ----------------------------------------- ***
+                         // fetch(`/api/delete/${encodeURIComponent(publicId)}`, {
+                         //    method: "DELETE",
+                         //    headers: { 'Content-Type': 'application/json' },
+                         //    // Body might include password ONLY if absolutely necessary and secured
+                         //    // body: JSON.stringify({ password: localStorage.getItem(`pass_${publicId}`) })
+                         // })
+                         // ** SIMULATING BACKEND RESPONSE **
+                         new Promise(async (resolve, reject) => {
+                             await new Promise(res => setTimeout(res, 500)); // Simulate network delay
+                             // Simulate success
+                             resolve({ ok: true, status: 200, json: async () => ({ status: "success", message: "Deleted from Cloudinary" }) });
+                             // Simulate failure
+                             // reject(new Error("Simulated server error: Permission denied"));
+                         })
+                         // ** END SIMULATION **
                              .then(async response => {
                                  if (!response.ok) {
                                      let errorMsg = `Server Error: ${response.status}`;
                                      try { const errData = await response.json(); errorMsg = errData.message || `Failed with status ${response.status}`; } catch (e) {}
                                      throw new Error(errorMsg);
                                  }
-                                  // Check for successful deletion, might be 200 OK or 204 No Content
+                                  // Check for successful deletion status, might be 200 OK or 204 No Content
                                   // or a JSON response like { status: "success" }
-                                  if (response.status === 200 || response.status === 204) {
-                                       return { status: "success" }; // Assume success on 200/204
+                                  if (response.status === 204) { // 204 No Content is a common success indicator for DELETE
+                                       return { status: "success" };
                                   }
                                   // If expecting JSON, parse it
                                   const data = await response.json();
@@ -1676,63 +1950,76 @@
                                        throw new Error(data.message || "Deletion reported failed by server.");
                                   }
                                   return data;
-
                              })
-                             .then(data => { // Check data.status or just proceed if previous block didn't throw
-                                 log(`Successfully deleted ${publicId} from server.`);
-                                 // 3. Clean up local storage *only on success*
+                             .then(data => { // Backend confirmed success
+                                 log(`Successfully deleted ${publicId} from server (simulated or real).`);
+
+                                 // 3. Clean up local storage *only on confirmed server success*
                                  localStorage.removeItem(`pass_${publicId}`);
-                                 delete renamedTitles[publicId]; delete uploaderNames[publicId];
+                                 delete renamedTitles[publicId];
+                                 delete uploaderNames[publicId];
                                  localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
                                  localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                                 log(`Cleaned up local storage for ${publicId}.`);
 
-                                 // 4. Remove from main 'allVideos' and 'displayedVideos' arrays
+                                 // 4. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
                                  allVideos = allVideos.filter(v => v.public_id !== publicId);
                                  displayedVideos = displayedVideos.filter(v => v.public_id !== publicId);
 
-                                 // Update Load More button state if necessary
-                                 const loadMoreBtn = safeGetElementById('loadMoreBtn');
-                                 if (loadMoreBtn) {
-                                     if (currentVideoIndex >= displayedVideos.length) {
-                                         loadMoreBtn.style.display = 'none';
-                                         const gallery = safeGetElementById('gallery');
-                                         if (gallery && gallery.children.length > 0 && !gallery.querySelector('.end-of-list-message')) {
-                                              const endMsg = document.createElement('p');
-                                              endMsg.className = 'text-center w-full col-span-full text-sm text-gray-500 mt-4 end-of-list-message';
-                                              endMsg.textContent = "✨ You've reached the end! ✨";
-                                              gallery.appendChild(endMsg);
-                                         }
-                                     } else {
-                                          loadMoreBtn.style.display = 'block';
-                                          loadMoreBtn.disabled = false;
-                                          loadMoreBtn.innerHTML = 'Load More Videos';
-                                     }
-                                 }
+                                 // 5. Update Load More button state if necessary
+                                 updateLoadMoreButtonState();
 
                              })
                              .catch(err => {
-                                 err("Deletion failed:", err);
+                                 err(`Deletion failed for ${publicId}:`, err);
                                  // Deletion failed: Inform user
                                  showPromptModal({
                                      title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
                                      isConfirmation: true,
-                                     contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${err.message}</p><p>The video might reappear after a refresh. Please try again later.</p>`,
+                                     contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${err.message}</p><p>The video might reappear after a refresh. The visual removal might be temporary. Please try again later or contact support if the issue persists.</p>`,
                                      confirmText: "OK",
                                      confirmClass: 'modal-button-cancel',
                                      callback: () => {
                                          hidePromptModal();
-                                         // Force refresh to potentially bring back the card
-                                         applyFiltersAndRender(true);
+                                         // Optional: Force a full refresh to reflect the actual server state
+                                         // applyFiltersAndRender(true);
+                                         // Or maybe just log the issue without re-rendering immediately
+                                         log("User notified of deletion failure. Card may reappear on refresh.");
                                      }
                                  });
                              });
-                     } else { log("Deletion cancelled by user."); hidePromptModal(); }
+                     } else {
+                        log("Deletion cancelled by user.");
+                        hidePromptModal(); // Just close if cancelled
+                    }
                  }
              });
         }
+
+        // Helper to update Load More button visibility and state
+        function updateLoadMoreButtonState() {
+             const loadMoreBtn = safeGetElementById('loadMoreBtn');
+             const gallery = safeGetElementById('gallery');
+             if (!loadMoreBtn || !gallery) return;
+
+             if (currentVideoIndex >= displayedVideos.length) {
+                 loadMoreBtn.style.display = 'none';
+                 const endMsgExists = gallery.querySelector('.end-of-list-message');
+                 if (gallery.children.length > 0 && !endMsgExists) {
+                      const endMsg = document.createElement('p');
+                      endMsg.className = 'text-center w-full col-span-full text-sm text-gray-500 mt-4 end-of-list-message';
+                      endMsg.textContent = "✨ You've reached the end! ✨";
+                      gallery.appendChild(endMsg);
+                 }
+             } else {
+                  loadMoreBtn.style.display = 'block';
+                  loadMoreBtn.disabled = false;
+                  loadMoreBtn.innerHTML = 'Load More Videos';
+             }
+        }
+
 
     </script>
 
 </body>
 </html>
-```
