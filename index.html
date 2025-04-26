@@ -1,13 +1,12 @@
---- START OF FILE index.html ---
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Green Screen Overlay Vault</title>
-    <!-- Ensure Cloudinary script is loaded -->
+    <!-- Cloudinary Script -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,56 +15,143 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        /* --- KEEP ALL PREVIOUS STYLES --- */
-        /* Add minor adjustments if needed, ensure z-indexes are logical */
-        /* Base & Theme Styles */
-        body { font-family: 'Roboto', sans-serif; transition: background 0.3s, color 0.3s; line-height: 1.6; }
+        /* --- Base & Theme Styles --- */
+        body { font-family: 'Roboto', sans-serif; transition: background 0.5s ease, color 0.5s ease; line-height: 1.6; }
         html[data-theme="dark"] body { background: #0a0a0a; color: #e5e7eb; }
         html[data-theme="light"] body { background: #f8f9fa; color: #212529; }
 
-        /* Header */
-        .header { background: linear-gradient(90deg, #00ff88, #00ccff); color: black; padding: 1.5rem 1rem; text-align: center; font-size: 2rem; font-weight: bold; position: relative; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3); z-index: 40; }
-        @media (min-width: 640px) { .header { font-size: 2.5rem; padding: 2rem; } }
-        .header h1 { animation: fadeInDown 1s ease-in-out; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;}
-        .header-buttons { position: absolute; top: 50%; transform: translateY(-50%); display: flex; gap: 0.5rem; }
-        .header-buttons.left { left: 1rem; }
-        .header-buttons.right { right: 1rem; }
-        .header-btn { background: rgba(0, 0, 0, 0.5); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s; display: flex; align-items: center; gap: 0.3rem; }
+        /* --- Header --- */
+        .header {
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            color: black;
+            padding: 1rem 1rem; /* Adjusted padding */
+            text-align: center;
+            font-size: 1.8rem; /* Adjusted size */
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
+            z-index: 40;
+            display: flex; /* Use flex for better alignment */
+            align-items: center;
+            justify-content: center; /* Center title */
+        }
+        .header h1 {
+            animation: fadeInDown 1s ease-in-out;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            margin: 0; /* Reset margin if needed */
+            flex-grow: 1; /* Allow title to take space but stay centered */
+            text-align: center;
+        }
+        .header-buttons-container { /* Container for button groups */
+             position: absolute;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             display: flex;
+             justify-content: space-between; /* Pushes groups to sides */
+             align-items: center;
+             padding: 0 1rem; /* Match header padding */
+             pointer-events: none; /* Prevent container from blocking title */
+        }
+        .header-buttons {
+            display: flex;
+            gap: 0.5rem;
+            pointer-events: auto; /* Enable pointer events on buttons */
+        }
+        .header-btn {
+            background: rgba(0, 0, 0, 0.5); color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            display: flex; align-items: center; gap: 0.3rem;
+            position: relative; /* Needed for absolute sun/moon */
+            z-index: 41; /* Above header gradient */
+        }
         .header-btn:hover { background: rgba(0, 0, 0, 0.7); transform: scale(1.05); }
         html[data-theme="light"] .header-btn { background: rgba(255, 255, 255, 0.7); color: black; border-color: rgba(0, 0, 0, 0.2); }
         html[data-theme="light"] .header-btn:hover { background: rgba(255, 255, 255, 0.9); }
-        @media (max-width: 640px) { .header-btn span { display: none; } .header-btn { padding: 0.5rem; } .header h1 { font-size: 1.5rem; } .header { padding: 1rem; } }
 
-        /* Gallery & Cards */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 1.5rem; }
-        .card { background: #1f1f1f; border-radius: 1rem; overflow: hidden; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; animation: fadeInUp 0.5s ease-in-out; position: relative; display: flex; flex-direction: column; }
+        /* Responsive Header Adjustments */
+        @media (min-width: 640px) {
+            .header { font-size: 2.5rem; padding: 1.5rem 1rem; }
+            .header-buttons-container { padding: 0 1.5rem; }
+        }
+        @media (max-width: 639px) {
+            .header-btn span.button-text { display: none; } /* Hide text on small screens */
+            .header-btn { padding: 0.5rem; }
+            .header h1 { font-size: 1.5rem; }
+            .header { padding: 1rem 0.5rem; }
+            .header-buttons-container { padding: 0 0.5rem; }
+        }
+
+        /* --- Sun/Moon Theme Toggle Animation --- */
+        .theme-icon {
+            position: absolute;
+            top: -25px; /* Start above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem; /* Size of icons */
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease; /* Smooth bounce effect */
+            opacity: 0;
+            pointer-events: none; /* Don't block clicks */
+            z-index: 40; /* Below button */
+        }
+        #sunIcon { color: #ffcc00; /* Yellowish */ }
+        #moonIcon { color: #f0e68c; /* Pale yellow */ }
+
+        /* Initial state (based on default 'dark' theme) */
+        html:not([data-theme="light"]) #moonIcon {
+             transform: translate(-50%, 40px); /* Position below button, adjust as needed */
+             opacity: 1;
+        }
+        html:not([data-theme="light"]) #sunIcon {
+             transform: translate(-50%, 80px); /* Further down, hidden */
+             opacity: 0;
+        }
+
+        /* State when theme is 'light' */
+        html[data-theme="light"] #sunIcon {
+            transform: translate(-50%, 40px); /* Position below button */
+            opacity: 1;
+        }
+        html[data-theme="light"] #moonIcon {
+            transform: translate(-50%, 80px); /* Further down, hidden */
+            opacity: 0;
+        }
+
+
+        /* --- Gallery & Cards --- */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 1.5rem; } /* Slightly larger minmax */
+        .card { background: #1f1f1f; border-radius: 1rem; overflow: hidden; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; animation: fadeInUp 0.5s ease-in-out both; /* Added 'both' */ position: relative; display: flex; flex-direction: column; }
         html[data-theme="light"] .card { background: #ffffff; color: black; border-color: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25); border-color: #00ff88; }
-        html[data-theme="light"] .card:hover { box-shadow: 0 6px 12px rgba(0,0,0,0.1); border-color: #10b981; }
-        .video-container { cursor: pointer; position: relative; background-color: #050505; }
-        .video-container video { width: 100%; height: 180px; object-fit: cover; display: block; border-radius: 1rem 1rem 0 0; }
-        .video-container::after { content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.5rem; color: rgba(255, 255, 255, 0.7); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        .video-container:hover::after { opacity: 1; }
-        .video-container video.playing + ::after { opacity: 0; } /* Corrected selector */
-        .card-content { padding: 0.75rem; flex-grow: 1; }
-        .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; }
-        .uploader-name { font-size: 0.75rem; opacity: 0.7; text-align: right; margin-bottom: 0.5rem; }
+        .card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 10px 30px rgba(0, 255, 136, 0.28); border-color: #00ff88; }
+        html[data-theme="light"] .card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.12); border-color: #10b981; }
+        .video-container { cursor: pointer; position: relative; background-color: #050505; overflow: hidden; /* Ensure poster fits */ border-radius: 1rem 1rem 0 0; /* Match card */ }
+        .video-container video { width: 100%; height: auto; aspect-ratio: 16 / 9; /* Ensure aspect ratio */ object-fit: cover; display: block; }
+        .video-container::after { content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255, 255, 255, 0.8); opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .video-container:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        .video-container video.playing + ::after { opacity: 0 !important; } /* Ensure play icon hides */
+        .card-content { padding: 1rem; flex-grow: 1; } /* Increased padding */
+        .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; font-size: 1rem; /* Slightly larger */ }
+        .uploader-name { font-size: 0.8rem; opacity: 0.7; text-align: right; margin-bottom: 0.5rem; }
         html[data-theme="light"] .uploader-name { opacity: 0.8; }
-        .card-footer { padding: 0 0.75rem 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; }
+        .card-footer { padding: 0 1rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; } /* Increased padding */
         html[data-theme="light"] .card-footer { border-top-color: #e2e8f0; }
-        .download-btn { background: #00ff88; color: black; padding: 0.4rem 0.8rem; text-align: center; font-weight: bold; display: inline-flex; align-items: center; gap: 0.3rem; border-radius: 0.5rem; font-size: 0.8rem; line-height: 1; transition: background-color 0.2s, transform 0.2s; }
+        .download-btn { background: #00ff88; color: black; padding: 0.5rem 1rem; text-align: center; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 0.5rem; font-size: 0.85rem; line-height: 1; transition: background-color 0.2s ease, transform 0.2s ease; }
         .download-btn:hover { background-color: #00e67a; transform: scale(1.05); }
         html[data-theme="light"] .download-btn { background: #10b981; color: white; }
         html[data-theme="light"] .download-btn:hover { background: #0f9e73; }
-        .menu-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid #555; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; line-height: 1; color: #aaa; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
+        .menu-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid #555; border-radius: 50%; width: 32px; height: 32px; /* Slightly larger */ font-weight: bold; cursor: pointer; line-height: 1; color: #aaa; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s ease; }
         html[data-theme="light"] .menu-btn { background: rgba(0, 0, 0, 0.05); border-color: #ccc; color: #555; }
-        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); color: white; border-color: #00ff88;}
+        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); color: white; border-color: #00ff88; transform: rotate(90deg);} /* Added rotation */
         html[data-theme="light"] .menu-btn:hover { background: rgba(16, 185, 129, 0.2); color: #10b981; border-color: #10b981; }
 
-        /* Action Popup Styles */
-        .action-popup { display: none; position: absolute; bottom: 40px; /* Adjusted */ right: 5px; background-color: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 0.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); z-index: 30; animation: popUpFadeIn 0.2s ease-out; min-width: 120px; }
+        /* --- Action Popup --- */
+        .action-popup { display: none; position: absolute; bottom: 45px; /* Adjusted for larger button */ right: 5px; background-color: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 0.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); z-index: 50; /* Ensure above card hover effect */ animation: popUpFadeIn 0.2s ease-out; min-width: 130px; }
         html[data-theme="light"] .action-popup { background-color: #ffffff; border-color: #ccc; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
-        .action-popup button { display: flex; align-items: center; gap: 0.5rem; width: 100%; background: none; border: none; color: #00ccff; padding: 0.5rem 0.7rem; text-align: left; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background-color 0.15s; }
+        .action-popup button { display: flex; align-items: center; gap: 0.5rem; width: 100%; background: none; border: none; color: #00ccff; padding: 0.6rem 0.8rem; /* Slightly more padding */ text-align: left; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background-color 0.15s; }
         html[data-theme="light"] .action-popup button { color: #0c4a6e; }
         .action-popup button:hover { background-color: #3a3a3a; }
         html[data-theme="light"] .action-popup button:hover { background-color: #e5e7eb; }
@@ -74,127 +160,185 @@
         .action-popup button.delete-action:hover { background-color: rgba(255, 85, 85, 0.1); }
         html[data-theme="light"] .action-popup button.delete-action:hover { background-color: #fee2e2; }
 
-        /* Modal Styles */
-        .modal-backdrop { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 50; animation: fadeIn 0.3s ease-out; backdrop-filter: blur(3px); }
-        .modal-box { background-color: #1f1f1f; color: white; padding: 1.5rem; border-radius: 1rem; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); width: 90%; max-width: 500px; animation: scaleUp 0.3s ease-out; position: relative; max-height: 85vh; overflow-y: auto; }
+        /* --- Modal Styles --- */
+        .modal-backdrop { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.75); /* Darker backdrop */ display: none; align-items: center; justify-content: center; z-index: 50; animation: fadeIn 0.3s ease-out; backdrop-filter: blur(5px); /* Increased blur */ }
+        .modal-box { background-color: #1f1f1f; color: white; padding: 1.5rem; border-radius: 1rem; border: 1px solid #444; /* Slightly lighter border */ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); width: 90%; max-width: 500px; animation: scaleUp 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Added bounce */ position: relative; max-height: 85vh; overflow-y: auto; }
         html[data-theme="light"] .modal-box { background-color: #ffffff; color: black; border-color: #ccc; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); }
         @media (min-width: 640px) { .modal-box { padding: 2rem; } }
-        .modal-box h2 { font-size: 1.4rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88;}
+        .modal-box h2 { font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88; text-align: center; }
         html[data-theme="light"] .modal-box h2 { color: #10b981; }
-        .modal-box label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: bold; }
-        .modal-box input[type="text"], .modal-box input[type="password"], .modal-box textarea { width: 100%; padding: 0.75rem; border-radius: 0.5rem; background-color: #333; border: 1px solid #555; color: white; margin-bottom: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
-        .modal-box input:focus, .modal-box textarea:focus { outline: none; border-color: #00ff88; box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3); }
+        .modal-box label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: bold; color: #ccc; }
+        html[data-theme="light"] .modal-box label { color: #555; }
+        .modal-box input[type="text"], .modal-box input[type="password"], .modal-box textarea { width: 100%; padding: 0.8rem; border-radius: 0.5rem; background-color: #333; border: 1px solid #555; color: white; margin-bottom: 1rem; transition: border-color 0.2s, box-shadow 0.2s; font-size: 0.95rem; }
+        .modal-box input:focus, .modal-box textarea:focus { outline: none; border-color: #00ff88; box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.4); }
         html[data-theme="light"] .modal-box input[type="text"], html[data-theme="light"] .modal-box input[type="password"], html[data-theme="light"] .modal-box textarea { background-color: #e5e7eb; border-color: #ccc; color: black; }
-        html[data-theme="light"] .modal-box input:focus, html[data-theme="light"] .modal-box textarea:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3); }
+        html[data-theme="light"] .modal-box input:focus, html[data-theme="light"] .modal-box textarea:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); }
         .modal-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
-        .modal-buttons button { font-size: 0.9rem; padding: 0.6rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.2s, transform 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .modal-buttons button { font-size: 0.9rem; padding: 0.7rem 1.2rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .modal-buttons button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .modal-button-confirm { background-color: #00ff88; color: black; }
-        .modal-button-confirm:hover { background-color: #00dd77; transform: translateY(-1px); }
+        .modal-button-confirm:hover { background-color: #00dd77; }
         html[data-theme="light"] .modal-button-confirm { background-color: #10b981; color: white; }
         html[data-theme="light"] .modal-button-confirm:hover { background-color: #0f9e73; }
         .modal-button-cancel { background-color: #555; color: white; }
-        .modal-button-cancel:hover { background-color: #666; transform: translateY(-1px); }
+        .modal-button-cancel:hover { background-color: #666; }
         html[data-theme="light"] .modal-button-cancel { background-color: #a1a1aa; color: black; }
         html[data-theme="light"] .modal-button-cancel:hover { background-color: #71717a; }
         .modal-button-delete { background-color: #ff4444; color: white; }
-        .modal-button-delete:hover { background-color: #dd2222; transform: translateY(-1px);}
+        .modal-button-delete:hover { background-color: #dd2222; }
         html[data-theme="light"] .modal-button-delete { background-color: #dc2626; color: white; }
         html[data-theme="light"] .modal-button-delete:hover { background-color: #b91c1c; }
-        .modal-error { color: #ff5555; font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
-        .modal-close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.8rem; color: #888; cursor: pointer; line-height: 1; z-index: 51; padding: 0.2rem;}
-        html[data-theme="light"] .modal-close-btn { color: #555; }
-        .modal-close-btn:hover { color: #eee; }
-        html[data-theme="light"] .modal-close-btn:hover { color: #000; }
+        .modal-error { color: #ff5555; font-size: 0.85rem; margin-top: -0.5rem; margin-bottom: 1rem; min-height: 1.2em; text-align: center; }
+        .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); border: none; font-size: 1.5rem; color: #aaa; cursor: pointer; line-height: 1; z-index: 51; padding: 0.1rem 0.5rem; border-radius: 50%; transition: background-color 0.2s, color 0.2s; }
+        html[data-theme="light"] .modal-close-btn { background: rgba(0,0,0,0.05); color: #777; }
+        .modal-close-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+        html[data-theme="light"] .modal-close-btn:hover { background: rgba(0,0,0,0.1); color: #000; }
 
-        /* Terms Modal Specific Styles */
+        /* --- Terms Modal Specific Styles --- */
         #termsModal .modal-box { max-width: 700px; }
-        .terms-content { font-size: 0.9rem; line-height: 1.6; max-height: 60vh; overflow-y: auto; border: 1px solid #444; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; background-color: rgba(0,0,0,0.1); }
+        .terms-content { font-size: 0.9rem; line-height: 1.6; max-height: 60vh; overflow-y: auto; border: 1px solid #444; padding: 1rem 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; background-color: rgba(0,0,0,0.15); }
         html[data-theme="light"] .terms-content { border-color: #ccc; background-color: rgba(0,0,0,0.03); }
         .terms-content h3 { font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #00ccff; }
         html[data-theme="light"] .terms-content h3 { color: #0ea5e9; }
-        .terms-accept-label { display: flex; align-items: center; margin-top: 1rem; cursor: pointer; }
-        .terms-accept-label input { margin-right: 0.5rem; }
+        .terms-accept-label { display: flex; align-items: center; margin-top: 1rem; cursor: pointer; font-size: 0.9rem; }
+        html[data-theme="dark"] .terms-accept-label { color: #ccc; }
+        html[data-theme="light"] .terms-accept-label { color: #333; }
+        .terms-accept-label input { margin-right: 0.75rem; width: 1rem; height: 1rem; accent-color: #00ff88; }
+        html[data-theme="light"] .terms-accept-label input { accent-color: #10b981; }
 
-        /* Filters & Search */
-        .filter-search-area { padding: 1rem 1.5rem; background-color: rgba(0,0,0,0.1); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 10; }
-        html[data-theme="light"] .filter-search-area { background-color: rgba(0,0,0,0.02); border-bottom-color: #e2e8f0; }
+        /* --- Filters & Search --- */
+        .filter-search-area { padding: 1.5rem; background-color: rgba(0,0,0,0.15); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(3px); }
+        html[data-theme="light"] .filter-search-area { background-color: rgba(255,255,255,0.7); border-bottom-color: #e2e8f0; backdrop-filter: blur(5px); }
         .filter-options { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .filter-btn { background: #00ccff; color: black; padding: 0.5rem 1rem; margin: 0; text-align: center; font-weight: bold; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s, border 0.2s; border: 2px solid transparent; font-size: 0.85rem; }
+        .filter-btn { background: #00ccff; color: black; padding: 0.5rem 1rem; margin: 0; text-align: center; font-weight: bold; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; font-size: 0.85rem; }
         html[data-theme="light"] .filter-btn { background: #38bdf8; color: white; }
-        .filter-btn:hover { transform: translateY(-2px); }
-        .filter-btn.active-filter { /* Default dark active */ background-color: #00ff88; color: black; border: 2px solid #333; box-shadow: 0 0 8px #00ff88; }
-        html[data-theme="light"] .filter-btn.active-filter { /* Light active */ background-color: #10b981; color: white; border: 2px solid #ccc; box-shadow: 0 0 8px #10b981; }
-        .search-container { display: flex; justify-content: center; align-items: center; max-width: 400px; margin: 0 auto; }
-        .search-container label { display: none; } /* Hide label visually */
-        .search-container input { flex-grow: 1; padding: 0.6rem 1rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
-        .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.3); }
+        .filter-btn:hover { transform: translateY(-2px); box-shadow: 0 3px 6px rgba(0, 204, 255, 0.3); }
+        html[data-theme="light"] .filter-btn:hover { box-shadow: 0 3px 6px rgba(56, 189, 248, 0.3); }
+        .filter-btn.active-filter { /* Defined dynamically in JS now based on theme */ transform: translateY(-1px); }
+        .search-container { display: flex; justify-content: center; align-items: center; max-width: 400px; margin: 0 auto; position: relative; }
+        .search-container label { display: none; }
+        .search-container input { flex-grow: 1; padding: 0.7rem 1rem 0.7rem 2.5rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search-container::before { /* Search Icon */ content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #888; font-size: 0.9rem; }
+        html[data-theme="light"] .search-container::before { color: #777; }
+        .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.3); }
         html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
-        html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3); }
+        html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3); }
 
-        /* Intro Screen */
-        #introScreen { position: fixed; inset: 0; background-color: #000; display: flex; align-items: center; justify-content: center; z-index: 100; color: white; font-family: 'Orbitron', sans-serif; opacity: 1; transition: opacity 1s ease-out 0.5s; pointer-events: auto; }
-        #introScreen.fade-out { opacity: 0; pointer-events: none; z-index: -1; }
-        #introText { font-size: 2.5rem; font-weight: bold; letter-spacing: 2px; opacity: 0; animation: textPopInGlow 2s ease-out forwards; text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ccff, 0 0 20px #00ccff; }
-        @media (min-width: 640px) { #introText { font-size: 3.5rem; } }
+        /* --- Intro Screen --- */
+        @keyframes animated-gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        #introScreen {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, #001a11, #002030, #001a11); /* Darker gradient */
+            background-size: 300% 300%;
+            animation: animated-gradient 15s ease infinite; /* Slower gradient animation */
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; color: white; font-family: 'Orbitron', sans-serif;
+            opacity: 1; transition: opacity 1.2s ease-out 0.5s, visibility 0s linear 1.7s; /* Added visibility transition */
+            pointer-events: auto;
+            visibility: visible;
+            overflow: hidden;
+        }
+        #introScreen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden; /* Hide completely after fade */
+        }
+        @keyframes textPopInGlowRefined {
+          0% { opacity: 0; transform: scale(0.5) translateY(50px); text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); filter: blur(3px); }
+          60% { opacity: 1; transform: scale(1.1) translateY(0); text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ccff, 0 0 40px #00ccff; filter: blur(0); }
+          100% { opacity: 1; transform: scale(1) translateY(0); text-shadow: 0 0 8px #00ff88, 0 0 15px #00ccff; filter: blur(0); }
+        }
+        #introText {
+            font-size: 2.5rem; font-weight: bold; letter-spacing: 2px;
+            opacity: 0; /* Start hidden */
+            animation: textPopInGlowRefined 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards; /* Delay start slightly */
+        }
+        @media (min-width: 640px) { #introText { font-size: 3.8rem; } }
         @media (max-width: 480px) { #introText { font-size: 1.8rem; } }
 
-        /* Load More Button */
-        #loadMoreBtn { display: block; margin: 2rem auto; padding: 0.8rem 2rem; font-weight: bold; cursor: pointer; border-radius: 0.5rem; transition: background-color 0.2s, transform 0.2s; font-size: 0.9rem; background: #00ccff; color: black; border: none; }
+        /* --- Load More Button --- */
+        #loadMoreBtn { display: block; margin: 2.5rem auto; padding: 0.8rem 2.5rem; font-weight: bold; cursor: pointer; border-radius: 0.5rem; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; font-size: 0.9rem; background: #00ccff; color: black; border: none; text-transform: uppercase; letter-spacing: 0.5px; }
         html[data-theme="light"] #loadMoreBtn { background: #38bdf8; color: white; }
-        #loadMoreBtn:hover { transform: translateY(-2px); }
-        html[data-theme="dark"] #loadMoreBtn:hover { background-color: #00ddff; }
-        html[data-theme="light"] #loadMoreBtn:hover { background-color: #0ea5e9; }
-        #loadMoreBtn:disabled { background: #555; cursor: not-allowed; transform: none; opacity: 0.6;}
+        #loadMoreBtn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0, 204, 255, 0.3); }
+        html[data-theme="dark"] #loadMoreBtn:hover:not(:disabled) { background-color: #00ddff; }
+        html[data-theme="light"] #loadMoreBtn:hover:not(:disabled) { background-color: #0ea5e9; box-shadow: 0 5px 10px rgba(56, 189, 248, 0.3); }
+        #loadMoreBtn:disabled { background: #555; cursor: not-allowed; transform: none; opacity: 0.6; box-shadow: none; }
         html[data-theme="light"] #loadMoreBtn:disabled { background: #a1a1aa; }
 
-        /* Info Section */
-        .info-section { padding: 2rem 1.5rem; text-align: center; }
-        .info-section h2 { font-size: 1.8rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88; }
+        /* --- Info Section --- */
+        .info-section { padding: 3rem 1.5rem; text-align: center; border-top: 1px solid #222; margin-top: 2rem; }
+        html[data-theme="light"] .info-section { border-top-color: #eee; }
+        .info-section h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88; font-family: 'Orbitron', sans-serif; }
         html[data-theme="light"] .info-section h2 { color: #10b981; }
-        .info-section h3 { font-size: 1.3rem; font-weight: bold; margin-top: 2rem; margin-bottom: 0.75rem; color: #00ccff; }
+        .info-section h3 { font-size: 1.4rem; font-weight: bold; margin-top: 2.5rem; margin-bottom: 1rem; color: #00ccff; }
         html[data-theme="light"] .info-section h3 { color: #0ea5e9; }
         .info-section p, .info-section ol { max-w-3xl mx-auto mb-4 text-base leading-relaxed; }
-        html[data-theme="dark"] .info-section p, html[data-theme="dark"] .info-section ol { color: #ccc; }
+        html[data-theme="dark"] .info-section p, html[data-theme="dark"] .info-section ol { color: #bbb; } /* Slightly brighter */
         html[data-theme="light"] .info-section p, html[data-theme="light"] .info-section ol { color: #4b5563; }
-        .info-section ol { text-align: left; padding-left: 1.5rem; list-style-position: inside; }
-        .info-section code { background-color: rgba(255,255,255,0.1); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.9em; }
-        html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.05); }
-        .video-wrapper { max-width: 700px; margin: 1.5rem auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 1rem; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;}
-        html[data-theme="light"] .video-wrapper { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .info-section ol { text-align: left; padding-left: 1.5rem; list-style-position: inside; list-style-type: decimal; /* Explicitly set */ }
+        .info-section ol li { margin-bottom: 0.5rem; }
+        .info-section code { background-color: rgba(255,255,255,0.15); padding: 0.2em 0.5em; border-radius: 4px; font-size: 0.9em; color: #00ff88; }
+        html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.07); color: #10b981; }
+        .video-wrapper { max-width: 700px; margin: 2rem auto; box-shadow: 0 8px 25px rgba(0,0,0,0.3); border-radius: 1rem; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;}
+        html[data-theme="light"] .video-wrapper { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .info-cta { /* Call to action style */
+             margin-top: 2rem;
+             display: inline-block;
+             background: linear-gradient(90deg, #00ff88, #00ccff);
+             color: black;
+             padding: 0.8rem 1.8rem;
+             border-radius: 50px;
+             font-weight: bold;
+             text-decoration: none;
+             transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .info-cta:hover {
+             transform: scale(1.05);
+             box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
 
-        /* Tooltip Styles */
-        .tooltip { position: relative; display: inline-block; cursor: help; border-bottom: 1px dotted; }
-        .tooltip .tooltiptext { visibility: hidden; width: 200px; background-color: #2a2a2a; color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 60; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; line-height: 1.4; border: 1px solid #444; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        /* --- Tooltip Styles --- */
+        .tooltip { position: relative; display: inline-block; cursor: help; border-bottom: 1px dotted #00ccff; }
+        html[data-theme="light"] .tooltip { border-bottom-color: #0ea5e9; }
+        .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: #2a2a2a; color: #fff; text-align: center; border-radius: 6px; padding: 10px; position: absolute; z-index: 60; bottom: 130%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; font-size: 0.85rem; line-height: 1.4; border: 1px solid #444; box-shadow: 0 3px 8px rgba(0,0,0,0.4); transform: translateY(10px); }
         html[data-theme="light"] .tooltip .tooltiptext { background-color: #f0f0f0; color: #333; border-color: #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
-        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; transform: translateY(0); }
 
-        /* Footer */
-        .site-footer { text-align: center; padding: 1.5rem; margin-top: 2rem; font-size: 0.9rem; border-top: 1px solid #333; background-color: rgba(0,0,0,0.1); }
-        html[data-theme="light"] .site-footer { border-top-color: #ddd; background-color: rgba(0,0,0,0.02); }
-        .footer-link { color: #00ccff; text-decoration: underline; cursor: pointer; }
+        /* --- Footer --- */
+        .site-footer { text-align: center; padding: 2rem; margin-top: 3rem; font-size: 0.9rem; border-top: 1px solid #333; background-color: rgba(0,0,0,0.2); }
+        html[data-theme="light"] .site-footer { border-top-color: #ddd; background-color: rgba(0,0,0,0.03); }
+        .footer-link { color: #00ccff; text-decoration: underline; cursor: pointer; transition: color 0.2s; }
         html[data-theme="light"] .footer-link { color: #0ea5e9; }
+        .footer-link:hover { color: #00ff88; }
+        html[data-theme="light"] .footer-link:hover { color: #10b981; }
 
-        /* Animations */
+        /* --- Animations --- */
         @keyframes glow { from { filter: drop-shadow(0 0 5px #00ff88); } to { filter: drop-shadow(0 0 15px #00ccff); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        @keyframes popUpFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes textPopInGlow { 0% { opacity: 0; transform: scale(0.8) translateY(20px); text-shadow: 0 0 2px #00ff88, 0 0 4px #00ccff;} 60% { opacity: 1; transform: scale(1.05) translateY(0); text-shadow: 0 0 8px #00ff88, 0 0 15px #00ff88, 0 0 20px #00ccff, 0 0 25px #00ccff, 0 0 30px #00ccff; } 100% { opacity: 1; transform: scale(1) translateY(0); text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ccff, 0 0 20px #00ccff; } }
+        /* Keyframe for bounce-in scaleUp is incorporated into modal style */
+        @keyframes popUpFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        /* textPopInGlowRefined defined above */
 
-        /* Utility for screen readers */
+        /* --- Utility Classes --- */
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
-
-        /* Ensure buttons are clickable */
         button, a[onclick], [role="button"] { cursor: pointer; }
 
-         /* Progress Bar Styles */
-        .progress-container { width: 100%; background: #333; border-radius: 10px; overflow: hidden; height: 10px; }
+        /* --- Progress Bar Styles --- */
+        .progress-container { width: 100%; background: #333; border-radius: 10px; overflow: hidden; height: 12px; margin-top: 1rem; }
         html[data-theme="light"] .progress-container { background: #e5e7eb; }
-        .progress-bar { height: 10px; background: linear-gradient(270deg, #00ff88, #00ccff); animation: glow 1s infinite alternate; width: 0%; transition: width 0.3s ease; }
+        .progress-bar { height: 100%; background: linear-gradient(270deg, #00ff88, #00ccff); animation: glow 1.5s infinite alternate; width: 0%; transition: width 0.4s ease; border-radius: 10px; }
+        #uploadStatus { margin-top: 0.8rem; font-size: 0.9rem; min-height: 1.4em; }
 
+        /* --- Ensure clickable elements are obvious --- */
+         a, button, [onclick] { cursor: pointer; }
     </style>
 </head>
 <body>
@@ -207,18 +351,25 @@
     <!-- Header -->
     <header class="header">
         <h1>🎬 Green Screen Vault</h1>
-        <div class="header-buttons left">
-            <!-- Theme Toggle Button -->
-            <button type="button" id="themeToggleBtn" class="header-btn" title="Toggle Theme">
-                <i class="fas fa-adjust"></i> <span class="sr-only sm:not-sr-only">Theme</span>
-            </button>
-        </div>
-        <div class="header-buttons right">
-            <!-- Upload Button -->
-            <button type="button" id="showUploadBtn" class="header-btn" title="Upload Video">
-                 <i class="fas fa-upload"></i> <span class="sr-only sm:not-sr-only">Upload</span>
-            </button>
-        </div>
+        <div class="header-buttons-container">
+             <div class="header-buttons left">
+                 <!-- Theme Toggle Button & Sun/Moon -->
+                 <button type="button" id="themeToggleBtn" class="header-btn" title="Toggle Theme">
+                     <i class="fas fa-adjust"></i>
+                     <span class="button-text sr-only sm:not-sr-only">Theme</span>
+                     <!-- Sun and Moon Icons for Animation -->
+                     <div id="sunIcon" class="theme-icon"><i class="fas fa-sun"></i></div>
+                     <div id="moonIcon" class="theme-icon"><i class="fas fa-moon"></i></div>
+                 </button>
+             </div>
+             <div class="header-buttons right">
+                 <!-- Upload Button -->
+                 <button type="button" id="showUploadBtn" class="header-btn" title="Upload Video">
+                     <i class="fas fa-upload"></i>
+                     <span class="button-text sr-only sm:not-sr-only">Upload</span>
+                 </button>
+             </div>
+         </div>
     </header>
 
     <!-- Filter and Search Area -->
@@ -240,7 +391,8 @@
     <main>
         <!-- Gallery -->
         <div class="gallery" id="gallery">
-            <!-- Dynamic Content -->
+            <!-- Dynamic Content: Placeholder while loading -->
+             <p class="text-center w-full col-span-full text-lg p-8">🔄 Loading Videos...</p>
         </div>
 
         <!-- Load More Button -->
@@ -257,6 +409,7 @@
                    src="https://www.youtube.com/embed/-UFG_jU3bXA"
                    title="YouTube video player - Green Screen Tutorial (Adobe Premiere Pro Ultra Key)"
                    frameborder="0"
+                   loading="lazy" /* Lazy load iframe */
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                    allowfullscreen>
                </iframe>
@@ -277,10 +430,13 @@
               <p>
                   <strong>Shooting Tip:</strong> Ensure your green screen is evenly lit and wrinkle-free for the best keying results. Avoid green clothing or reflective objects on your subject.
               </p>
-              <div class="mt-6">
-                   <div class="inline-block bg-teal-100 text-teal-800 p-3 rounded-lg text-sm shadow dark:bg-teal-900 dark:text-teal-200">
+              <div class="mt-8"> <!-- Increased margin -->
+                   <div class="inline-block bg-teal-100 text-teal-800 p-3 rounded-lg text-sm shadow-md dark:bg-teal-900 dark:text-teal-200">
                        <i class="fas fa-info-circle mr-1"></i> This site uses <span class="tooltip">Cloudinary<span class="tooltiptext">A cloud-based service for managing and delivering images and videos.</span></span> for video hosting and optimized delivery.
                    </div>
+              </div>
+              <div class="mt-8">
+                    <a href="#" id="scrollToUpload" class="info-cta">Contribute Your Overlay!</a>
               </div>
         </section>
     </main>
@@ -290,9 +446,9 @@
     <!-- Upload Popup -->
     <div class="modal-backdrop" id="uploadPopup">
         <div class="modal-box w-full max-w-md">
-            <button type="button" class="modal-close-btn" data-action="close-modal">×</button>
-            <h2 class="text-xl font-bold mb-4">Upload Overlay</h2>
-            <p class="text-sm text-gray-400 mb-4">Help the community grow!</p>
+            <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Upload Popup">×</button>
+            <h2><i class="fas fa-cloud-upload-alt mr-2"></i>Upload Overlay</h2>
+            <p class="text-sm text-gray-400 mb-4 text-center">Help the community grow by sharing your green screen creations!</p>
             <div>
                 <label for="uploaderNameInput">Your Name/Alias (Optional):</label>
                 <input type="text" id="uploaderNameInput" placeholder="Shown publicly with your video" class="mb-4">
@@ -300,9 +456,10 @@
             <div>
                 <label for="deletePassword">Deletion Password (Required):</label>
                 <input type="password" id="deletePassword" placeholder="Save this password securely!" class="mb-4">
+                <p class="text-xs text-gray-500 mb-4 -mt-2">Needed if you ever want to delete your upload.</p>
             </div>
             <button type="button" id="selectUploadBtn" class="modal-button-confirm w-full justify-center text-base py-3">
-                <i class="fas fa-cloud-upload-alt mr-2"></i> Select & Upload Video
+                <i class="fas fa-file-video mr-2"></i> Select & Upload Video
             </button>
             <div class="progress-container mt-4" id="progressContainer" style="display: none;"><div class="progress-bar" id="progressBar"></div></div>
             <p id="uploadStatus" class="mt-2 text-sm h-5 text-center"></p>
@@ -313,9 +470,9 @@
     <!-- Post-Upload Details Modal -->
     <div class="modal-backdrop" id="postUploadDetailsModal">
         <div class="modal-box">
-             <button type="button" class="modal-close-btn" data-action="skip-title">×</button>
+             <button type="button" class="modal-close-btn" data-action="skip-title" aria-label="Close Details Popup">×</button>
             <h2>Finalize Upload Details</h2>
-            <p class="text-sm mb-4">Your video is uploaded! Please provide a title.</p>
+            <p class="text-sm mb-4 text-center">Your video is uploaded! Please provide a title.</p>
             <div>
                 <label for="postUploadTitleInput">Video Title (Required):</label>
                 <input type="text" id="postUploadTitleInput" name="postUploadTitleInput">
@@ -332,10 +489,10 @@
     <!-- Generic Prompt/Confirmation Modal -->
     <div class="modal-backdrop" id="promptModal">
         <div class="modal-box">
-             <button type="button" class="modal-close-btn" data-action="close-prompt">×</button>
+             <button type="button" class="modal-close-btn" data-action="close-prompt" aria-label="Close Prompt">×</button>
             <h2 id="promptTitle">Prompt</h2>
-            <div id="promptContent">
-                <!-- Dynamic content -->
+            <div id="promptContent" class="mt-4 mb-4">
+                <!-- Dynamic content goes here -->
                 <p class="modal-error" id="promptError"></p>
             </div>
             <div class="modal-buttons">
@@ -348,12 +505,12 @@
     <!-- Upload Success Modal -->
     <div class="modal-backdrop" id="uploadSuccessPopup">
         <div class="modal-box text-center">
-             <button type="button" class="modal-close-btn" data-action="close-success">×</button>
+             <button type="button" class="modal-close-btn" data-action="close-success" aria-label="Close Success Popup">×</button>
             <h2 class="text-2xl"><i class="fas fa-rocket text-blue-400 mr-2"></i>Upload Complete!</h2>
-            <div id="uploadSuccessContent" class="my-4">
+            <div id="uploadSuccessContent" class="my-5"> <!-- Increased margin -->
                 <p>Thank you, <strong id="successUploaderName" class="text-green-400"></strong>!</p>
                 <p>Your overlay "<strong id="successVideoTitle" class="text-yellow-400"></strong>" is now live.</p>
-                <p class="mt-2 text-sm text-gray-400">Sharing helps the creative community grow!</p>
+                <p class="mt-3 text-sm text-gray-400">Sharing helps the creative community grow!</p>
             </div>
             <div class="modal-buttons justify-center">
                  <button type="button" class="modal-button-confirm" data-action="close-success">Awesome!</button>
@@ -364,14 +521,63 @@
     <!-- Terms and Conditions Modal -->
     <div class="modal-backdrop" id="termsModal">
         <div class="modal-box">
-              <button type="button" class="modal-close-btn" data-action="close-terms">×</button>
+              <button type="button" class="modal-close-btn" data-action="close-terms" aria-label="Close Terms Popup">×</button>
               <h2>Terms & Privacy</h2>
-              <div class="terms-content" style="max-height: 60vh;">
+              <div class="terms-content">
                   <!-- Full T&C Text Here -->
-                   <h3>Terms and Conditions</h3><p><em>Last updated: April 26, 2024</em></p><p>Welcome...</p>
-                   <hr class="my-4 border-gray-600">
-                   <h3>Privacy Policy</h3><p><em>Effective Date: April 26, 2024</em></p><p>We value...</p>
-                   <!-- Include the full text provided earlier -->
+                   <h3>Terms and Conditions</h3><p><em>Last updated: [Insert Current Date]</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page...</p>
+                    <h4>License</h4>
+                    <p>Unless otherwise stated, Green Screen Vault and/or its licensors own the intellectual property rights for original site design and functionality. User-uploaded content remains the property of the uploader but is licensed under Creative Commons Zero (CC0) - Public Domain Dedication upon upload. This means:</p>
+                    <ul>
+                        <li>You grant a worldwide, royalty-free, non-exclusive, perpetual license for others to download, copy, modify, distribute, perform, and use the content for free, including for commercial purposes, without asking permission from or providing attribution to the uploader or Green Screen Vault.</li>
+                        <li>You warrant that you own the necessary rights to grant this license or that the content is already in the public domain.</li>
+                    </ul>
+                    <h4>User Content</h4>
+                    <p>You are solely responsible for the content you upload. You agree not to upload content that:</p>
+                    <ul>
+                        <li>Is illegal, obscene, defamatory, threatening, infringing of intellectual property rights, invasive of privacy, or otherwise injurious or objectionable.</li>
+                        <li>Contains software viruses, political campaigning, commercial solicitation, chain letters, mass mailings, or any form of "spam."</li>
+                    </ul>
+                    <p>We reserve the right (but not the obligation) to remove or edit such content.</p>
+                    <h4>Deletion Password</h4>
+                    <p>You must provide a deletion password upon upload. This password allows you to delete your uploaded content. Keep this password secure. We are not responsible for lost passwords and cannot delete content without it.</p>
+                    <h4>Disclaimer</h4>
+                    <p>The materials on Green Screen Vault's website are provided on an 'as is' basis. Green Screen Vault makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights...</p>
+                    <!-- Add more T&C clauses as needed -->
+
+                   <hr class="my-6 border-gray-600">
+                   <h3>Privacy Policy</h3><p><em>Effective Date: [Insert Current Date]</em></p>
+                   <p>We value your privacy. This Privacy Policy explains how we handle information on Green Screen Vault.</p>
+                   <h4>Information We Collect</h4>
+                   <ul>
+                        <li><strong>Uploaded Content:</strong> Videos you upload are stored via Cloudinary and are publicly accessible.</li>
+                        <li><strong>Metadata:</strong> We store the public ID provided by Cloudinary, the optional uploader name you provide, and any title you assign.</li>
+                        <li><strong>Deletion Password:</strong> We store a reference (e.g., the password itself, or a securely hashed version if implemented) linked to your upload's public ID locally in *your* browser's localStorage. It is *not* sent to our server.</li>
+                        <li><strong>Usage Data:</strong> We may collect non-personal information about website usage (e.g., page views, filter usage) for analytics purposes.</li>
+                        <li><strong>Local Storage:</strong> We use your browser's localStorage to store theme preferences, terms acceptance status, renamed titles, uploader names, and deletion passwords associated with uploads made from that browser.</li>
+                   </ul>
+                   <h4>How We Use Information</h4>
+                    <ul>
+                        <li>To display the video gallery and associated information (title, uploader).</li>
+                        <li>To allow content deletion using the locally stored password.</li>
+                        <li>To remember your preferences (theme, terms).</li>
+                        <li>To improve website functionality and user experience.</li>
+                    </ul>
+                   <h4>Data Storage & Security</h4>
+                   <ul>
+                        <li>Videos are stored by Cloudinary (see their Privacy Policy).</li>
+                        <li>Metadata (public ID, title, uploader name) might be stored on a simple backend for listing purposes, but sensitive data like passwords are *not* stored server-side in this current design.</li>
+                        <li>Local Storage data resides solely within your browser. Clearing your browser data will remove this information, including deletion passwords.</li>
+                   </ul>
+                    <h4>Third-Party Services</h4>
+                    <ul>
+                        <li><strong>Cloudinary:</strong> Used for video hosting and delivery.</li>
+                    </ul>
+                    <h4>Your Rights</h4>
+                    <p>You can delete your uploaded content using the deletion password you set. You can clear your browser's localStorage to remove locally stored preferences and passwords.</p>
+                    <h4>Policy Changes</h4>
+                    <p>We may update this policy. We will notify you of significant changes by posting the new policy on this page.</p>
+                    <!-- Add contact info if applicable -->
               </div>
               <label class="terms-accept-label mt-4" id="termsAcceptWrapper" style="display: none;">
                   <input type="checkbox" id="termsAcceptCheckbox" class="mr-2">
@@ -387,24 +593,26 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-       <p>© <span id="currentYear"></span> Green Screen Vault. Community driven.</p>
+       <p>© <span id="currentYear"></span> Green Screen Vault. Community driven & CC0 Licensed Content.</p>
        <p><span class="footer-link" id="viewTermsLink">View Terms & Privacy Policy</span></p>
     </footer>
 
 
     <script>
         // --- Global Constants & State ---
-        const CLOUD_NAME = 'dogxcu1sj';
-        const UPLOAD_PRESET = 'gs_overlay'; // Double-check this in Cloudinary
-        const VIDEOS_PER_LOAD = 12;
+        const CLOUD_NAME = 'dogxcu1sj'; // REPLACE WITH YOUR CLOUD NAME
+        const UPLOAD_PRESET = 'gs_overlay'; // REPLACE WITH YOUR UPLOAD PRESET
+        const VIDEOS_PER_LOAD = 12; // Number of videos per "page"
 
-        let allVideos = []; // Holds all fetched video data
-        let currentVideoIndex = 0; // For pagination/load more
-        let renamedTitles = {}; // Key: public_id, Value: renamed title
-        let uploaderNames = {}; // Key: public_id, Value: uploader name
-        let currentFilter = 'recent'; // Default filter
+        let allVideos = []; // Holds all fetched video data (ideally fetched from backend)
+        let displayedVideos = []; // Holds the currently sorted/filtered videos
+        let currentVideoIndex = 0; // For pagination/load more within displayedVideos
+        let renamedTitles = {}; // Key: public_id, Value: renamed title (from localStorage)
+        let uploaderNames = {}; // Key: public_id, Value: uploader name (from localStorage)
+        let currentFilter = 'recent'; // Default filter ('recent', 'popular')
         let currentSearchQuery = ''; // Current search term
-        let postUploadData = null; // Temporary storage for upload info
+        let postUploadData = null; // Temporary storage for upload info before title save
+        let currentPromptCallback = null; // For generic prompt modal
 
         // --- Utility Functions ---
         const $ = (selector) => document.querySelector(selector);
@@ -414,7 +622,7 @@
 
         function safeGetElementById(id) {
             const el = document.getElementById(id);
-            if (!el) err(`Element with ID '${id}' not found!`);
+            if (!el) err(`Element with ID '${id}' not found! Check HTML.`);
             return el;
         }
 
@@ -436,7 +644,8 @@
             const modal = safeGetElementById(modalId);
             if (modal && modal.classList.contains('modal-backdrop')) {
                 modal.style.display = 'flex';
-                // Trap focus maybe? (Advanced)
+                // Optional: Disable body scroll
+                // document.body.style.overflow = 'hidden';
             } else {
                  err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
             }
@@ -447,6 +656,11 @@
             const modal = safeGetElementById(modalId);
             if (modal && modal.classList.contains('modal-backdrop')) {
                 modal.style.display = 'none';
+                // Optional: Re-enable body scroll
+                 // document.body.style.overflow = '';
+                 // Clear errors on close
+                 const errorEl = modal.querySelector('.modal-error');
+                 if (errorEl) errorEl.textContent = '';
             }
         }
 
@@ -454,13 +668,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             log("DOM Ready. Initializing...");
             try {
+                initializeTheme(); // Set theme early
                 loadLocalData();
-                setupStaticEventListeners(); // Listeners for non-dynamic elements
-                handleIntro(); // Triggers terms check -> initializePage
+                setupStaticEventListeners();
+                handleIntro(); // Starts the flow: Intro -> Terms Check -> Initialize Page
             } catch (error) {
                 err("Initialization failed:", error);
                 const gallery = safeGetElementById('gallery');
-                if (gallery) gallery.innerHTML = '<p class="text-red-500 p-4 text-center">Error loading page. Please refresh.</p>';
+                if (gallery) gallery.innerHTML = '<p class="text-red-500 p-4 text-center col-span-full">Error loading page. Please refresh.</p>';
             }
         });
 
@@ -474,6 +689,9 @@
                 err("Failed to parse localStorage data:", e);
                 renamedTitles = {};
                 uploaderNames = {};
+                // Optionally clear corrupted data:
+                // localStorage.removeItem('renamedTitles');
+                // localStorage.removeItem('uploaderNames');
             }
         }
 
@@ -482,7 +700,24 @@
 
             // Header Buttons
             safeGetElementById('themeToggleBtn')?.addEventListener('click', toggleTheme);
-            safeGetElementById('showUploadBtn')?.addEventListener('click', () => showModal('uploadPopup'));
+            safeGetElementById('showUploadBtn')?.addEventListener('click', () => {
+                // Reset upload form on open
+                const uploaderInput = safeGetElementById('uploaderNameInput');
+                const passInput = safeGetElementById('deletePassword');
+                const status = safeGetElementById('uploadStatus');
+                const progressContainer = safeGetElementById('progressContainer');
+                if(uploaderInput) uploaderInput.value = '';
+                if(passInput) passInput.value = '';
+                if(status) status.textContent = '';
+                if(progressContainer) progressContainer.style.display = 'none';
+                showModal('uploadPopup');
+            });
+
+            // Scroll to Upload CTA
+            safeGetElementById('scrollToUpload')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                safeGetElementById('showUploadBtn')?.click(); // Trigger the upload button click
+            });
 
             // Search Input (Debounced)
             const searchInput = safeGetElementById('search');
@@ -492,7 +727,7 @@
                     if (query !== currentSearchQuery) {
                         log(`Search updated to: "${query}"`);
                         currentSearchQuery = query;
-                        loadVideos(true); // Reset and search
+                        applyFiltersAndRender(true); // Reset and search/filter
                     }
                 }, 400));
             }
@@ -501,35 +736,37 @@
             $$('.filter-options .filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const filterType = e.target.dataset.filter;
-                    if (filterType) {
-                        setActiveFilter(e.target, filterType);
-                    } else {
+                    if (filterType && filterType !== currentFilter) {
+                        currentFilter = filterType;
+                        setActiveFilterButton(e.target);
+                        applyFiltersAndRender(true); // Reset and filter/search
+                    } else if (!filterType) {
                         err("Filter button missing data-filter attribute:", e.target);
                     }
                 });
             });
 
              // Load More Button
-            safeGetElementById('loadMoreBtn')?.addEventListener('click', loadMoreVideos);
+            safeGetElementById('loadMoreBtn')?.addEventListener('click', renderVideoBatch); // No args means continue rendering
 
              // Terms Link
-            safeGetElementById('viewTermsLink')?.addEventListener('click', () => showTermsModal(true));
+            safeGetElementById('viewTermsLink')?.addEventListener('click', () => showTermsModal(true)); // true = viewing only
 
             // Modal Close/Action Buttons (using event delegation on document)
             document.addEventListener('click', (event) => {
                 const target = event.target;
-                const action = target.dataset.action;
+                const action = target.closest('[data-action]')?.dataset.action; // Check closest element with action
 
-                // Generic modal close
-                if (action === 'close-modal' || target.classList.contains('modal-close-btn')) {
-                    const modal = target.closest('.modal-backdrop');
-                    if (modal) hideModal(modal.id);
-                }
-                // Specific modal actions
-                else if (action === 'close-terms') hideModal('termsModal');
-                else if (action === 'close-prompt') hideModal('promptModal');
-                else if (action === 'close-success') closeSuccessPopupAndRefresh();
-                else if (action === 'skip-title') closePostUploadModal(true);
+                // Generic modal close (button or backdrop click)
+                 const modal = target.closest('.modal-backdrop');
+                 if (target.classList.contains('modal-backdrop') || action === 'close-modal') {
+                    if(modal) hideModal(modal.id);
+                 }
+                 // Specific modal actions
+                 else if (action === 'close-terms') hideModal('termsModal');
+                 else if (action === 'close-prompt') hideModal('promptModal');
+                 else if (action === 'close-success') hideModal('uploadSuccessPopup');
+                 else if (action === 'skip-title') closePostUploadModal(true); // true = skipped
 
                  // Close action popups if clicked outside
                 const openPopup = document.querySelector('.action-popup[style*="display: block"]');
@@ -543,9 +780,9 @@
              safeGetElementById('selectUploadBtn')?.addEventListener('click', openCloudinaryUpload);
              safeGetElementById('termsAcceptBtn')?.addEventListener('click', acceptTerms);
              safeGetElementById('postUploadSaveBtn')?.addEventListener('click', savePostUploadDetails);
-             // Prompt modal confirm/cancel are handled within showPromptModal
+             // Prompt modal confirm/cancel are handled within showPromptModal setup
 
-             // Gallery Event Listener (Delegation)
+             // Gallery Event Listener (Delegation for play/menu/actions)
              const galleryElement = safeGetElementById('gallery');
              if (galleryElement) {
                  galleryElement.addEventListener('click', handleGalleryClick);
@@ -571,7 +808,7 @@
                  const card = menuButton.closest('.card');
                  const publicId = card?.dataset.publicId;
                  if (publicId) {
-                    toggleActionMenu(event, publicId); // Pass event for stopPropagation if needed
+                    toggleActionMenu(publicId, menuButton); // Pass button to position popup
                  } else {
                     err("Could not find publicId for menu button click.");
                  }
@@ -587,15 +824,15 @@
                      err("Could not find publicId for action button click.");
                      return; // Handled (error)
                  }
+                 // Hide the popup immediately
+                 const popup = actionButton.closest('.action-popup');
+                 if (popup) popup.style.display = 'none';
 
                  if (actionButton.textContent.includes('Rename')) {
                     triggerRename(publicId);
                  } else if (actionButton.classList.contains('delete-action')) {
                     triggerDelete(publicId);
                  }
-                 // Hide the popup after action is triggered
-                 const popup = actionButton.closest('.action-popup');
-                 if (popup) popup.style.display = 'none';
                  return; // Handled
              }
         }
@@ -609,18 +846,29 @@
                 log("Intro screen skipped or already faded.");
                 checkTerms(); return;
             }
+
+            // Use timeout matching the animation + transition delays in CSS
             setTimeout(() => {
                 log("Fading intro out.");
-                introScreen.classList.add('fade-out');
-                introScreen.addEventListener('transitionend', checkTerms, { once: true });
-            }, 2500);
+                if (introScreen) {
+                    introScreen.classList.add('fade-out');
+                    // Listen for transition end to ensure it's visually gone before proceeding
+                    introScreen.addEventListener('transitionend', (e) => {
+                        if (e.propertyName === 'opacity') { // Only react to opacity transition
+                             checkTerms();
+                        }
+                    }, { once: true });
+                 } else {
+                     checkTerms(); // Fallback if element disappears unexpectedly
+                 }
+            }, 2800); // Adjust time based on intro animation + desired pause (e.g., 2.2s animation + 0.2s delay + 0.4s pause)
         }
 
         function checkTerms() {
             log("Checking terms acceptance...");
             if (localStorage.getItem('termsAccepted') !== 'true') {
                 log("Terms not accepted, showing modal.");
-                showTermsModal(false);
+                showTermsModal(false); // false = require acceptance
             } else {
                 log("Terms accepted, initializing page.");
                 initializePage();
@@ -632,7 +880,7 @@
              const modal = safeGetElementById('termsModal');
              const acceptWrapper = safeGetElementById('termsAcceptWrapper');
              const acceptBtn = safeGetElementById('termsAcceptBtn');
-             const closeBtn = safeGetElementById('termsCloseBtn'); // Assumes one close btn
+             const closeBtn = safeGetElementById('termsCloseBtn');
              const errorMsg = safeGetElementById('termsError');
              if (!modal || !acceptWrapper || !acceptBtn || !closeBtn || !errorMsg) return;
 
@@ -642,10 +890,11 @@
 
              acceptWrapper.style.display = isViewingOnly ? 'none' : 'flex';
              acceptBtn.style.display = isViewingOnly ? 'none' : 'inline-flex';
-             // Only show the default 'Close' button if viewing, hide if accepting
-             closeBtn.style.display = isViewingOnly ? 'inline-flex' : 'none';
+             closeBtn.textContent = isViewingOnly ? 'Close' : 'Disagree'; // Change close button text
+              // Ensure only one primary close/cancel action visible
+             acceptBtn.disabled = false; // Re-enable button
 
-             showModal('termsModal'); // Use generic show
+             showModal('termsModal');
         }
 
         function acceptTerms() {
@@ -657,23 +906,19 @@
                 log("Terms accepted.");
                 localStorage.setItem('termsAccepted', 'true');
                 hideModal('termsModal');
-                initializePage();
+                initializePage(); // Initialize after acceptance
             } else {
-                errorMsg.textContent = 'Please accept the terms to continue.';
+                errorMsg.textContent = 'Please check the box to accept the terms and conditions.';
             }
         }
-        // closeTermsModal is handled by generic modal close listener
+        // Disagree/Close is handled by the generic modal listener + data-action="close-terms"
 
         // --- Main Page Initialization ---
         function initializePage() {
             log("Initializing main page.");
-            // Set active filter button style initially
-            const initialFilter = currentFilter; // Use state variable
-            const initialBtn = safeGetElementById(`filter-${initialFilter}`);
-            if(initialBtn) setActiveFilter(initialBtn, initialFilter, true); // preventLoad=true
-
+            setActiveFilterButton(); // Set initial active filter button style
             updateFooterYear();
-            loadVideos(true); // Initial video load
+            fetchAndRenderVideos(); // Initial video fetch and render
             log("Main page initialized.");
         }
 
@@ -682,49 +927,52 @@
             if (yearSpan) yearSpan.textContent = new Date().getFullYear();
         }
 
-        // --- Modal Helpers ---
-        // showPromptModal (keep structure, use showModal/hideModal internally)
-        // hidePromptModal (keep structure, use showModal/hideModal internally)
-        // showPromptError (keep structure)
-        // showUploadSuccessPopup (keep structure, use showModal)
-        // closeSuccessPopupAndRefresh (keep structure, use hideModal)
-        function showPromptModal({ title, label, inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmationContent = '', confirmClass = '' }) {
+        // --- Modal Helpers (Generic Prompt) ---
+        function showPromptModal({ title, contentHTML, inputLabel = '', inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmClass = '' }) {
             log(`Showing prompt modal: "${title}"`);
             const modalId = 'promptModal';
             const titleEl = safeGetElementById('promptTitle');
-            const contentDiv = safeGetElementById('promptContent');
+            const contentDiv = safeGetElementById('promptContent'); // Target the specific content div
             const confirmBtn = safeGetElementById('promptConfirmBtn');
             const cancelBtn = safeGetElementById('promptCancelBtn');
-            const errorEl = safeGetElementById('promptError'); // Ensure error exists inside contentDiv in HTML
+            const errorEl = safeGetElementById('promptError'); // Error element within content div
 
             if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) return;
 
             // Reset
             titleEl.innerText = title;
-            contentDiv.innerHTML = ''; // Clear dynamic part
-            contentDiv.appendChild(errorEl); // Put error back
-            errorEl.innerText = '';
-            confirmBtn.className = 'modal-button-confirm'; // Base class
-             if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' '));
+            contentDiv.innerHTML = ''; // Clear dynamic part BUT keep error element placeholder if needed
+            errorEl.innerText = ''; // Clear previous errors
+            contentDiv.appendChild(errorEl); // Re-append cleared error element
+
+            confirmBtn.className = 'modal-button-confirm'; // Reset base class
+             if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' ')); // Add specific classes like delete
 
             if (isConfirmation) {
                 const p = document.createElement('p');
-                p.innerHTML = confirmationContent;
-                contentDiv.insertBefore(p, errorEl);
+                p.innerHTML = contentHTML; // Use provided HTML for confirmation message
+                contentDiv.insertBefore(p, errorEl); // Insert message before the error placeholder
             } else {
-                // Add label and input
+                // Add label and input if not just a confirmation
+                 if(contentHTML) { // Optional static content above input
+                    const staticContent = document.createElement('div');
+                    staticContent.innerHTML = contentHTML;
+                    contentDiv.insertBefore(staticContent, errorEl);
+                 }
+
                  const labelEl = document.createElement('label');
                  labelEl.htmlFor = 'promptInput';
-                 labelEl.innerText = label;
-                 labelEl.className = 'block mb-2 font-semibold';
+                 labelEl.innerText = inputLabel;
+                 labelEl.className = 'block mb-2 font-semibold text-sm'; // Style label
 
                  const inputEl = document.createElement('input');
                  inputEl.type = inputType;
                  inputEl.id = 'promptInput';
                  inputEl.placeholder = placeholder;
                  inputEl.value = initialValue;
+                  // Reuse modal input styling classes
                   const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-                  const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-4";
+                  const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-1"; // Reduced bottom margin
                   const themeInputClasses = theme === 'light' ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200" : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
                  inputEl.className = `${baseInputClasses} ${themeInputClasses}`;
 
@@ -735,14 +983,14 @@
             confirmBtn.innerText = confirmText;
             cancelBtn.innerText = cancelText;
 
-            // Store callback for confirm button (cancel is handled by generic listener)
+            // Store callback for confirm button
             currentPromptCallback = callback;
-             // Remove previous listener before adding new one to avoid duplicates
-            confirmBtn.replaceWith(confirmBtn.cloneNode(true)); // Clone to remove listeners
+            // Remove previous listener before adding new one
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
             safeGetElementById('promptConfirmBtn').addEventListener('click', handlePromptConfirm);
 
-
-            showModal(modalId); // Show the modal
+            showModal(modalId);
             if (!isConfirmation) safeGetElementById('promptInput')?.focus();
         }
 
@@ -751,9 +999,10 @@
             if (currentPromptCallback) {
                 const input = safeGetElementById('promptInput');
                 const value = input ? input.value : true; // Pass input value or true if it's just confirmation
-                currentPromptCallback(value);
+                currentPromptCallback(value); // Execute the stored callback
             } else {
                 err("No callback registered for prompt confirmation.");
+                hideModal('promptModal'); // Hide anyway
             }
         }
 
@@ -765,8 +1014,12 @@
          function showPromptError(message) {
             log("Showing prompt error:", message);
             const errorElement = safeGetElementById('promptError');
-            if (errorElement) errorElement.innerText = message;
-            else err("Cannot show prompt error, element not found.");
+            if (errorElement) {
+                errorElement.innerText = message;
+                errorElement.style.display = message ? 'block' : 'none'; // Show/hide
+            } else {
+                err("Cannot show prompt error, element #promptError not found.");
+            }
         }
 
          function showUploadSuccessPopup(publicId, title, uploader) {
@@ -777,28 +1030,30 @@
             if (uploaderSpan) uploaderSpan.innerText = uploader || 'Anonymous';
             showModal('uploadSuccessPopup');
         }
-
-        function closeSuccessPopupAndRefresh() {
-            log("Closing success popup.");
-            hideModal('uploadSuccessPopup');
-            // No refresh needed here, handled after post-upload details save/skip
-        }
+        // closeSuccessPopup is handled by generic modal close listener + data-action="close-success"
 
         // --- Theme Toggle ---
-        function toggleTheme() {
-             log("Toggling theme.");
-             // Keep logic as before
-             const html = document.documentElement; /* ... */
-             html.setAttribute("data-theme", newTheme);
-             // Update filter button styles
-              const activeBtn = $('.filter-btn.active-filter');
-              if (activeBtn) setActiveFilter(activeBtn, activeBtn.dataset.filter, true);
+         function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+            log(`Initializing theme: ${savedTheme}`);
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            // Set initial sun/moon visibility (CSS handles this based on attribute)
         }
 
-        // --- Upload Logic ---
-        // showUploadPopup is handled by generic showModal via listener
-        // hideUploadPopup is handled by generic hideModal via listener
+        function toggleTheme() {
+             const html = document.documentElement;
+             const currentTheme = html.getAttribute('data-theme') || 'dark';
+             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+             log(`Toggling theme from ${currentTheme} to ${newTheme}`);
+             html.setAttribute('data-theme', newTheme);
+             localStorage.setItem('theme', newTheme);
+             // Update filter button active style immediately
+             setActiveFilterButton();
+             // Cloudinary widget theme might need update if open (advanced)
+        }
 
+
+        // --- Upload Logic ---
         function openCloudinaryUpload() {
             log("Initiating Cloudinary upload process...");
             const uploaderNameInput = safeGetElementById('uploaderNameInput');
@@ -806,35 +1061,48 @@
             const progressBar = safeGetElementById('progressBar');
             const progressContainer = safeGetElementById('progressContainer');
             const status = safeGetElementById('uploadStatus');
-            if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status) return; // Should be caught by safeGetElementById
+            if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status) return;
 
             const uploaderName = uploaderNameInput.value.trim() || 'Anonymous';
             const delPass = delPassInput.value.trim();
 
             if (!delPass) {
-                status.innerText = "❌ Deletion password required.";
+                status.innerText = "❌ Deletion password is required.";
                 delPassInput.focus(); return;
             }
+             if (delPass.length < 6) { // Basic check
+                 status.innerText = "❌ Password must be at least 6 characters.";
+                 delPassInput.focus(); return;
+             }
 
             status.innerText = 'Initializing widget...';
             progressBar.style.width = '0%';
             progressContainer.style.display = 'block';
+            safeGetElementById('selectUploadBtn').disabled = true; // Disable button during upload
 
             try {
                 cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
-                    sources: ['local', 'url', 'camera'], resourceType: 'video',
+                    sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'], // Added sources
+                    resourceType: 'video',
                     multiple: false, clientAllowedFormats: ['mp4', 'webm', 'mov'],
-                    maxFileSize: 300000000, folder: 'gs_overlay_vault', // Optional folder
-                    theme: document.documentElement.getAttribute("data-theme") || "dark"
+                    maxFileSize: 300000000, // ~300MB limit
+                    folder: 'gs_overlay_vault', // Optional: Organize uploads in Cloudinary
+                    theme: document.documentElement.getAttribute("data-theme") || "dark" // Match site theme
                 }, (error, result) => {
+                    const uploadButton = safeGetElementById('selectUploadBtn'); // Re-enable button later
+
                     if (error) {
                         err("Cloudinary Widget Error:", error);
                         status.innerText = `❌ Error: ${error.message || 'Upload failed'}`;
                         progressContainer.style.display = 'none';
+                         if(uploadButton) uploadButton.disabled = false;
                     } else if (result && result.event) {
-                        log("Cloudinary Event:", result.event);
+                        log("Cloudinary Event:", result.event, result.info || '');
                         switch (result.event) {
+                            case "upload-added":
+                                status.innerText = 'Starting upload...';
+                                break;
                             case "uploadprogress":
                                 const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
                                 progressBar.style.width = `${percent}%`;
@@ -843,21 +1111,45 @@
                             case "success":
                                 log("Cloudinary Success:", result.info.public_id);
                                 status.innerText = `✅ Processing...`; progressBar.style.width = '100%';
-                                postUploadData = { publicId: result.info.public_id, originalFilename: result.info.original_filename, uploaderName: uploaderName };
-                                localStorage.setItem(`pass_${result.info.public_id}`, delPass);
-                                uploaderNames[result.info.public_id] = uploaderName;
-                                localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                                // Store details needed for the next step
+                                postUploadData = {
+                                    publicId: result.info.public_id,
+                                    originalFilename: result.info.original_filename,
+                                    uploaderName: uploaderName,
+                                    secureUrl: result.info.secure_url // Store secure URL
+                                };
+                                // IMPORTANT: Store password securely in localStorage IMMEDIATELY
+                                try {
+                                    localStorage.setItem(`pass_${result.info.public_id}`, delPass);
+                                    // Also save uploader name immediately
+                                    uploaderNames[result.info.public_id] = uploaderName;
+                                    localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                                    log(`Password and uploader name saved locally for ${result.info.public_id}`);
+                                } catch(e) {
+                                    err("Error saving password/uploader to localStorage:", e);
+                                     status.innerText = '✅ Uploaded, but failed to save password locally!';
+                                     // Handle this critical error - maybe prevent proceeding?
+                                }
                                 break;
-                            case "close":
+                             case "close":
                                 log("Cloudinary Widget Closed.");
                                 if (postUploadData) { // Success occurred before close
                                     hideModal('uploadPopup');
                                     showPostUploadDetailsModal(postUploadData);
-                                    postUploadData = null; // Clear temp data
-                                } else { // Closed without success
-                                    status.innerText = 'Upload cancelled or failed.';
+                                    // postUploadData cleared within showPostUploadDetailsModal or its actions
+                                } else { // Closed without success or before success event fully processed
+                                    if (status.innerText.startsWith('Uploading') || status.innerText.startsWith('Initializing')) {
+                                        status.innerText = 'Upload cancelled or failed.';
+                                    }
                                     progressContainer.style.display = 'none';
+                                    if(uploadButton) uploadButton.disabled = false;
                                 }
+                                break;
+                            case "abort":
+                            case "queue-too-large": // Handle other potential errors
+                                status.innerText = `❌ Upload Error: ${result.event}`;
+                                progressContainer.style.display = 'none';
+                                if(uploadButton) uploadButton.disabled = false;
                                 break;
                         }
                     }
@@ -866,20 +1158,21 @@
                 err("Error opening Cloudinary Widget:", widgetError);
                 status.innerText = "❌ Failed to open upload widget.";
                 progressContainer.style.display = 'none';
+                 safeGetElementById('selectUploadBtn').disabled = false;
             }
         }
 
         // --- Post-Upload Details ---
         function showPostUploadDetailsModal(data) {
              log("Showing post-upload details modal:", data);
-             postUploadData = data; // Store for save action
+             // postUploadData is already set before calling this
              const titleInput = safeGetElementById('postUploadTitleInput');
              const uploaderSpan = safeGetElementById('postUploadUploaderName');
              const errorMsg = safeGetElementById('postUploadError');
              const saveBtn = safeGetElementById('postUploadSaveBtn');
              if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) return;
 
-             titleInput.value = formatTitle(data.publicId); // Default suggestion
+             titleInput.value = formatTitle(data.originalFilename || data.publicId); // Default suggestion from filename
              uploaderSpan.textContent = data.uploaderName || 'Anonymous';
              errorMsg.textContent = '';
              saveBtn.disabled = false;
@@ -897,18 +1190,30 @@
              if (!titleInput || !errorMsg || !saveBtn) return;
 
              const newTitle = titleInput.value.trim();
-             if (!newTitle) { errorMsg.textContent = "Title is required."; return; }
+             if (!newTitle) { errorMsg.textContent = "Title cannot be empty."; return; }
 
              log(`Saving title "${newTitle}" for ${postUploadData.publicId}`);
              saveBtn.disabled = true; errorMsg.textContent = '';
 
+             // Save title to localStorage
              renamedTitles[postUploadData.publicId] = newTitle;
              localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
              log("Title saved locally.");
 
+              // Optional: Send data to backend if you want a persistent DB
+              // sendToServer({ public_id: postUploadData.publicId, title: newTitle, uploader: postUploadData.uploaderName });
+
              hideModal('postUploadDetailsModal');
              showUploadSuccessPopup(postUploadData.publicId, newTitle, postUploadData.uploaderName);
-             loadVideos(true); // Refresh gallery
+             // Add the new video to the *start* of the allVideos array immediately for UI update
+             const newVideoData = {
+                public_id: postUploadData.publicId,
+                created_at: new Date().toISOString(), // Set current time
+                secure_url: postUploadData.secureUrl // Needed for rendering
+                // Add other fields if your backend provides them
+             };
+             allVideos.unshift(newVideoData); // Add to beginning
+             applyFiltersAndRender(true); // Refresh gallery view immediately
              postUploadData = null; // Clear temp data
         }
 
@@ -916,165 +1221,274 @@
              log(`Closing post-upload modal (skipped: ${skipped})`);
              hideModal('postUploadDetailsModal');
              if (skipped && postUploadData) {
-                 log("Title skipped, showing success with default title.");
-                 showUploadSuccessPopup(postUploadData.publicId, formatTitle(postUploadData.publicId), postUploadData.uploaderName);
-                 loadVideos(true); // Still refresh gallery
+                 log("Title skipped, using default title.");
+                 const defaultTitle = formatTitle(postUploadData.originalFilename || postUploadData.publicId);
+                 showUploadSuccessPopup(postUploadData.publicId, defaultTitle, postUploadData.uploaderName);
+                  // Add the new video to the *start* of the allVideos array even if skipped
+                 const newVideoData = {
+                    public_id: postUploadData.publicId,
+                    created_at: new Date().toISOString(),
+                    secure_url: postUploadData.secureUrl
+                 };
+                 allVideos.unshift(newVideoData);
+                 applyFiltersAndRender(true); // Refresh gallery view
              }
              postUploadData = null; // Clear temp data regardless
         }
 
 
-        // --- Filtering ---
-        function setActiveFilter(buttonElement, filterType, preventLoad = false) {
-            if (!buttonElement) { err(`setActiveFilter: Button element is null for type ${filterType}`); return; }
-            log(`Setting active filter to ${filterType}, prevent load: ${preventLoad}`);
-            $$('.filter-options .filter-btn').forEach(btn => {
-                btn.classList.remove('active-filter');
-                 // Remove specific theme styles
-                 btn.classList.remove('bg-indigo-600', 'text-white', 'bg-green-400', 'text-black', 'border-gray-800', 'dark:border-white'); // Adjust if needed
-            });
-            buttonElement.classList.add('active-filter');
-             // Add theme-aware styles
-             const theme = document.documentElement.getAttribute("data-theme") || "dark";
-             const activeClasses = theme === 'light' ? ['bg-indigo-600', 'text-white'] : ['bg-green-400', 'text-black'];
-             buttonElement.classList.add(...activeClasses);
+        // --- Filtering & Sorting ---
+        function setActiveFilterButton(buttonElement = null) {
+            const theme = document.documentElement.getAttribute("data-theme") || "dark";
+            const activeClasses = theme === 'light'
+                ? ['bg-indigo-600', 'text-white', 'border-indigo-700', 'shadow-md']
+                : ['bg-green-400', 'text-black', 'border-green-500', 'shadow-lg', 'shadow-green-500/30']; // Added shadow for dark
+            const inactiveClasses = theme === 'light'
+                ? ['bg-blue-400', 'text-white', 'border-transparent'] // Example light inactive
+                : ['bg-cyan-600', 'text-black', 'border-transparent']; // Example dark inactive
 
-            if (currentFilter !== filterType) {
-                 currentFilter = filterType;
-                 if (!preventLoad) {
-                     loadVideos(true); // Reload only if filter changed and not prevented
-                 }
+            // If no specific button passed, find the one matching currentFilter state
+            if (!buttonElement) {
+                buttonElement = $(`.filter-options .filter-btn[data-filter="${currentFilter}"]`);
             }
+            if (!buttonElement) { err(`setActiveFilterButton: Could not find button for filter ${currentFilter}`); return; }
+
+            $$('.filter-options .filter-btn').forEach(btn => {
+                btn.classList.remove('active-filter', ...activeClasses, ...inactiveClasses);
+                // Apply default inactive style
+                btn.classList.add(...inactiveClasses);
+            });
+
+            buttonElement.classList.add('active-filter');
+            buttonElement.classList.remove(...inactiveClasses);
+            buttonElement.classList.add(...activeClasses);
+             log(`Active filter button style set for ${currentFilter} on theme ${theme}`);
         }
 
-        // --- Video Loading & Rendering ---
-        async function loadVideos(reset = false) {
-            log(`Loading videos (Reset: ${reset}). Current filter: ${currentFilter}, Search: "${currentSearchQuery}"`);
+        // --- Video Loading, Filtering, Sorting & Rendering ---
+
+        // 1. Fetch all video data (ideally once)
+        async function fetchAndRenderVideos() {
+            log("Fetching initial video list...");
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             if (!gallery || !loadMoreBtn) return;
 
-            if (reset) {
-                gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Loading...</p>';
-                loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
-                currentVideoIndex = 0; // Reset index on full reload
-            } else {
-                loadMoreBtn.disabled = true;
-                loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
-            }
+            gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Fetching video list...</p>';
+            loadMoreBtn.style.display = 'none';
+            loadMoreBtn.disabled = true;
 
             try {
-                // Fetch only if needed (first load or forced reset)
-                if (reset || allVideos.length === 0) {
-                    log("Fetching video list from backend...");
-                    const response = await fetch(`/videos`); // Ensure your backend serves this endpoint
-                    if (!response.ok) throw new Error(`Server error: ${response.status}`);
-                    allVideos = await response.json();
-                    if (!Array.isArray(allVideos)) throw new Error("Invalid data from server");
-                    log(`Fetched ${allVideos.length} total videos.`);
+                 // ---- IMPORTANT: Backend Endpoint ----
+                 // Replace '/videos' with your actual backend endpoint URL
+                 // This endpoint should return a JSON array of video objects,
+                 // each minimally containing: { public_id: "...", created_at: "ISO_DATE_STRING", secure_url: "..." }
+                 // Example using a placeholder function if no backend:
+                 // allVideos = await getPlaceholderVideos();
+
+                const response = await fetch('/videos'); // <--- YOUR BACKEND ENDPOINT HERE
+                if (!response.ok) {
+                    // Try to get error message from backend response body
+                     let errorMsg = `Server error: ${response.status}`;
+                     try {
+                         const errorData = await response.json();
+                         errorMsg = errorData.message || errorMsg;
+                     } catch (e) { /* Ignore if body isn't JSON */ }
+                     throw new Error(errorMsg);
                 }
+                allVideos = await response.json();
+                 // ---- End Backend Endpoint ----
 
-                sortVideos(); // Apply sort to the full list
-                const filteredVideos = applySearchFilter(allVideos); // Apply search
-                log(`Rendering ${filteredVideos.length} videos after filtering.`);
 
-                if (reset) gallery.innerHTML = ''; // Clear loading msg only after fetch/sort/filter
+                if (!Array.isArray(allVideos)) throw new Error("Invalid data format received from server.");
 
-                renderVideoBatch(filteredVideos); // Render the next batch
+                log(`Fetched ${allVideos.length} total videos.`);
+                 if (allVideos.length === 0) {
+                     gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">📪 No videos found in the vault yet!</p>';
+                     return;
+                 }
+
+                applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
 
             } catch (error) {
-                err("Failed to load videos:", error);
-                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}.</p>`;
+                err("Failed to fetch videos:", error);
+                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}. Please try again later.</p>`;
                 loadMoreBtn.style.display = 'none';
             }
         }
 
-        function sortVideos() {
-             log(`Sorting ${allVideos.length} videos by ${currentFilter}`);
-             // Simplified sort logic - ensure created_at exists and is valid date format
+         // Placeholder for frontend-only testing (Remove when backend is ready)
+        /*
+        async function getPlaceholderVideos() {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+            const placeholders = [
+                { public_id: 'gs_overlay_vault/sample_overlay_1', created_at: '2024-04-25T10:00:00Z', secure_url: 'https://res.cloudinary.com/dogxcu1sj/video/upload/v1680000000/sample' },
+                 { public_id: 'gs_overlay_vault/another_effect_abc', created_at: '2024-04-26T11:30:00Z', secure_url: 'https://res.cloudinary.com/dogxcu1sj/video/upload/v1680000000/sample' },
+                 { public_id: 'gs_overlay_vault/cool_transition_xyz', created_at: '2024-04-20T08:15:00Z', secure_url: 'https://res.cloudinary.com/dogxcu1sj/video/upload/v1680000000/sample' },
+            ];
+             // Simulate more items for pagination testing
+             for(let i=0; i<20; i++) {
+                 placeholders.push({ public_id: `gs_overlay_vault/generated_${i+2}`, created_at: new Date(Date.now() - i * 3600000).toISOString(), secure_url: 'https://res.cloudinary.com/dogxcu1sj/video/upload/v1680000000/sample' });
+             }
+            renamedTitles['gs_overlay_vault/another_effect_abc'] = "Fire Explosion"; // Example renamed title
+            uploaderNames['gs_overlay_vault/sample_overlay_1'] = "Admin"; // Example uploader
+            uploaderNames['gs_overlay_vault/another_effect_abc'] = "CreativeGuy";
+            localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles)); // Save for testing
+            localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames)); // Save for testing
+            return placeholders;
+        }
+        */
+
+
+        // 2. Apply current filters and search to the `allVideos` list
+        function applyFiltersAndRender(resetRendering = false) {
+            log(`Applying filters. Filter: ${currentFilter}, Search: "${currentSearchQuery}", Reset: ${resetRendering}`);
+            const gallery = safeGetElementById("gallery");
+            if (!gallery) return;
+
+            // --- Filtering Step ---
+            let filtered = allVideos;
+            if (currentSearchQuery) {
+                const query = currentSearchQuery.toLowerCase();
+                filtered = allVideos.filter(video => {
+                    if (!video || !video.public_id) return false;
+                    const title = (renamedTitles[video.public_id] || formatTitle(video.public_id)).toLowerCase();
+                    const uploader = (uploaderNames[video.public_id] || '').toLowerCase();
+                    // Include original filename in search? Maybe too broad.
+                    // const original = (video.original_filename || '').toLowerCase();
+                    return title.includes(query) || uploader.includes(query);
+                });
+                log(`Filtered by search "${query}", ${filtered.length} results.`);
+            } else {
+                 filtered = [...allVideos]; // Work on a copy if no search
+            }
+
+
+             // --- Sorting Step ---
+             log(`Sorting ${filtered.length} videos by ${currentFilter}`);
              try {
                 switch (currentFilter) {
                     case 'popular':
-                        allVideos.sort(() => Math.random() - 0.5); // Placeholder
+                        // Placeholder: Random sort. Replace with backend logic if possible.
+                        filtered.sort(() => Math.random() - 0.5);
                         break;
                     case 'recent':
                     default:
-                         allVideos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        // Sort by 'created_at' date, newest first. Ensure valid dates.
+                         filtered.sort((a, b) => {
+                             const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+                             const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+                             if (isNaN(dateA) || isNaN(dateB)) {
+                                 err(`Invalid date found during sort: A=${a.created_at}, B=${b.created_at}`);
+                                 return 0; // Prevent crash on invalid date
+                             }
+                             return dateB - dateA; // Descending order
+                         });
                         break;
                 }
             } catch (e) {
                 err("Error during sorting:", e);
-                // Potentially fallback to no sort or default sort
+                // Fallback: Don't crash, proceed with potentially unsorted 'filtered' list
+            }
+
+            // Update the global list of videos to be displayed
+            displayedVideos = filtered;
+
+            // --- Rendering Step ---
+            if (resetRendering) {
+                gallery.innerHTML = ''; // Clear previous results
+                currentVideoIndex = 0; // Reset pagination index
+                 // Add loading message temporarily if results exist
+                 if(displayedVideos.length > 0) {
+                    gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Applying Filters...</p>';
+                    // Short delay before rendering allows message to show
+                    setTimeout(() => renderVideoBatch(true), 50);
+                 } else {
+                     renderVideoBatch(true); // Render immediately (will show no results message)
+                 }
+            } else {
+                 renderVideoBatch(); // Continue rendering next batch
             }
         }
 
-        function applySearchFilter(videos) {
-             if (!currentSearchQuery) return videos;
-             const query = currentSearchQuery.toLowerCase();
-             log(`Filtering by query: "${query}"`);
-             return videos.filter(video => {
-                 const title = (renamedTitles[video.public_id] || formatTitle(video.public_id)).toLowerCase();
-                 const uploader = (uploaderNames[video.public_id] || '').toLowerCase();
-                 return title.includes(query) || uploader.includes(query);
-             });
-        }
 
-        function renderVideoBatch(sourceVideoList) {
+        // 3. Render a batch of videos from the `displayedVideos` list
+        function renderVideoBatch(isInitialRender = false) {
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             if (!gallery || !loadMoreBtn) return;
 
-            const fragment = document.createDocumentFragment();
-            const startIndex = currentVideoIndex;
-            const endIndex = Math.min(startIndex + VIDEOS_PER_LOAD, sourceVideoList.length);
-
-            log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered: ${sourceVideoList.length})`);
-
-             if (startIndex === 0 && endIndex === 0) { // No videos at all after filtering
-                const message = currentSearchQuery ? `📪 No results for "${currentSearchQuery}".` : '📪 No videos yet!';
-                gallery.innerHTML = `<p class="text-center w-full col-span-full text-lg p-8">${message}</p>`;
-                loadMoreBtn.style.display = 'none';
-                return;
+            // Clear temporary "Applying Filters..." message if it exists
+            const loadingMsg = gallery.querySelector('p');
+            if (isInitialRender && loadingMsg && loadingMsg.textContent.includes('Applying Filters')) {
+                gallery.innerHTML = '';
             }
 
+            const fragment = document.createDocumentFragment();
+            const startIndex = currentVideoIndex;
+            const endIndex = Math.min(startIndex + VIDEOS_PER_LOAD, displayedVideos.length);
+
+            log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered/sorted: ${displayedVideos.length})`);
+
+             // Handle "No Results" case
+             if (startIndex === 0 && endIndex === 0) {
+                 const message = currentSearchQuery
+                    ? `📪 No results found for "${currentSearchQuery}". Try different keywords?`
+                    : '📪 No videos match the current filter.';
+                 gallery.innerHTML = `<p class="text-center w-full col-span-full text-lg p-8">${message}</p>`;
+                 loadMoreBtn.style.display = 'none';
+                 return;
+             }
+
+            // Disable button while loading next batch
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+
+
             for (let i = startIndex; i < endIndex; i++) {
-                const file = sourceVideoList[i];
-                if (!file || !file.public_id) {
+                const file = displayedVideos[i];
+                if (!file || !file.public_id || !file.secure_url) {
                      err("Skipping invalid video data:", file);
                      continue; // Skip if data is malformed
                 }
                 const publicId = file.public_id;
-                const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_'); // Simplified safe ID
-                const title = renamedTitles[publicId] || formatTitle(publicId);
+                const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_'); // Simple safe ID for popup
+                const title = renamedTitles[publicId] || formatTitle(file.original_filename || publicId);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
-                const videoUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto:eco/v1/${publicId}.mp4`;
-                const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_180,c_fill,q_auto,so_1/v1/${publicId}.jpg`;
+                const videoUrl = file.secure_url; // Use secure_url directly from fetched data
+                // Use Cloudinary transformations for thumbnail: width 300, height proportional, auto quality/format, seek to 1 second in video
+                const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_169,c_fill,q_auto,f_auto,so_1/${publicId}.jpg`; // Use jpg for poster generally
 
                 const card = document.createElement('div');
-                card.className = 'card';
+                // Add delay based on index for staggered animation
+                card.style.animationDelay = `${(i - startIndex) * 0.05}s`;
+                card.className = 'card'; // Animation applied via CSS class
                 card.dataset.publicId = publicId; // Store ID on card
+
                 card.innerHTML = `
                     <div class="video-container">
-                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}">
+                        <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}" title="${title}">
                             <source src="${videoUrl}" type="video/mp4">
-                            Video not supported.
+                             <source src="${videoUrl.replace('.mp4', '.webm')}" type="video/webm"> <!-- Optional: Add webm source -->
+                            Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="card-content">
-                        <div class="card-title" title="${title}" data-id="${publicId}">${title}</div>
+                        <div class="card-title" title="${title}">${title}</div>
                         <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                     </div>
                     <div class="card-footer">
                         <a href="${videoUrl}" download="${title.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4" class="download-btn" title="Download ${title}">
                              <i class="fas fa-download text-xs"></i><span class="ml-1">Download</span>
                         </a>
-                        <button type="button" class="menu-btn" title="Video Options">
-                            <i class="fas fa-ellipsis-h"></i>
+                        <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
+                            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                            <span class="sr-only">Options for ${title}</span>
                         </button>
                     </div>
-                    <div class="action-popup" id="actionPopup_${safeId}">
-                        <button type="button"><i class="fas fa-pencil-alt fa-fw w-4"></i>Rename</button>
-                        <button type="button" class="delete-action"><i class="fas fa-trash-alt fa-fw w-4"></i>Delete</button>
+                    <div class="action-popup" id="actionPopup_${safeId}" role="menu">
+                        <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw w-4" aria-hidden="true"></i>Rename</button>
+                        <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw w-4" aria-hidden="true"></i>Delete</button>
                     </div>
                 `;
                 fragment.appendChild(card);
@@ -1083,90 +1497,143 @@
             gallery.appendChild(fragment);
             currentVideoIndex = endIndex; // Update index for the next batch
 
-            // Update Load More button
-            if (currentVideoIndex < sourceVideoList.length) {
+            // Update Load More button state
+            if (currentVideoIndex < displayedVideos.length) {
                 loadMoreBtn.style.display = 'block';
                 loadMoreBtn.disabled = false;
                 loadMoreBtn.innerHTML = 'Load More Videos';
             } else {
                 loadMoreBtn.style.display = 'none';
-                loadMoreBtn.disabled = true;
-                log("All videos rendered.");
+                 log("All currently filtered/sorted videos rendered.");
+                 // Optionally add a small message at the end?
+                 if (gallery.children.length > 0 && !gallery.querySelector('.end-of-list-message')) {
+                     const endMsg = document.createElement('p');
+                     endMsg.className = 'text-center w-full col-span-full text-sm text-gray-500 mt-4 end-of-list-message';
+                     endMsg.textContent = "✨ You've reached the end! ✨";
+                     gallery.appendChild(endMsg);
+                 }
             }
         }
 
-        function loadMoreVideos() {
-             log("Load More Videos triggered.");
-             loadVideos(false); // false indicates not a reset
-        }
-
-        function formatTitle(publicId) {
-             // Basic title formatting
+        // Function to format title from public ID or filename
+        function formatTitle(idOrFilename) {
+            if (!idOrFilename) return "Untitled";
             try {
-                let name = publicId.includes('/') ? publicId.split('/').pop() : publicId;
-                name = name.replace(/\.[^/.]+$/, ""); // Remove extension
+                 // Get the last part after any slashes
+                let name = idOrFilename.includes('/') ? idOrFilename.substring(idOrFilename.lastIndexOf('/') + 1) : idOrFilename;
+                // Remove common video extensions
+                name = name.replace(/\.(mp4|webm|mov|avi|mkv)$/i, "");
+                 // Replace underscores/hyphens with spaces
                 name = name.replace(/[_-]/g, ' ');
-                return name.split(' ')
+                 // Capitalize words (simple version)
+                name = name.split(' ')
                            .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
-                           .join(' ').trim() || "Untitled"; // Fallback for empty names
-            } catch (e) { err("Error formatting title:", e); return "Untitled"; }
+                           .join(' ').trim();
+                return name || "Untitled"; // Fallback
+            } catch (e) {
+                err("Error formatting title:", e);
+                return "Untitled"; // Fallback on error
+            }
         }
 
         // --- Video Card Actions ---
         function togglePlay(videoElement) {
             if (!videoElement) { err("togglePlay: videoElement is null"); return; }
             const container = videoElement.closest('.video-container');
+            const card = videoElement.closest('.card'); // For pausing others
+            if (!card) return;
+
             try {
                 if (videoElement.paused) {
+                    // Pause other playing videos in the gallery first
+                    $$('.gallery video.playing').forEach(otherVideo => {
+                         if (otherVideo !== videoElement) {
+                             otherVideo.pause();
+                             otherVideo.classList.remove('playing');
+                             otherVideo.closest('.video-container')?.classList.remove('playing');
+                         }
+                     });
+                    // Attempt to play this video
                     videoElement.play().then(() => {
-                        log("Playing:", videoElement.src);
+                        log("Playing:", videoElement.currentSrc || videoElement.src);
                         videoElement.classList.add('playing');
-                        if(container) container.classList.add('playing'); // Add class to hide overlay
-                    }).catch(e => err("Play error:", e));
+                        container?.classList.add('playing'); // Add class to hide play icon overlay
+                    }).catch(e => {
+                        err("Play error:", e);
+                        // Maybe show a user-friendly error on the card?
+                     });
                 } else {
-                    videoElement.pause(); log("Paused:", videoElement.src);
+                    videoElement.pause(); log("Paused:", videoElement.currentSrc || videoElement.src);
                     videoElement.classList.remove('playing');
-                     if(container) container.classList.remove('playing');
+                     container?.classList.remove('playing');
                 }
             } catch (e) { err("Error in togglePlay:", e); }
         }
 
-        function toggleActionMenu(event, publicId) {
-             // Event delegation handles this now, direct call not strictly needed but can be kept for clarity
-             // Logic is within handleGalleryClick
-             log(`toggleActionMenu called for ${publicId}`);
-             // Get the specific popup based on publicId and toggle display
+        function toggleActionMenu(publicId, buttonElement) {
+             log(`Toggling action menu for ${publicId}`);
              const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_');
              const popup = safeGetElementById(`actionPopup_${safeId}`);
-             if (!popup) { err(`Action popup actionPopup_${safeId} not found.`); return; }
+             const menuButton = buttonElement || $(`button[aria-controls="actionPopup_${safeId}"]`); // Find button if not passed
 
-             // Close others first
+             if (!popup || !menuButton) { err(`Action popup or button not found for ${safeId}.`); return; }
+
+             const isOpening = popup.style.display !== 'block';
+
+             // Close all other popups first
              $$('.action-popup').forEach(p => {
-                 if (p !== popup && p.style.display === 'block') p.style.display = 'none';
+                 if (p !== popup) {
+                     p.style.display = 'none';
+                     const otherButton = $(`button[aria-controls="${p.id}"]`);
+                     if (otherButton) otherButton.setAttribute('aria-expanded', 'false');
+                 }
              });
 
-             popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-             log(`Action popup ${popup.id} display set to ${popup.style.display}`);
-             if (event) event.stopPropagation(); // Prevent gallery click if called directly
+             // Toggle the target popup
+             popup.style.display = isOpening ? 'block' : 'none';
+             menuButton.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
+
+             if (isOpening) {
+                 // Optional: Position popup dynamically if needed, though absolute positioning usually works
+                 log(`Action popup ${popup.id} opened`);
+             } else {
+                 log(`Action popup ${popup.id} closed`);
+             }
         }
 
-        // --- Password Protected Actions ---
-        function getPasswordAndExecute(publicId, actionCallback) {
-             log(`Getting password for action on ${publicId}`);
+        // --- Password Protected Actions (Rename/Delete) ---
+        function getPasswordAndExecute(publicId, actionCallback, actionName = "perform action") {
+             log(`Getting password for ${actionName} on ${publicId}`);
              const storedPass = localStorage.getItem(`pass_${publicId}`);
+
              if (!storedPass) {
-                 err(`No password found for ${publicId}`);
-                 alert("Error: Deletion password not found locally. Unable to proceed.");
+                 err(`No password found locally for ${publicId}`);
+                 // Show a more user-friendly modal instead of alert
+                 showPromptModal({
+                     title: "Error: Password Missing",
+                     isConfirmation: true,
+                     contentHTML: `<p>The deletion password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser or cleared your storage.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
+                     confirmText: "OK",
+                     confirmClass: 'modal-button-cancel', // Style OK like cancel
+                     callback: () => hidePromptModal() // Just close the modal
+                 });
                  return;
              }
+
              showPromptModal({
-                 title: "Password Required", label: "Enter deletion password:",
-                 inputType: 'password', confirmText: 'Verify',
+                 title: "Password Required",
+                 inputLabel: `Enter deletion password to ${actionName}:`,
+                 inputType: 'password',
+                 confirmText: 'Verify & Proceed',
                  callback: (enteredPassword) => {
                      if (enteredPassword === storedPass) {
-                         log("Password verified."); hidePromptModal(); actionCallback();
+                         log(`Password verified for ${actionName}.`);
+                         hidePromptModal();
+                         actionCallback(); // Execute the rename or delete function
                      } else {
-                         log("Incorrect password."); showPromptError('Incorrect password.');
+                         log("Incorrect password entered.");
+                         showPromptError('Incorrect password. Please try again.');
+                         // Don't hide the prompt modal on error
                      }
                  }
              });
@@ -1174,85 +1641,163 @@
 
         function triggerRename(publicId) {
             log(`Triggering rename for ${publicId}`);
-            getPasswordAndExecute(publicId, () => proceedWithRename(publicId));
+            getPasswordAndExecute(publicId, () => proceedWithRename(publicId), "rename video");
         }
 
         function proceedWithRename(publicId) {
              log(`Showing rename prompt for ${publicId}`);
-             const currentTitle = renamedTitles[publicId] || formatTitle(publicId);
+             const currentTitle = renamedTitles[publicId] || formatTitle( $(`div.card[data-public-id="${publicId}"] video`)?.title || publicId); // Get current title best effort
+
              showPromptModal({
-                 title: "Rename Video", label: `New title:`,
-                 inputType: 'text', initialValue: currentTitle, confirmText: 'Save Name',
+                 title: "Rename Video",
+                 inputLabel: `Enter new title for this overlay:`,
+                 inputType: 'text',
+                 initialValue: currentTitle,
+                 confirmText: 'Save New Title',
                  callback: (newTitleInput) => {
                      const newTitle = newTitleInput?.trim();
                      if (newTitle && newTitle !== currentTitle) {
-                         log(`Saving new title "${newTitle}"`);
+                         log(`Renaming ${publicId} to "${newTitle}"`);
                          renamedTitles[publicId] = newTitle;
                          localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
-                         // Update DOM Title
-                         const titleEl = $(`div.card[data-public-id="${publicId}"] .card-title`);
-                         if (titleEl) titleEl.textContent = titleEl.title = newTitle;
-                         const downloadLink = $(`div.card[data-public-id="${publicId}"] .download-btn`);
-                         if (downloadLink) downloadLink.download = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+
+                         // Update DOM Title immediately
+                         const card = $(`div.card[data-public-id="${publicId}"]`);
+                         if (card) {
+                             const titleEl = card.querySelector('.card-title');
+                             const downloadLink = card.querySelector('.download-btn');
+                             const videoEl = card.querySelector('video');
+                             if (titleEl) {
+                                titleEl.textContent = newTitle;
+                                titleEl.title = newTitle; // Update tooltip
+                             }
+                             if (downloadLink) {
+                                downloadLink.download = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+                                downloadLink.title = `Download ${newTitle}`;
+                             }
+                              if (videoEl) videoEl.title = newTitle; // Update video title attribute
+                         }
                          hidePromptModal();
-                     } else if (!newTitle) { showPromptError("Title cannot be empty.");
-                     } else { showPromptError("Title is unchanged."); }
+                         log("Rename successful (locally).");
+                          // Optional: Send rename to backend if needed
+                          // updateBackendTitle(publicId, newTitle);
+                     } else if (!newTitle) {
+                         showPromptError("Title cannot be empty.");
+                     } else {
+                         // Title is the same, just close
+                         hidePromptModal();
+                     }
                  }
              });
         }
 
         function triggerDelete(publicId) {
             log(`Triggering delete for ${publicId}`);
-             getPasswordAndExecute(publicId, () => proceedWithDelete(publicId));
+             getPasswordAndExecute(publicId, () => proceedWithDelete(publicId), "delete video");
         }
 
         function proceedWithDelete(publicId) {
              log(`Showing delete confirmation for ${publicId}`);
-             const title = renamedTitles[publicId] || formatTitle(publicId);
+             const title = renamedTitles[publicId] || formatTitle( $(`div.card[data-public-id="${publicId}"] video`)?.title || publicId);
+
              showPromptModal({
-                 isConfirmation: true, title: "Confirm Deletion",
-                 confirmationContent: `Permanently delete "<strong>${title}</strong>"?<br>This cannot be undone.`,
-                 confirmText: "Delete Forever", cancelText: "Cancel",
-                 confirmClass: 'modal-button-delete bg-red-600 hover:bg-red-700',
+                 isConfirmation: true,
+                 title: "Confirm Deletion",
+                 contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2">"${title}"?</p><p class="text-red-400 font-semibold">This action cannot be undone.</p>`,
+                 confirmText: "Yes, Delete Forever",
+                 cancelText: "Cancel",
+                 confirmClass: 'modal-button-delete', // Use delete style button
                  callback: (confirmed) => {
                      if (confirmed) {
-                         log(`Deletion confirmed for ${publicId}. Proceeding with API call.`);
+                         log(`Deletion confirmed for ${publicId}. Proceeding...`);
                          hidePromptModal();
                          const cardToDelete = $(`div.card[data-public-id="${publicId}"]`);
-                         if (cardToDelete) { // Animate removal
-                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                              cardToDelete.style.opacity = '0'; cardToDelete.style.transform = 'scale(0.95)';
-                              setTimeout(() => cardToDelete.remove(), 400);
+
+                         // 1. Visually remove the card immediately with animation
+                         if (cardToDelete) {
+                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease';
+                              cardToDelete.style.opacity = '0';
+                              cardToDelete.style.transform = 'scale(0.9)';
+                              cardToDelete.style.height = '0';
+                              cardToDelete.style.margin = '0';
+                              cardToDelete.style.padding = '0';
+                              // Remove from DOM after animation
+                              setTimeout(() => {
+                                 cardToDelete.remove();
+                                 // Check if gallery is empty after removal
+                                 if (safeGetElementById('gallery').children.length === 0) {
+                                     applyFiltersAndRender(true); // Re-render to show "no results" if needed
+                                 }
+                              }, 400);
                          }
+
+                         // 2. Attempt to delete from Cloudinary via backend
+                         // IMPORTANT: Requires a backend endpoint at /delete/:public_id
                          fetch(`/delete/${encodeURIComponent(publicId)}`, { method: "DELETE" })
                              .then(async response => {
                                  if (!response.ok) {
-                                     const errData = await response.json().catch(() => ({}));
-                                     throw new Error(errData.message || `Server Error: ${response.status}`);
+                                     // Try to parse error message from backend
+                                     let errorMsg = `Server Error: ${response.status}`;
+                                     try {
+                                         const errData = await response.json();
+                                         errorMsg = errData.message || `Failed with status ${response.status}`;
+                                     } catch (e) { /* Ignore if body isn't JSON */ }
+                                     throw new Error(errorMsg);
                                  }
-                                 return response.json();
+                                 return response.json(); // Expect { status: "success" } or similar
                              })
                              .then(data => {
-                                 if (data.status === "success") {
+                                 if (data.status === "success" || response.status === 200) { // Check status or code
                                      log(`Successfully deleted ${publicId} from server.`);
+                                     // 3. Clean up local storage *only on successful server deletion*
                                      localStorage.removeItem(`pass_${publicId}`);
-                                     delete renamedTitles[publicId]; delete uploaderNames[publicId];
+                                     delete renamedTitles[publicId];
+                                     delete uploaderNames[publicId];
                                      localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
                                      localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                     allVideos = allVideos.filter(v => v.public_id !== publicId);
-                                     // No alert needed, removal is visual feedback
-                                 } else { throw new Error(data.message || "Deletion failed."); }
+
+                                     // 4. Remove from the main 'allVideos' array
+                                     const indexToRemove = allVideos.findIndex(v => v.public_id === publicId);
+                                     if (indexToRemove > -1) {
+                                         allVideos.splice(indexToRemove, 1);
+                                     }
+                                      // No explicit success message needed, visual removal is feedback
+                                      // Re-check displayed videos count
+                                     const displayedIndex = displayedVideos.findIndex(v => v.public_id === publicId);
+                                     if(displayedIndex > -1) {
+                                        displayedVideos.splice(displayedIndex, 1);
+                                     }
+                                     // Update load more button state potentially
+                                     renderVideoBatch();
+
+
+                                 } else {
+                                     // Server reported failure even with 2xx status? Unlikely but handle.
+                                     throw new Error(data.message || "Deletion reported failed by server.");
+                                 }
                              })
                              .catch(err => {
                                  err("Deletion failed:", err);
-                                 alert(`Error deleting video: ${err.message}`);
-                                 // If animation removed card, we might need to refresh to show it again on error
-                                 if (cardToDelete && !document.contains(cardToDelete)) loadVideos(true);
-                                 else if(cardToDelete) { // Restore style if not removed
-                                    cardToDelete.style.opacity = '1'; cardToDelete.style.transform = 'scale(1)';
-                                 }
+                                 // CRITICAL: Deletion failed. Inform user.
+                                 // Since the card was removed optimistically, we might need to refresh or show error prominently.
+                                 showPromptModal({
+                                     title: "Deletion Error",
+                                     isConfirmation: true,
+                                     contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${err.message}</p><p>The video might still appear temporarily. Please try again later or contact support.</p>`,
+                                     confirmText: "OK",
+                                     confirmClass: 'modal-button-cancel',
+                                     callback: () => {
+                                         hidePromptModal();
+                                         // Force a refresh from the (potentially outdated) allVideos list
+                                         // to potentially bring the card back if it wasn't truly deleted.
+                                         applyFiltersAndRender(true);
+                                     }
+                                 });
                              });
-                     } else { log("Deletion cancelled."); }
+                     } else {
+                         log("Deletion cancelled by user.");
+                         hidePromptModal();
+                     }
                  }
              });
         }
