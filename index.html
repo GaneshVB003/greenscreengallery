@@ -1,4 +1,4 @@
-
+--- START OF FILE index.html ---
 
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -6,95 +6,194 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Green Screen Overlay Vault</title>
+    <!-- Ensure Cloudinary script is loaded -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        /* --- KEEP ALL PREVIOUS CSS STYLES --- */
+        /* --- KEEP ALL PREVIOUS STYLES --- */
+        /* Add minor adjustments if needed, ensure z-indexes are logical */
         /* Base & Theme Styles */
         body { font-family: 'Roboto', sans-serif; transition: background 0.3s, color 0.3s; line-height: 1.6; }
-        html[data-theme="dark"] body { background: #0a0a0a; color: #e5e7eb; } /* Lighter text */
+        html[data-theme="dark"] body { background: #0a0a0a; color: #e5e7eb; }
         html[data-theme="light"] body { background: #f8f9fa; color: #212529; }
 
         /* Header */
-        .header { /* ... keep styles ... */ }
-        .header h1 { /* ... keep styles ... */ }
-        .header-buttons { /* ... keep styles ... */ z-index: 20; /* Ensure above basic content */ }
-        .header-btn { /* ... keep styles ... */ }
+        .header { background: linear-gradient(90deg, #00ff88, #00ccff); color: black; padding: 1.5rem 1rem; text-align: center; font-size: 2rem; font-weight: bold; position: relative; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3); z-index: 40; }
+        @media (min-width: 640px) { .header { font-size: 2.5rem; padding: 2rem; } }
+        .header h1 { animation: fadeInDown 1s ease-in-out; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;}
+        .header-buttons { position: absolute; top: 50%; transform: translateY(-50%); display: flex; gap: 0.5rem; }
+        .header-buttons.left { left: 1rem; }
+        .header-buttons.right { right: 1rem; }
+        .header-btn { background: rgba(0, 0, 0, 0.5); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s; display: flex; align-items: center; gap: 0.3rem; }
+        .header-btn:hover { background: rgba(0, 0, 0, 0.7); transform: scale(1.05); }
+        html[data-theme="light"] .header-btn { background: rgba(255, 255, 255, 0.7); color: black; border-color: rgba(0, 0, 0, 0.2); }
+        html[data-theme="light"] .header-btn:hover { background: rgba(255, 255, 255, 0.9); }
+        @media (max-width: 640px) { .header-btn span { display: none; } .header-btn { padding: 0.5rem; } .header h1 { font-size: 1.5rem; } .header { padding: 1rem; } }
 
         /* Gallery & Cards */
-        .gallery { /* ... keep styles ... */ }
-        .card { /* ... keep styles ... */ }
-        .video-container { /* ... keep styles ... */ }
-        .video-container::after { /* ... keep styles ... */ }
-        .card-content { /* ... keep styles ... */ }
-        .card-title { /* ... keep styles ... */ }
-        .uploader-name { /* ... keep styles ... */ }
-        .card-footer { /* ... keep styles ... */ }
-        .download-btn { /* ... keep styles ... */ }
-        .menu-btn { /* ... keep styles ... */ }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 1.5rem; }
+        .card { background: #1f1f1f; border-radius: 1rem; overflow: hidden; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; animation: fadeInUp 0.5s ease-in-out; position: relative; display: flex; flex-direction: column; }
+        html[data-theme="light"] .card { background: #ffffff; color: black; border-color: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25); border-color: #00ff88; }
+        html[data-theme="light"] .card:hover { box-shadow: 0 6px 12px rgba(0,0,0,0.1); border-color: #10b981; }
+        .video-container { cursor: pointer; position: relative; background-color: #050505; }
+        .video-container video { width: 100%; height: 180px; object-fit: cover; display: block; border-radius: 1rem 1rem 0 0; }
+        .video-container::after { content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.5rem; color: rgba(255, 255, 255, 0.7); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .video-container:hover::after { opacity: 1; }
+        .video-container video.playing + ::after { opacity: 0; } /* Corrected selector */
+        .card-content { padding: 0.75rem; flex-grow: 1; }
+        .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; }
+        .uploader-name { font-size: 0.75rem; opacity: 0.7; text-align: right; margin-bottom: 0.5rem; }
+        html[data-theme="light"] .uploader-name { opacity: 0.8; }
+        .card-footer { padding: 0 0.75rem 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; }
+        html[data-theme="light"] .card-footer { border-top-color: #e2e8f0; }
+        .download-btn { background: #00ff88; color: black; padding: 0.4rem 0.8rem; text-align: center; font-weight: bold; display: inline-flex; align-items: center; gap: 0.3rem; border-radius: 0.5rem; font-size: 0.8rem; line-height: 1; transition: background-color 0.2s, transform 0.2s; }
+        .download-btn:hover { background-color: #00e67a; transform: scale(1.05); }
+        html[data-theme="light"] .download-btn { background: #10b981; color: white; }
+        html[data-theme="light"] .download-btn:hover { background: #0f9e73; }
+        .menu-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid #555; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; line-height: 1; color: #aaa; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
+        html[data-theme="light"] .menu-btn { background: rgba(0, 0, 0, 0.05); border-color: #ccc; color: #555; }
+        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); color: white; border-color: #00ff88;}
+        html[data-theme="light"] .menu-btn:hover { background: rgba(16, 185, 129, 0.2); color: #10b981; border-color: #10b981; }
 
         /* Action Popup Styles */
-        .action-popup { /* ... keep styles ... */ z-index: 30; /* Above cards */}
+        .action-popup { display: none; position: absolute; bottom: 40px; /* Adjusted */ right: 5px; background-color: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 0.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); z-index: 30; animation: popUpFadeIn 0.2s ease-out; min-width: 120px; }
+        html[data-theme="light"] .action-popup { background-color: #ffffff; border-color: #ccc; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
+        .action-popup button { display: flex; align-items: center; gap: 0.5rem; width: 100%; background: none; border: none; color: #00ccff; padding: 0.5rem 0.7rem; text-align: left; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background-color 0.15s; }
+        html[data-theme="light"] .action-popup button { color: #0c4a6e; }
+        .action-popup button:hover { background-color: #3a3a3a; }
+        html[data-theme="light"] .action-popup button:hover { background-color: #e5e7eb; }
+        .action-popup button.delete-action { color: #ff5555; }
+        html[data-theme="light"] .action-popup button.delete-action { color: #dc2626; }
+        .action-popup button.delete-action:hover { background-color: rgba(255, 85, 85, 0.1); }
+        html[data-theme="light"] .action-popup button.delete-action:hover { background-color: #fee2e2; }
 
         /* Modal Styles */
-        .modal-backdrop { /* ... keep styles ... */ z-index: 50; /* Highest */ }
-        .modal-box { /* ... keep styles ... */ }
-        .modal-box h2 { /* ... keep styles ... */ }
-        .modal-box label { /* ... keep styles ... */ }
-        .modal-box input[type="text"], .modal-box input[type="password"], .modal-box textarea { /* ... keep styles ... */ }
-        .modal-buttons { /* ... keep styles ... */ }
-        .modal-error { /* ... keep styles ... */ }
-        .modal-close-btn { /* ... keep styles ... */ z-index: 51; /* Above modal content */}
+        .modal-backdrop { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 50; animation: fadeIn 0.3s ease-out; backdrop-filter: blur(3px); }
+        .modal-box { background-color: #1f1f1f; color: white; padding: 1.5rem; border-radius: 1rem; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); width: 90%; max-width: 500px; animation: scaleUp 0.3s ease-out; position: relative; max-height: 85vh; overflow-y: auto; }
+        html[data-theme="light"] .modal-box { background-color: #ffffff; color: black; border-color: #ccc; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); }
+        @media (min-width: 640px) { .modal-box { padding: 2rem; } }
+        .modal-box h2 { font-size: 1.4rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88;}
+        html[data-theme="light"] .modal-box h2 { color: #10b981; }
+        .modal-box label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: bold; }
+        .modal-box input[type="text"], .modal-box input[type="password"], .modal-box textarea { width: 100%; padding: 0.75rem; border-radius: 0.5rem; background-color: #333; border: 1px solid #555; color: white; margin-bottom: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
+        .modal-box input:focus, .modal-box textarea:focus { outline: none; border-color: #00ff88; box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3); }
+        html[data-theme="light"] .modal-box input[type="text"], html[data-theme="light"] .modal-box input[type="password"], html[data-theme="light"] .modal-box textarea { background-color: #e5e7eb; border-color: #ccc; color: black; }
+        html[data-theme="light"] .modal-box input:focus, html[data-theme="light"] .modal-box textarea:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3); }
+        .modal-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+        .modal-buttons button { font-size: 0.9rem; padding: 0.6rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.2s, transform 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .modal-button-confirm { background-color: #00ff88; color: black; }
+        .modal-button-confirm:hover { background-color: #00dd77; transform: translateY(-1px); }
+        html[data-theme="light"] .modal-button-confirm { background-color: #10b981; color: white; }
+        html[data-theme="light"] .modal-button-confirm:hover { background-color: #0f9e73; }
+        .modal-button-cancel { background-color: #555; color: white; }
+        .modal-button-cancel:hover { background-color: #666; transform: translateY(-1px); }
+        html[data-theme="light"] .modal-button-cancel { background-color: #a1a1aa; color: black; }
+        html[data-theme="light"] .modal-button-cancel:hover { background-color: #71717a; }
+        .modal-button-delete { background-color: #ff4444; color: white; }
+        .modal-button-delete:hover { background-color: #dd2222; transform: translateY(-1px);}
+        html[data-theme="light"] .modal-button-delete { background-color: #dc2626; color: white; }
+        html[data-theme="light"] .modal-button-delete:hover { background-color: #b91c1c; }
+        .modal-error { color: #ff5555; font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
+        .modal-close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.8rem; color: #888; cursor: pointer; line-height: 1; z-index: 51; padding: 0.2rem;}
+        html[data-theme="light"] .modal-close-btn { color: #555; }
+        .modal-close-btn:hover { color: #eee; }
+        html[data-theme="light"] .modal-close-btn:hover { color: #000; }
 
         /* Terms Modal Specific Styles */
-        #termsModal .modal-box { /* ... keep styles ... */ }
-        .terms-content { /* ... keep styles ... */ }
+        #termsModal .modal-box { max-width: 700px; }
+        .terms-content { font-size: 0.9rem; line-height: 1.6; max-height: 60vh; overflow-y: auto; border: 1px solid #444; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; background-color: rgba(0,0,0,0.1); }
+        html[data-theme="light"] .terms-content { border-color: #ccc; background-color: rgba(0,0,0,0.03); }
+        .terms-content h3 { font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #00ccff; }
+        html[data-theme="light"] .terms-content h3 { color: #0ea5e9; }
+        .terms-accept-label { display: flex; align-items: center; margin-top: 1rem; cursor: pointer; }
+        .terms-accept-label input { margin-right: 0.5rem; }
 
         /* Filters & Search */
-        .filter-search-area { /* ... keep styles ... */ position: sticky; top: 0; z-index: 10; /* Keep below header/modals */}
-        .filter-options { /* ... keep styles ... */ }
-        .filter-btn { /* ... keep styles ... */ }
-        .search-container { /* ... keep styles ... */ }
-        .search-container input { /* ... keep styles ... */ }
+        .filter-search-area { padding: 1rem 1.5rem; background-color: rgba(0,0,0,0.1); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 10; }
+        html[data-theme="light"] .filter-search-area { background-color: rgba(0,0,0,0.02); border-bottom-color: #e2e8f0; }
+        .filter-options { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .filter-btn { background: #00ccff; color: black; padding: 0.5rem 1rem; margin: 0; text-align: center; font-weight: bold; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s, border 0.2s; border: 2px solid transparent; font-size: 0.85rem; }
+        html[data-theme="light"] .filter-btn { background: #38bdf8; color: white; }
+        .filter-btn:hover { transform: translateY(-2px); }
+        .filter-btn.active-filter { /* Default dark active */ background-color: #00ff88; color: black; border: 2px solid #333; box-shadow: 0 0 8px #00ff88; }
+        html[data-theme="light"] .filter-btn.active-filter { /* Light active */ background-color: #10b981; color: white; border: 2px solid #ccc; box-shadow: 0 0 8px #10b981; }
+        .search-container { display: flex; justify-content: center; align-items: center; max-width: 400px; margin: 0 auto; }
+        .search-container label { display: none; } /* Hide label visually */
+        .search-container input { flex-grow: 1; padding: 0.6rem 1rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.3); }
+        html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
+        html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3); }
 
         /* Intro Screen */
-        #introScreen { /* ... keep styles ... */ z-index: 100; /* Highest initially */}
-        #introScreen.fade-out { opacity: 0; pointer-events: none; z-index: -1; /* Send to back after fade */}
-        #introText { /* ... keep styles ... */ }
+        #introScreen { position: fixed; inset: 0; background-color: #000; display: flex; align-items: center; justify-content: center; z-index: 100; color: white; font-family: 'Orbitron', sans-serif; opacity: 1; transition: opacity 1s ease-out 0.5s; pointer-events: auto; }
+        #introScreen.fade-out { opacity: 0; pointer-events: none; z-index: -1; }
+        #introText { font-size: 2.5rem; font-weight: bold; letter-spacing: 2px; opacity: 0; animation: textPopInGlow 2s ease-out forwards; text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ccff, 0 0 20px #00ccff; }
+        @media (min-width: 640px) { #introText { font-size: 3.5rem; } }
+        @media (max-width: 480px) { #introText { font-size: 1.8rem; } }
 
         /* Load More Button */
-        #loadMoreBtn { /* ... keep styles ... */ }
+        #loadMoreBtn { display: block; margin: 2rem auto; padding: 0.8rem 2rem; font-weight: bold; cursor: pointer; border-radius: 0.5rem; transition: background-color 0.2s, transform 0.2s; font-size: 0.9rem; background: #00ccff; color: black; border: none; }
+        html[data-theme="light"] #loadMoreBtn { background: #38bdf8; color: white; }
+        #loadMoreBtn:hover { transform: translateY(-2px); }
+        html[data-theme="dark"] #loadMoreBtn:hover { background-color: #00ddff; }
+        html[data-theme="light"] #loadMoreBtn:hover { background-color: #0ea5e9; }
+        #loadMoreBtn:disabled { background: #555; cursor: not-allowed; transform: none; opacity: 0.6;}
+        html[data-theme="light"] #loadMoreBtn:disabled { background: #a1a1aa; }
 
-        /* How-to Section & Info */
-        .info-section { /* ... keep styles ... */ }
-        .video-wrapper { /* ... keep styles ... */ }
-        .tooltip { /* ... keep styles ... */ }
-        .tooltip .tooltiptext { /* ... keep styles ... */ z-index: 60; /* Above most things */}
+        /* Info Section */
+        .info-section { padding: 2rem 1.5rem; text-align: center; }
+        .info-section h2 { font-size: 1.8rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88; }
+        html[data-theme="light"] .info-section h2 { color: #10b981; }
+        .info-section h3 { font-size: 1.3rem; font-weight: bold; margin-top: 2rem; margin-bottom: 0.75rem; color: #00ccff; }
+        html[data-theme="light"] .info-section h3 { color: #0ea5e9; }
+        .info-section p, .info-section ol { max-w-3xl mx-auto mb-4 text-base leading-relaxed; }
+        html[data-theme="dark"] .info-section p, html[data-theme="dark"] .info-section ol { color: #ccc; }
+        html[data-theme="light"] .info-section p, html[data-theme="light"] .info-section ol { color: #4b5563; }
+        .info-section ol { text-align: left; padding-left: 1.5rem; list-style-position: inside; }
+        .info-section code { background-color: rgba(255,255,255,0.1); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.9em; }
+        html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.05); }
+        .video-wrapper { max-width: 700px; margin: 1.5rem auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 1rem; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;}
+        html[data-theme="light"] .video-wrapper { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* Tooltip Styles */
+        .tooltip { position: relative; display: inline-block; cursor: help; border-bottom: 1px dotted; }
+        .tooltip .tooltiptext { visibility: hidden; width: 200px; background-color: #2a2a2a; color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 60; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; line-height: 1.4; border: 1px solid #444; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        html[data-theme="light"] .tooltip .tooltiptext { background-color: #f0f0f0; color: #333; border-color: #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
 
         /* Footer */
-        .site-footer { /* ... keep styles ... */ }
+        .site-footer { text-align: center; padding: 1.5rem; margin-top: 2rem; font-size: 0.9rem; border-top: 1px solid #333; background-color: rgba(0,0,0,0.1); }
+        html[data-theme="light"] .site-footer { border-top-color: #ddd; background-color: rgba(0,0,0,0.02); }
+        .footer-link { color: #00ccff; text-decoration: underline; cursor: pointer; }
+        html[data-theme="light"] .footer-link { color: #0ea5e9; }
 
         /* Animations */
-        @keyframes glow { /* ... keep ... */ }
-        @keyframes fadeInUp { /* ... keep ... */ }
-        @keyframes fadeInDown { /* ... keep ... */ }
-        @keyframes fadeIn { /* ... keep ... */ }
-        @keyframes scaleUp { /* ... keep ... */ }
-        @keyframes popUpFadeIn { /* ... keep ... */ }
-        @keyframes textPopInGlow { /* ... keep ... */ }
+        @keyframes glow { from { filter: drop-shadow(0 0 5px #00ff88); } to { filter: drop-shadow(0 0 15px #00ccff); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes popUpFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes textPopInGlow { 0% { opacity: 0; transform: scale(0.8) translateY(20px); text-shadow: 0 0 2px #00ff88, 0 0 4px #00ccff;} 60% { opacity: 1; transform: scale(1.05) translateY(0); text-shadow: 0 0 8px #00ff88, 0 0 15px #00ff88, 0 0 20px #00ccff, 0 0 25px #00ccff, 0 0 30px #00ccff; } 100% { opacity: 1; transform: scale(1) translateY(0); text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ccff, 0 0 20px #00ccff; } }
 
         /* Utility for screen readers */
-        .sr-only { /* ... keep ... */ }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
 
-         /* Ensure buttons are clickable */
+        /* Ensure buttons are clickable */
         button, a[onclick], [role="button"] { cursor: pointer; }
+
+         /* Progress Bar Styles */
+        .progress-container { width: 100%; background: #333; border-radius: 10px; overflow: hidden; height: 10px; }
+        html[data-theme="light"] .progress-container { background: #e5e7eb; }
+        .progress-bar { height: 10px; background: linear-gradient(270deg, #00ff88, #00ccff); animation: glow 1s infinite alternate; width: 0%; transition: width 0.3s ease; }
 
     </style>
 </head>
@@ -109,13 +208,14 @@
     <header class="header">
         <h1>🎬 Green Screen Vault</h1>
         <div class="header-buttons left">
-            <button type="button" onclick="toggleTheme()" class="header-btn" title="Toggle Theme">
+            <!-- Theme Toggle Button -->
+            <button type="button" id="themeToggleBtn" class="header-btn" title="Toggle Theme">
                 <i class="fas fa-adjust"></i> <span class="sr-only sm:not-sr-only">Theme</span>
             </button>
         </div>
         <div class="header-buttons right">
-            <!-- Ensure type="button" to prevent potential form submission issues if ever wrapped in a form -->
-            <button type="button" onclick="showUploadPopup()" class="header-btn" title="Upload Video">
+            <!-- Upload Button -->
+            <button type="button" id="showUploadBtn" class="header-btn" title="Upload Video">
                  <i class="fas fa-upload"></i> <span class="sr-only sm:not-sr-only">Upload</span>
             </button>
         </div>
@@ -125,15 +225,14 @@
     <div class="filter-search-area">
         <!-- Filter Buttons -->
         <div class="filter-options">
-             <button type="button" class="filter-btn" id="filter-recent" onclick="setActiveFilter(this, 'recent')">Most Recent</button>
-             <button type="button" class="filter-btn" id="filter-popular" onclick="setActiveFilter(this, 'popular')">Popular</button>
-             <!-- <button class="filter-btn" id="filter-relevant" onclick="setActiveFilter(this, 'relevant')">Relevant</button> -->
+             <button type="button" class="filter-btn" data-filter="recent" id="filter-recent">Most Recent</button>
+             <button type="button" class="filter-btn" data-filter="popular" id="filter-popular">Popular</button>
+             <!-- Add more filters if needed -->
         </div>
         <!-- Search Input -->
         <div class="search-container">
             <label for="search" class="sr-only">Search Videos:</label>
             <input type="search" id="search" placeholder="Search by title or uploader...">
-            <!-- Removed oninput here, will attach listener in JS -->
         </div>
     </div>
 
@@ -141,32 +240,57 @@
     <main>
         <!-- Gallery -->
         <div class="gallery" id="gallery">
-            <!-- Loading message added dynamically -->
+            <!-- Dynamic Content -->
         </div>
 
         <!-- Load More Button -->
-        <button type="button" id="loadMoreBtn" onclick="loadMoreVideos()" style="display: none;">Load More Videos</button>
+        <button type="button" id="loadMoreBtn" style="display: none;">Load More Videos</button>
 
         <!-- Info / How-to Section -->
         <section class="info-section landing-page">
-            <!-- Keep existing info content -->
-            <h2>Unlock Your Creativity</h2>
-            <p>...</p>
-            <div class="video-wrapper">...</div>
-            <h3>Quick Guide: Using Overlays (Premiere Pro)</h3>
-            <ol>...</ol>
-            <h3><i class="fas fa-lightbulb"></i> Pro Tips & Benefits</h3>
-            <p>...</p>
-            <div class="mt-6">...</div>
+             <h2>Unlock Your Creativity</h2>
+             <p>
+                 Welcome to the Green Screen Vault! A community-driven library of free <span class="tooltip">chroma key<span class="tooltiptext">Chroma key compositing, or chroma keying, is a visual effects technique for compositing two images or video streams together based on color hues (chroma range).</span></span> footage. Find dynamic effects, transitions, and elements to elevate your video projects.
+             </p>
+             <div class="video-wrapper">
+               <iframe
+                   src="https://www.youtube.com/embed/-UFG_jU3bXA"
+                   title="YouTube video player - Green Screen Tutorial (Adobe Premiere Pro Ultra Key)"
+                   frameborder="0"
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                   allowfullscreen>
+               </iframe>
+             </div>
+             <h3>Quick Guide: Using Overlays (Premiere Pro)</h3>
+             <ol>
+                 <li><strong>Import:</strong> Add your footage and the downloaded overlay (.mp4, .mov) to your project.</li>
+                 <li><strong>Layer:</strong> Place the overlay clip on the timeline track <strong>above</strong> your main footage.</li>
+                 <li><strong>Effect:</strong> Search for <code>Ultra Key</code> in the Effects panel and drag it onto the overlay clip.</li>
+                 <li><strong>Key Color:</strong> In Effect Controls > Ultra Key, use the eyedropper <i class="fas fa-eye-dropper"></i> to select the green screen color.</li>
+                 <li><strong>Refine:</strong> Adjust Matte Generation/Cleanup/Spill Suppression settings for a clean result. Look for settings like <span class="tooltip">Choke<span class="tooltiptext">Reduces the size of the matte slightly to hide faint edges.</span></span> and <span class="tooltip">Soften<span class="tooltiptext">Blurs the edges of the matte for smoother blending.</span></span>.</li>
+                 <li><strong>Composite:</strong> Position, scale, or animate the overlay layer as needed!</li>
+             </ol>
+              <h3><i class="fas fa-lightbulb"></i> Pro Tips & Benefits</h3>
+              <p>
+                  Using overlays saves significant time compared to creating effects from scratch. They add professional polish to YouTube videos, streams, social media content, and films. This vault thrives on community contributions – consider uploading your own creations!
+              </p>
+              <p>
+                  <strong>Shooting Tip:</strong> Ensure your green screen is evenly lit and wrinkle-free for the best keying results. Avoid green clothing or reflective objects on your subject.
+              </p>
+              <div class="mt-6">
+                   <div class="inline-block bg-teal-100 text-teal-800 p-3 rounded-lg text-sm shadow dark:bg-teal-900 dark:text-teal-200">
+                       <i class="fas fa-info-circle mr-1"></i> This site uses <span class="tooltip">Cloudinary<span class="tooltiptext">A cloud-based service for managing and delivering images and videos.</span></span> for video hosting and optimized delivery.
+                   </div>
+              </div>
         </section>
     </main>
 
-    <!-- Modals -->
+    <!-- MODALS SECTION -->
 
-    <!-- Initial Upload Popup -->
-    <div class="modal-backdrop" id="uploadPopup"> <!-- Removed p-4, handled by modal-box -->
+    <!-- Upload Popup -->
+    <div class="modal-backdrop" id="uploadPopup">
         <div class="modal-box w-full max-w-md">
-            <button type="button" class="modal-close-btn" onclick="hideUploadPopup()">×</button>
+            <button type="button" class="modal-close-btn" data-action="close-modal">×</button>
             <h2 class="text-xl font-bold mb-4">Upload Overlay</h2>
             <p class="text-sm text-gray-400 mb-4">Help the community grow!</p>
             <div>
@@ -177,19 +301,19 @@
                 <label for="deletePassword">Deletion Password (Required):</label>
                 <input type="password" id="deletePassword" placeholder="Save this password securely!" class="mb-4">
             </div>
-            <button type="button" onclick="openCloudinaryUpload()" class="modal-button-confirm w-full justify-center text-base py-3">
+            <button type="button" id="selectUploadBtn" class="modal-button-confirm w-full justify-center text-base py-3">
                 <i class="fas fa-cloud-upload-alt mr-2"></i> Select & Upload Video
             </button>
             <div class="progress-container mt-4" id="progressContainer" style="display: none;"><div class="progress-bar" id="progressBar"></div></div>
             <p id="uploadStatus" class="mt-2 text-sm h-5 text-center"></p>
-            <button type="button" onclick="hideUploadPopup()" class="modal-button-cancel w-full justify-center mt-2">Cancel</button>
+            <button type="button" class="modal-button-cancel w-full justify-center mt-2" data-action="close-modal">Cancel</button>
         </div>
     </div>
 
     <!-- Post-Upload Details Modal -->
     <div class="modal-backdrop" id="postUploadDetailsModal">
         <div class="modal-box">
-            <button type="button" class="modal-close-btn" onclick="closePostUploadModal(true)">×</button>
+             <button type="button" class="modal-close-btn" data-action="skip-title">×</button>
             <h2>Finalize Upload Details</h2>
             <p class="text-sm mb-4">Your video is uploaded! Please provide a title.</p>
             <div>
@@ -199,8 +323,8 @@
                 <p class="modal-error" id="postUploadError"></p>
             </div>
             <div class="modal-buttons">
-                <button type="button" class="modal-button-cancel" onclick="closePostUploadModal(true)">Skip Title</button>
-                <button type="button" class="modal-button-confirm" id="postUploadSaveBtn" onclick="savePostUploadDetails()">Save Details</button>
+                 <button type="button" class="modal-button-cancel" data-action="skip-title">Skip Title</button>
+                <button type="button" class="modal-button-confirm" id="postUploadSaveBtn">Save Details</button>
             </div>
         </div>
     </div>
@@ -208,14 +332,14 @@
     <!-- Generic Prompt/Confirmation Modal -->
     <div class="modal-backdrop" id="promptModal">
         <div class="modal-box">
-            <button type="button" class="modal-close-btn" onclick="hidePromptModal()">×</button>
+             <button type="button" class="modal-close-btn" data-action="close-prompt">×</button>
             <h2 id="promptTitle">Prompt</h2>
             <div id="promptContent">
-                <!-- Content dynamically set -->
+                <!-- Dynamic content -->
                 <p class="modal-error" id="promptError"></p>
             </div>
             <div class="modal-buttons">
-                <button type="button" class="modal-button-cancel" id="promptCancelBtn" onclick="hidePromptModal()">Cancel</button>
+                 <button type="button" class="modal-button-cancel" id="promptCancelBtn" data-action="close-prompt">Cancel</button>
                 <button type="button" class="modal-button-confirm" id="promptConfirmBtn">Confirm</button>
             </div>
         </div>
@@ -224,7 +348,7 @@
     <!-- Upload Success Modal -->
     <div class="modal-backdrop" id="uploadSuccessPopup">
         <div class="modal-box text-center">
-            <button type="button" class="modal-close-btn" onclick="closeSuccessPopupAndRefresh()">×</button>
+             <button type="button" class="modal-close-btn" data-action="close-success">×</button>
             <h2 class="text-2xl"><i class="fas fa-rocket text-blue-400 mr-2"></i>Upload Complete!</h2>
             <div id="uploadSuccessContent" class="my-4">
                 <p>Thank you, <strong id="successUploaderName" class="text-green-400"></strong>!</p>
@@ -232,7 +356,7 @@
                 <p class="mt-2 text-sm text-gray-400">Sharing helps the creative community grow!</p>
             </div>
             <div class="modal-buttons justify-center">
-                <button type="button" class="modal-button-confirm" onclick="closeSuccessPopupAndRefresh()">Awesome!</button>
+                 <button type="button" class="modal-button-confirm" data-action="close-success">Awesome!</button>
             </div>
         </div>
     </div>
@@ -240,17 +364,14 @@
     <!-- Terms and Conditions Modal -->
     <div class="modal-backdrop" id="termsModal">
         <div class="modal-box">
-             <button type="button" class="modal-close-btn" onclick="closeTermsModal()">×</button>
+              <button type="button" class="modal-close-btn" data-action="close-terms">×</button>
               <h2>Terms & Privacy</h2>
               <div class="terms-content" style="max-height: 60vh;">
                   <!-- Full T&C Text Here -->
-                   <h3>Terms and Conditions</h3>
-                   <p><em>Last updated: April 26, 2024</em></p>
-                   <p>Welcome...</p>
+                   <h3>Terms and Conditions</h3><p><em>Last updated: April 26, 2024</em></p><p>Welcome...</p>
                    <hr class="my-4 border-gray-600">
-                   <h3>Privacy Policy</h3>
-                   <p><em>Effective Date: April 26, 2024</em></p>
-                   <p>We value...</p>
+                   <h3>Privacy Policy</h3><p><em>Effective Date: April 26, 2024</em></p><p>We value...</p>
+                   <!-- Include the full text provided earlier -->
               </div>
               <label class="terms-accept-label mt-4" id="termsAcceptWrapper" style="display: none;">
                   <input type="checkbox" id="termsAcceptCheckbox" class="mr-2">
@@ -258,8 +379,8 @@
               </label>
               <p class="modal-error" id="termsError"></p>
               <div class="modal-buttons">
-                  <button type="button" class="modal-button-confirm" id="termsAcceptBtn" onclick="acceptTerms()" style="display: none;">Agree & Continue</button>
-                  <button type="button" class="modal-button-cancel" id="termsCloseBtn" onclick="closeTermsModal()">Close</button>
+                  <button type="button" class="modal-button-confirm" id="termsAcceptBtn" style="display: none;">Agree & Continue</button>
+                  <button type="button" class="modal-button-cancel" id="termsCloseBtn" data-action="close-terms">Close</button>
               </div>
         </div>
     </div>
@@ -267,26 +388,36 @@
     <!-- Footer -->
     <footer class="site-footer">
        <p>© <span id="currentYear"></span> Green Screen Vault. Community driven.</p>
-       <p><span class="footer-link" onclick="showTermsModal(true)">View Terms & Privacy Policy</span></p>
+       <p><span class="footer-link" id="viewTermsLink">View Terms & Privacy Policy</span></p>
     </footer>
 
 
     <script>
         // --- Global Constants & State ---
-        const cloudName = 'dogxcu1sj';
-        const uploadPreset = 'gs_overlay'; // ENSURE THIS PRESET EXISTS AND WORKS
-        let allVideos = [];
-        let displayedVideos = [];
-        const videosPerLoad = 12;
-        let currentVideoIndex = 0;
-        let renamedTitles = {};
-        let uploaderNames = {};
-        let currentFilter = 'recent';
-        let currentSearchQuery = '';
-        let postUploadData = null; // Holds data between upload success and modal save
-        let searchTimeout; // For debouncing search input
+        const CLOUD_NAME = 'dogxcu1sj';
+        const UPLOAD_PRESET = 'gs_overlay'; // Double-check this in Cloudinary
+        const VIDEOS_PER_LOAD = 12;
+
+        let allVideos = []; // Holds all fetched video data
+        let currentVideoIndex = 0; // For pagination/load more
+        let renamedTitles = {}; // Key: public_id, Value: renamed title
+        let uploaderNames = {}; // Key: public_id, Value: uploader name
+        let currentFilter = 'recent'; // Default filter
+        let currentSearchQuery = ''; // Current search term
+        let postUploadData = null; // Temporary storage for upload info
 
         // --- Utility Functions ---
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const log = (...args) => console.log('[GSOV]', ...args);
+        const err = (...args) => console.error('[GSOV ERROR]', ...args);
+
+        function safeGetElementById(id) {
+            const el = document.getElementById(id);
+            if (!el) err(`Element with ID '${id}' not found!`);
+            return el;
+        }
+
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -299,157 +430,251 @@
             };
         }
 
-        function safeGetElementById(id) {
-            const el = document.getElementById(id);
-            if (!el) {
-                console.error(`Element with ID '${id}' not found!`);
+        // --- Modal Management ---
+        function showModal(modalId) {
+            log(`Showing modal: ${modalId}`);
+            const modal = safeGetElementById(modalId);
+            if (modal && modal.classList.contains('modal-backdrop')) {
+                modal.style.display = 'flex';
+                // Trap focus maybe? (Advanced)
+            } else {
+                 err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
             }
-            return el;
+        }
+
+        function hideModal(modalId) {
+            log(`Hiding modal: ${modalId}`);
+            const modal = safeGetElementById(modalId);
+            if (modal && modal.classList.contains('modal-backdrop')) {
+                modal.style.display = 'none';
+            }
         }
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-           console.log("DOM Content Loaded. Starting initialization.");
-           try {
-               loadLocalData(); // Load titles/names from localStorage
-               handleIntro(); // Start intro animation
-               // Terms check and main page init will happen after intro fades out
-               setupEventListeners(); // Attach listeners not using inline onclick
-           } catch (error) {
-                console.error("Error during DOMContentLoaded initialization:", error);
-                // Display a user-friendly error message?
+            log("DOM Ready. Initializing...");
+            try {
+                loadLocalData();
+                setupStaticEventListeners(); // Listeners for non-dynamic elements
+                handleIntro(); // Triggers terms check -> initializePage
+            } catch (error) {
+                err("Initialization failed:", error);
                 const gallery = safeGetElementById('gallery');
-                if (gallery) gallery.innerHTML = '<p class="text-red-500 p-4">An error occurred while loading the page. Please try refreshing.</p>';
-           }
+                if (gallery) gallery.innerHTML = '<p class="text-red-500 p-4 text-center">Error loading page. Please refresh.</p>';
+            }
         });
 
         function loadLocalData() {
-             try {
+            log("Loading data from localStorage...");
+            try {
                 renamedTitles = JSON.parse(localStorage.getItem('renamedTitles') || '{}');
                 uploaderNames = JSON.parse(localStorage.getItem('uploaderNames') || '{}');
-                console.log("Loaded local data:", { titles: Object.keys(renamedTitles).length, uploaders: Object.keys(uploaderNames).length });
+                log(`Loaded ${Object.keys(renamedTitles).length} renamed titles, ${Object.keys(uploaderNames).length} uploader names.`);
             } catch (e) {
-                console.error("Error parsing local storage data:", e);
+                err("Failed to parse localStorage data:", e);
                 renamedTitles = {};
                 uploaderNames = {};
-                // Optionally clear potentially corrupted data
-                // localStorage.removeItem('renamedTitles');
-                // localStorage.removeItem('uploaderNames');
             }
         }
 
-        function setupEventListeners() {
-             console.log("Setting up event listeners...");
-             const searchInput = safeGetElementById('search');
-             if (searchInput) {
-                 // Added debounced listener for search
-                 searchInput.addEventListener('input', debounce(() => {
-                     const query = searchInput.value.toLowerCase().trim();
-                     console.log(`Debounced search triggered: "${query}"`);
-                     if (query !== currentSearchQuery) {
-                         currentSearchQuery = query;
-                         loadVideos(true); // Reset and load with new query
-                     }
-                 }, 400));
-             } else {
-                 console.warn("Search input element not found during setup.");
+        function setupStaticEventListeners() {
+            log("Setting up static event listeners...");
+
+            // Header Buttons
+            safeGetElementById('themeToggleBtn')?.addEventListener('click', toggleTheme);
+            safeGetElementById('showUploadBtn')?.addEventListener('click', () => showModal('uploadPopup'));
+
+            // Search Input (Debounced)
+            const searchInput = safeGetElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(() => {
+                    const query = searchInput.value.toLowerCase().trim();
+                    if (query !== currentSearchQuery) {
+                        log(`Search updated to: "${query}"`);
+                        currentSearchQuery = query;
+                        loadVideos(true); // Reset and search
+                    }
+                }, 400));
+            }
+
+            // Filter Buttons
+            $$('.filter-options .filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filterType = e.target.dataset.filter;
+                    if (filterType) {
+                        setActiveFilter(e.target, filterType);
+                    } else {
+                        err("Filter button missing data-filter attribute:", e.target);
+                    }
+                });
+            });
+
+             // Load More Button
+            safeGetElementById('loadMoreBtn')?.addEventListener('click', loadMoreVideos);
+
+             // Terms Link
+            safeGetElementById('viewTermsLink')?.addEventListener('click', () => showTermsModal(true));
+
+            // Modal Close/Action Buttons (using event delegation on document)
+            document.addEventListener('click', (event) => {
+                const target = event.target;
+                const action = target.dataset.action;
+
+                // Generic modal close
+                if (action === 'close-modal' || target.classList.contains('modal-close-btn')) {
+                    const modal = target.closest('.modal-backdrop');
+                    if (modal) hideModal(modal.id);
+                }
+                // Specific modal actions
+                else if (action === 'close-terms') hideModal('termsModal');
+                else if (action === 'close-prompt') hideModal('promptModal');
+                else if (action === 'close-success') closeSuccessPopupAndRefresh();
+                else if (action === 'skip-title') closePostUploadModal(true);
+
+                 // Close action popups if clicked outside
+                const openPopup = document.querySelector('.action-popup[style*="display: block"]');
+                if (openPopup && !openPopup.contains(target) && !target.closest('.menu-btn')) {
+                    log("Clicked outside, closing action menu:", openPopup.id);
+                    openPopup.style.display = 'none';
+                }
+            });
+
+            // Upload Modal Specific Buttons
+             safeGetElementById('selectUploadBtn')?.addEventListener('click', openCloudinaryUpload);
+             safeGetElementById('termsAcceptBtn')?.addEventListener('click', acceptTerms);
+             safeGetElementById('postUploadSaveBtn')?.addEventListener('click', savePostUploadDetails);
+             // Prompt modal confirm/cancel are handled within showPromptModal
+
+             // Gallery Event Listener (Delegation)
+             const galleryElement = safeGetElementById('gallery');
+             if (galleryElement) {
+                 galleryElement.addEventListener('click', handleGalleryClick);
              }
-             console.log("Event listeners setup complete.");
+
+            log("Static event listeners set up.");
         }
 
-        // --- Intro Screen Logic ---
+        function handleGalleryClick(event) {
+             const target = event.target;
+
+             // Video Play/Pause
+             const videoContainer = target.closest('.video-container');
+             if (videoContainer) {
+                 const video = videoContainer.querySelector('video');
+                 if(video) togglePlay(video);
+                 return; // Handled
+             }
+
+             // Menu Button Click
+             const menuButton = target.closest('.menu-btn');
+             if (menuButton) {
+                 const card = menuButton.closest('.card');
+                 const publicId = card?.dataset.publicId;
+                 if (publicId) {
+                    toggleActionMenu(event, publicId); // Pass event for stopPropagation if needed
+                 } else {
+                    err("Could not find publicId for menu button click.");
+                 }
+                 return; // Handled
+             }
+
+             // Action Popup Button Click (Rename/Delete)
+             const actionButton = target.closest('.action-popup button');
+             if (actionButton) {
+                 const card = actionButton.closest('.card');
+                 const publicId = card?.dataset.publicId;
+                 if (!publicId) {
+                     err("Could not find publicId for action button click.");
+                     return; // Handled (error)
+                 }
+
+                 if (actionButton.textContent.includes('Rename')) {
+                    triggerRename(publicId);
+                 } else if (actionButton.classList.contains('delete-action')) {
+                    triggerDelete(publicId);
+                 }
+                 // Hide the popup after action is triggered
+                 const popup = actionButton.closest('.action-popup');
+                 if (popup) popup.style.display = 'none';
+                 return; // Handled
+             }
+        }
+
+
+        // --- Intro & Terms Flow ---
         function handleIntro() {
-            console.log("Handling Intro Sequence...");
+            log("Starting intro...");
             const introScreen = safeGetElementById('introScreen');
             if (!introScreen || introScreen.classList.contains('fade-out')) {
-                 console.log("Intro screen not found or already fading, checking terms.");
-                 checkTerms();
-                 return;
+                log("Intro screen skipped or already faded.");
+                checkTerms(); return;
             }
-
             setTimeout(() => {
-                console.log("Fading out intro screen.");
+                log("Fading intro out.");
                 introScreen.classList.add('fade-out');
-                introScreen.addEventListener('transitionend', () => {
-                    console.log("Intro fade out complete.");
-                    // No need to remove, z-index and pointer-events handle it
-                    checkTerms(); // Check terms AFTER intro fades out
-                }, { once: true });
-            }, 2500); // Duration for animation + buffer
+                introScreen.addEventListener('transitionend', checkTerms, { once: true });
+            }, 2500);
         }
 
-        // --- Terms and Conditions Logic ---
         function checkTerms() {
-            console.log("Checking terms acceptance status.");
-            const accepted = localStorage.getItem('termsAccepted');
-            if (accepted !== 'true') {
-                console.log("Terms not accepted. Showing modal.");
-                showTermsModal(false); // Show for acceptance
+            log("Checking terms acceptance...");
+            if (localStorage.getItem('termsAccepted') !== 'true') {
+                log("Terms not accepted, showing modal.");
+                showTermsModal(false);
             } else {
-                console.log("Terms previously accepted. Initializing main page.");
+                log("Terms accepted, initializing page.");
                 initializePage();
             }
         }
 
         function showTermsModal(isViewingOnly = false) {
-            console.log(`Showing terms modal. View only: ${isViewingOnly}`);
-            const modal = safeGetElementById('termsModal');
-            const acceptWrapper = safeGetElementById('termsAcceptWrapper');
-            const acceptBtn = safeGetElementById('termsAcceptBtn');
-            const closeBtn = safeGetElementById('termsCloseBtn');
-            const errorMsg = safeGetElementById('termsError');
+             log(`Show terms modal (view only: ${isViewingOnly})`);
+             const modal = safeGetElementById('termsModal');
+             const acceptWrapper = safeGetElementById('termsAcceptWrapper');
+             const acceptBtn = safeGetElementById('termsAcceptBtn');
+             const closeBtn = safeGetElementById('termsCloseBtn'); // Assumes one close btn
+             const errorMsg = safeGetElementById('termsError');
+             if (!modal || !acceptWrapper || !acceptBtn || !closeBtn || !errorMsg) return;
 
-            if (!modal || !acceptWrapper || !acceptBtn || !closeBtn || !errorMsg) return; // Exit if elements missing
+             errorMsg.textContent = '';
+             const checkbox = safeGetElementById('termsAcceptCheckbox');
+             if (checkbox) checkbox.checked = false;
 
-            errorMsg.textContent = '';
-            const checkbox = safeGetElementById('termsAcceptCheckbox');
-            if (checkbox) checkbox.checked = false;
+             acceptWrapper.style.display = isViewingOnly ? 'none' : 'flex';
+             acceptBtn.style.display = isViewingOnly ? 'none' : 'inline-flex';
+             // Only show the default 'Close' button if viewing, hide if accepting
+             closeBtn.style.display = isViewingOnly ? 'inline-flex' : 'none';
 
-            if (isViewingOnly) {
-                acceptWrapper.style.display = 'none';
-                acceptBtn.style.display = 'none';
-                closeBtn.style.display = 'inline-flex'; // Match button display type
-            } else {
-                acceptWrapper.style.display = 'flex';
-                acceptBtn.style.display = 'inline-flex';
-                closeBtn.style.display = 'none';
-            }
-            modal.style.display = 'flex';
+             showModal('termsModal'); // Use generic show
         }
 
         function acceptTerms() {
-            console.log("Attempting to accept terms...");
+            log("Accept terms clicked.");
             const checkbox = safeGetElementById('termsAcceptCheckbox');
             const errorMsg = safeGetElementById('termsError');
             if (!checkbox || !errorMsg) return;
-
             if (checkbox.checked) {
-                console.log("Terms checkbox checked. Saving acceptance.");
+                log("Terms accepted.");
                 localStorage.setItem('termsAccepted', 'true');
-                closeTermsModal();
-                initializePage(); // Load content
+                hideModal('termsModal');
+                initializePage();
             } else {
-                 console.log("Terms checkbox not checked.");
-                errorMsg.textContent = 'You must accept the terms to continue.';
+                errorMsg.textContent = 'Please accept the terms to continue.';
             }
         }
+        // closeTermsModal is handled by generic modal close listener
 
-        function closeTermsModal() {
-            console.log("Closing terms modal.");
-            const modal = safeGetElementById('termsModal');
-            if(modal) modal.style.display = 'none';
-        }
-
-        // --- Page Initialization (After Terms) ---
+        // --- Main Page Initialization ---
         function initializePage() {
-            console.log("Initializing main page content...");
-            const initialFilterButton = safeGetElementById('filter-recent');
-            if (initialFilterButton && !initialFilterButton.classList.contains('active-filter')) {
-                 setActiveFilter(initialFilterButton, 'recent', true); // Prevent double load
-            }
-            loadVideos(true); // Initial load
+            log("Initializing main page.");
+            // Set active filter button style initially
+            const initialFilter = currentFilter; // Use state variable
+            const initialBtn = safeGetElementById(`filter-${initialFilter}`);
+            if(initialBtn) setActiveFilter(initialBtn, initialFilter, true); // preventLoad=true
+
             updateFooterYear();
-            console.log("Main page initialized.");
+            loadVideos(true); // Initial video load
+            log("Main page initialized.");
         }
 
         function updateFooterYear() {
@@ -457,444 +682,341 @@
             if (yearSpan) yearSpan.textContent = new Date().getFullYear();
         }
 
-
-        // --- Modal Helper Functions ---
-        let currentPromptCallback = null;
-        let currentCancelCallback = null; // Keep this if needed for specific cancel actions
-
+        // --- Modal Helpers ---
+        // showPromptModal (keep structure, use showModal/hideModal internally)
+        // hidePromptModal (keep structure, use showModal/hideModal internally)
+        // showPromptError (keep structure)
+        // showUploadSuccessPopup (keep structure, use showModal)
+        // closeSuccessPopupAndRefresh (keep structure, use hideModal)
         function showPromptModal({ title, label, inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmationContent = '', confirmClass = '' }) {
-             console.log(`Showing prompt modal: "${title}"`);
-             const modal = safeGetElementById('promptModal');
-             const titleEl = safeGetElementById('promptTitle');
-             const contentDiv = safeGetElementById('promptContent');
-             const confirmBtn = safeGetElementById('promptConfirmBtn');
-             const cancelBtn = safeGetElementById('promptCancelBtn');
+            log(`Showing prompt modal: "${title}"`);
+            const modalId = 'promptModal';
+            const titleEl = safeGetElementById('promptTitle');
+            const contentDiv = safeGetElementById('promptContent');
+            const confirmBtn = safeGetElementById('promptConfirmBtn');
+            const cancelBtn = safeGetElementById('promptCancelBtn');
+            const errorEl = safeGetElementById('promptError'); // Ensure error exists inside contentDiv in HTML
 
-             if (!modal || !titleEl || !contentDiv || !confirmBtn || !cancelBtn) return; // Exit if elements missing
+            if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) return;
 
-             const errorEl = safeGetElementById('promptError'); // Get or create error element dynamically if needed
+            // Reset
+            titleEl.innerText = title;
+            contentDiv.innerHTML = ''; // Clear dynamic part
+            contentDiv.appendChild(errorEl); // Put error back
+            errorEl.innerText = '';
+            confirmBtn.className = 'modal-button-confirm'; // Base class
+             if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' '));
 
-             // Reset state
-             titleEl.innerText = title;
-             contentDiv.innerHTML = ''; // Clear previous dynamic content
-             if (errorEl) {
-                 errorEl.innerText = '';
-                 contentDiv.appendChild(errorEl); // Ensure error placeholder is inside
-             } else {
-                 console.warn("Prompt error element not found/created.");
-             }
-             confirmBtn.className = 'modal-button-confirm'; // Reset class
-             if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' ')); // Allow multiple classes
+            if (isConfirmation) {
+                const p = document.createElement('p');
+                p.innerHTML = confirmationContent;
+                contentDiv.insertBefore(p, errorEl);
+            } else {
+                // Add label and input
+                 const labelEl = document.createElement('label');
+                 labelEl.htmlFor = 'promptInput';
+                 labelEl.innerText = label;
+                 labelEl.className = 'block mb-2 font-semibold';
 
-             if (isConfirmation) {
-                 const confirmTextElement = document.createElement('p');
-                 confirmTextElement.innerHTML = confirmationContent; // Allows basic HTML
-                 contentDiv.insertBefore(confirmTextElement, errorEl);
-             } else {
-                 // Create label and input dynamically
-                 const newLabel = document.createElement('label');
-                 newLabel.htmlFor = 'promptInput'; // Use consistent ID
-                 newLabel.innerText = label;
-                 newLabel.className = 'block mb-2 font-semibold'; // Basic styling
+                 const inputEl = document.createElement('input');
+                 inputEl.type = inputType;
+                 inputEl.id = 'promptInput';
+                 inputEl.placeholder = placeholder;
+                 inputEl.value = initialValue;
+                  const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                  const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-4";
+                  const themeInputClasses = theme === 'light' ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200" : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
+                 inputEl.className = `${baseInputClasses} ${themeInputClasses}`;
 
-                 const newInput = document.createElement('input');
-                 newInput.type = inputType;
-                 newInput.id = 'promptInput'; // Use consistent ID
-                 newInput.name = 'promptInput';
-                 newInput.placeholder = placeholder;
-                 newInput.value = initialValue;
+                 contentDiv.insertBefore(labelEl, errorEl);
+                 contentDiv.insertBefore(inputEl, errorEl);
+            }
 
-                 // Apply theme-aware styling (ensure CSS supports these variables or classes)
-                 const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-                 const baseInputClasses = "w-full p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 mb-4";
-                 const themeInputClasses = theme === 'light'
-                    ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200"
-                    : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
-                 newInput.className = `${baseInputClasses} ${themeInputClasses}`;
+            confirmBtn.innerText = confirmText;
+            cancelBtn.innerText = cancelText;
 
-                 contentDiv.insertBefore(newLabel, errorEl);
-                 contentDiv.insertBefore(newInput, errorEl);
-             }
+            // Store callback for confirm button (cancel is handled by generic listener)
+            currentPromptCallback = callback;
+             // Remove previous listener before adding new one to avoid duplicates
+            confirmBtn.replaceWith(confirmBtn.cloneNode(true)); // Clone to remove listeners
+            safeGetElementById('promptConfirmBtn').addEventListener('click', handlePromptConfirm);
 
-             confirmBtn.innerText = confirmText;
-             cancelBtn.innerText = cancelText;
 
-             currentPromptCallback = callback;
-             currentCancelCallback = null; // Reset cancel
-
-             confirmBtn.onclick = () => {
-                 console.log(`Prompt modal "${title}" Confirm clicked.`);
-                 if (currentPromptCallback) {
-                     const value = isConfirmation ? true : safeGetElementById('promptInput')?.value;
-                     currentPromptCallback(value);
-                 } else {
-                      console.warn("No callback defined for prompt confirm.");
-                 }
-             };
-             cancelBtn.onclick = () => {
-                  console.log(`Prompt modal "${title}" Cancel clicked.`);
-                 hidePromptModal(); // Always hide on cancel
-                 if (currentCancelCallback) {
-                     currentCancelCallback();
-                 }
-             };
-
-             modal.style.display = 'flex';
-             if (!isConfirmation) {
-                 safeGetElementById('promptInput')?.focus();
-             }
+            showModal(modalId); // Show the modal
+            if (!isConfirmation) safeGetElementById('promptInput')?.focus();
         }
 
-        function hidePromptModal() {
-            console.log("Hiding prompt modal.");
-            const modal = safeGetElementById('promptModal');
-            if(modal) modal.style.display = 'none';
-            currentPromptCallback = null;
-            currentCancelCallback = null;
+        function handlePromptConfirm() {
+            log("Prompt confirm button clicked.");
+            if (currentPromptCallback) {
+                const input = safeGetElementById('promptInput');
+                const value = input ? input.value : true; // Pass input value or true if it's just confirmation
+                currentPromptCallback(value);
+            } else {
+                err("No callback registered for prompt confirmation.");
+            }
         }
 
-        function showPromptError(message) {
-             console.log("Showing prompt error:", message);
-            const errorElement = safeGetElementById('promptError'); // Target specific error element
-            if(errorElement) errorElement.innerText = message;
-            else console.error("Prompt error element not found!");
+        function hidePromptModal() { // Now just calls generic hide
+            hideModal('promptModal');
+            currentPromptCallback = null; // Clear callback
         }
 
-        // --- Upload Success Popup ---
-        function showUploadSuccessPopup(publicId, title, uploader) {
-             console.log(`Showing success popup for ${publicId}`);
-             const modal = safeGetElementById('uploadSuccessPopup');
-             const titleSpan = safeGetElementById('successVideoTitle');
-             const uploaderSpan = safeGetElementById('successUploaderName');
-             if (!modal || !titleSpan || !uploaderSpan) return;
-
-             titleSpan.innerText = title || formatTitle(publicId);
-             uploaderSpan.innerText = uploader || 'Anonymous';
-             modal.style.display = 'flex';
+         function showPromptError(message) {
+            log("Showing prompt error:", message);
+            const errorElement = safeGetElementById('promptError');
+            if (errorElement) errorElement.innerText = message;
+            else err("Cannot show prompt error, element not found.");
         }
 
-         function closeSuccessPopupAndRefresh() {
-            console.log("Closing success popup.");
-            const modal = safeGetElementById('uploadSuccessPopup');
-             if(modal) modal.style.display = 'none';
-            // Refresh is handled elsewhere (after saving details or skipping)
+         function showUploadSuccessPopup(publicId, title, uploader) {
+            log(`Showing success popup for ${publicId}`);
+            const titleSpan = safeGetElementById('successVideoTitle');
+            const uploaderSpan = safeGetElementById('successUploaderName');
+            if (titleSpan) titleSpan.innerText = title || formatTitle(publicId);
+            if (uploaderSpan) uploaderSpan.innerText = uploader || 'Anonymous';
+            showModal('uploadSuccessPopup');
+        }
+
+        function closeSuccessPopupAndRefresh() {
+            log("Closing success popup.");
+            hideModal('uploadSuccessPopup');
+            // No refresh needed here, handled after post-upload details save/skip
         }
 
         // --- Theme Toggle ---
         function toggleTheme() {
-             console.log("Toggling theme...");
-             const html = document.documentElement;
-             const currentTheme = html.getAttribute("data-theme");
-             const newTheme = currentTheme === "dark" ? "light" : "dark";
+             log("Toggling theme.");
+             // Keep logic as before
+             const html = document.documentElement; /* ... */
              html.setAttribute("data-theme", newTheme);
-             console.log(`Theme set to: ${newTheme}`);
-             // Re-apply active filter style
-             const activeButton = document.querySelector('.filter-btn.active-filter');
-             if (activeButton) {
-                 const filterType = activeButton.id.split('-').pop();
-                 setActiveFilter(activeButton, filterType, true); // true = prevent reload
-             }
+             // Update filter button styles
+              const activeBtn = $('.filter-btn.active-filter');
+              if (activeBtn) setActiveFilter(activeBtn, activeBtn.dataset.filter, true);
         }
 
         // --- Upload Logic ---
-        function showUploadPopup() {
-            console.log("Attempting to show upload popup...");
-            try {
-                const modal = safeGetElementById('uploadPopup');
-                const uploaderInput = safeGetElementById('uploaderNameInput');
-                const passwordInput = safeGetElementById('deletePassword');
-                const progressContainer = safeGetElementById('progressContainer');
-                const progressBar = safeGetElementById('progressBar');
-                const statusEl = safeGetElementById('uploadStatus');
-
-                if (!modal || !uploaderInput || !passwordInput || !progressContainer || !progressBar || !statusEl) {
-                    console.error("One or more elements for the upload popup are missing!");
-                    alert("Error: Could not open the upload window. Please refresh the page.");
-                    return;
-                }
-
-                uploaderInput.value = '';
-                passwordInput.value = '';
-                progressBar.style.width = '0%';
-                progressContainer.style.display = 'none';
-                statusEl.innerText = '';
-                modal.style.display = "flex";
-                console.log("Upload popup displayed.");
-            } catch (error) {
-                 console.error("Error in showUploadPopup:", error);
-                 alert("An unexpected error occurred while trying to open the upload window.");
-            }
-        }
-
-        function hideUploadPopup() {
-            console.log("Hiding upload popup.");
-            const modal = safeGetElementById('uploadPopup');
-            if(modal) modal.style.display = "none";
-        }
+        // showUploadPopup is handled by generic showModal via listener
+        // hideUploadPopup is handled by generic hideModal via listener
 
         function openCloudinaryUpload() {
-            console.log("Opening Cloudinary Upload Widget...");
+            log("Initiating Cloudinary upload process...");
             const uploaderNameInput = safeGetElementById('uploaderNameInput');
             const delPassInput = safeGetElementById('deletePassword');
             const progressBar = safeGetElementById('progressBar');
             const progressContainer = safeGetElementById('progressContainer');
             const status = safeGetElementById('uploadStatus');
-
-             if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status) {
-                  console.error("Missing elements required for Cloudinary upload.");
-                  return;
-             }
+            if (!uploaderNameInput || !delPassInput || !progressBar || !progressContainer || !status) return; // Should be caught by safeGetElementById
 
             const uploaderName = uploaderNameInput.value.trim() || 'Anonymous';
             const delPass = delPassInput.value.trim();
 
             if (!delPass) {
-                status.innerText = "❌ Deletion password is required.";
-                console.warn("Upload blocked: No deletion password.");
-                delPassInput.focus(); // Focus the password field
-                return;
+                status.innerText = "❌ Deletion password required.";
+                delPassInput.focus(); return;
             }
 
-            status.innerText = 'Initializing...';
+            status.innerText = 'Initializing widget...';
             progressBar.style.width = '0%';
-            progressContainer.style.display = 'block'; // Show progress
+            progressContainer.style.display = 'block';
 
             try {
                 cloudinary.openUploadWidget({
-                    cloudName, uploadPreset,
-                    sources: ['local', 'url', 'camera'],
-                    resourceType: 'video',
-                    multiple: false,
-                    clientAllowedFormats: ['mp4', 'webm', 'mov'],
-                    maxFileSize: 300000000,
-                    folder: 'gs_overlay_vault',
-                    theme: document.documentElement.getAttribute("data-theme") || "dark",
-                    // Add styles if needed
+                    cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
+                    sources: ['local', 'url', 'camera'], resourceType: 'video',
+                    multiple: false, clientAllowedFormats: ['mp4', 'webm', 'mov'],
+                    maxFileSize: 300000000, folder: 'gs_overlay_vault', // Optional folder
+                    theme: document.documentElement.getAttribute("data-theme") || "dark"
                 }, (error, result) => {
-                     if (error) {
-                        console.error("Cloudinary Widget Error:", error);
-                        status.innerText = `❌ Upload failed: ${error.message || 'Unknown error'}`;
-                        progressBar.style.width = '0%';
-                        progressContainer.style.display = 'none'; // Hide progress on error
+                    if (error) {
+                        err("Cloudinary Widget Error:", error);
+                        status.innerText = `❌ Error: ${error.message || 'Upload failed'}`;
+                        progressContainer.style.display = 'none';
                     } else if (result && result.event) {
-                         console.log("Cloudinary Event:", result.event, result.info || '');
-
-                         switch (result.event) {
-                             case "uploadprogress":
-                                 const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
-                                 progressBar.style.width = `${percent}%`;
-                                 status.innerText = `Uploading... ${percent}%`;
-                                 break;
-                             case "success":
-                                 console.log("Widget Success - Public ID:", result.info.public_id);
-                                 status.innerText = `✅ Processing...`;
-                                 progressBar.style.width = '100%';
-
-                                 postUploadData = { // Prepare for next step
-                                     publicId: result.info.public_id,
-                                     originalFilename: result.info.original_filename,
-                                     uploaderName: uploaderName
-                                 };
-
-                                 // Store immediately
-                                 localStorage.setItem(`pass_${result.info.public_id}`, delPass);
-                                 uploaderNames[result.info.public_id] = uploaderName;
-                                 localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                 console.log(`Stored password/uploader for ${result.info.public_id}`);
-                                 break;
-                             case "close":
-                                  console.log("Widget Closed event.");
-                                 // Only proceed if success happened before close
-                                 if (postUploadData) {
-                                     hideUploadPopup(); // Hide upload popup
-                                     showPostUploadDetailsModal(postUploadData); // Show details modal
-                                     postUploadData = null; // Clear temp data
-                                 } else {
-                                     console.log("Widget closed without successful upload completion.");
-                                     // Optionally update status if needed
-                                     if (!status.innerText.includes('failed')) {
-                                        status.innerText = 'Upload cancelled or closed.';
-                                        progressContainer.style.display = 'none';
-                                     }
-                                 }
-                                 break;
-                            // No need for queue-finished if multiple: false
-                         }
+                        log("Cloudinary Event:", result.event);
+                        switch (result.event) {
+                            case "uploadprogress":
+                                const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
+                                progressBar.style.width = `${percent}%`;
+                                status.innerText = `Uploading... ${percent}%`;
+                                break;
+                            case "success":
+                                log("Cloudinary Success:", result.info.public_id);
+                                status.innerText = `✅ Processing...`; progressBar.style.width = '100%';
+                                postUploadData = { publicId: result.info.public_id, originalFilename: result.info.original_filename, uploaderName: uploaderName };
+                                localStorage.setItem(`pass_${result.info.public_id}`, delPass);
+                                uploaderNames[result.info.public_id] = uploaderName;
+                                localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                                break;
+                            case "close":
+                                log("Cloudinary Widget Closed.");
+                                if (postUploadData) { // Success occurred before close
+                                    hideModal('uploadPopup');
+                                    showPostUploadDetailsModal(postUploadData);
+                                    postUploadData = null; // Clear temp data
+                                } else { // Closed without success
+                                    status.innerText = 'Upload cancelled or failed.';
+                                    progressContainer.style.display = 'none';
+                                }
+                                break;
+                        }
                     }
                 });
             } catch (widgetError) {
-                 console.error("Error initializing Cloudinary Widget:", widgetError);
-                 status.innerText = "❌ Error initializing upload widget.";
-                 progressContainer.style.display = 'none';
+                err("Error opening Cloudinary Widget:", widgetError);
+                status.innerText = "❌ Failed to open upload widget.";
+                progressContainer.style.display = 'none';
             }
         }
 
-        // --- Post-Upload Details Modal Logic ---
+        // --- Post-Upload Details ---
         function showPostUploadDetailsModal(data) {
-            console.log("Showing post-upload modal:", data);
-            postUploadData = data; // Store for saving
-            const modal = safeGetElementById('postUploadDetailsModal');
-            const titleInput = safeGetElementById('postUploadTitleInput');
-            const uploaderNameSpan = safeGetElementById('postUploadUploaderName');
-            const errorMsg = safeGetElementById('postUploadError');
-            const saveBtn = safeGetElementById('postUploadSaveBtn');
+             log("Showing post-upload details modal:", data);
+             postUploadData = data; // Store for save action
+             const titleInput = safeGetElementById('postUploadTitleInput');
+             const uploaderSpan = safeGetElementById('postUploadUploaderName');
+             const errorMsg = safeGetElementById('postUploadError');
+             const saveBtn = safeGetElementById('postUploadSaveBtn');
+             if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) return;
 
-            if (!modal || !titleInput || !uploaderNameSpan || !errorMsg || !saveBtn) return;
+             titleInput.value = formatTitle(data.publicId); // Default suggestion
+             uploaderSpan.textContent = data.uploaderName || 'Anonymous';
+             errorMsg.textContent = '';
+             saveBtn.disabled = false;
 
-            titleInput.value = formatTitle(data.publicId); // Default title
-            uploaderNameSpan.textContent = data.uploaderName || 'Anonymous';
-            errorMsg.textContent = '';
-            saveBtn.disabled = false; // Re-enable button
-
-            modal.style.display = 'flex';
-            titleInput.focus();
+             showModal('postUploadDetailsModal');
+             titleInput.focus();
         }
 
         function savePostUploadDetails() {
-            console.log("Saving post-upload details...");
-            if (!postUploadData) {
-                console.error("Save failed: postUploadData is null.");
-                // Optionally show error in the modal itself
-                const errorMsg = safeGetElementById('postUploadError');
-                if (errorMsg) errorMsg.textContent = "Error: Upload data missing. Please try again.";
-                return;
-            }
+            log("Saving post-upload details...");
+             if (!postUploadData) { err("Cannot save, postUploadData is missing!"); return; }
+             const titleInput = safeGetElementById('postUploadTitleInput');
+             const errorMsg = safeGetElementById('postUploadError');
+             const saveBtn = safeGetElementById('postUploadSaveBtn');
+             if (!titleInput || !errorMsg || !saveBtn) return;
 
-            const titleInput = safeGetElementById('postUploadTitleInput');
-            const errorMsg = safeGetElementById('postUploadError');
-            const saveBtn = safeGetElementById('postUploadSaveBtn');
-            if (!titleInput || !errorMsg || !saveBtn) return; // Elements missing
+             const newTitle = titleInput.value.trim();
+             if (!newTitle) { errorMsg.textContent = "Title is required."; return; }
 
-            const newTitle = titleInput.value.trim();
+             log(`Saving title "${newTitle}" for ${postUploadData.publicId}`);
+             saveBtn.disabled = true; errorMsg.textContent = '';
 
-            if (!newTitle) {
-                errorMsg.textContent = "Video title cannot be empty.";
-                console.warn("Save failed: Title empty.");
-                return;
-            }
+             renamedTitles[postUploadData.publicId] = newTitle;
+             localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+             log("Title saved locally.");
 
-            console.log(`Saving title "${newTitle}" for ${postUploadData.publicId}`);
-            saveBtn.disabled = true; // Prevent double save
-            errorMsg.textContent = '';
-
-            // Save title
-            renamedTitles[postUploadData.publicId] = newTitle;
-            localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
-            console.log("Title saved.");
-
-            closePostUploadModal(false); // Close this modal (false = not skipped)
-            showUploadSuccessPopup(postUploadData.publicId, newTitle, postUploadData.uploaderName); // Show final success
-            loadVideos(true); // Refresh gallery
+             hideModal('postUploadDetailsModal');
+             showUploadSuccessPopup(postUploadData.publicId, newTitle, postUploadData.uploaderName);
+             loadVideos(true); // Refresh gallery
+             postUploadData = null; // Clear temp data
         }
 
         function closePostUploadModal(skipped = false) {
-            console.log(`Closing post-upload modal. Skipped: ${skipped}`);
-            const modal = safeGetElementById('postUploadDetailsModal');
-            if(modal) modal.style.display = 'none';
-
-            if (skipped && postUploadData) {
-                 console.log("Title skipped, showing success with default title.");
-                // Still show success popup, but use default title
-                showUploadSuccessPopup(postUploadData.publicId, formatTitle(postUploadData.publicId), postUploadData.uploaderName);
-                loadVideos(true); // Refresh gallery
-            }
-            postUploadData = null; // Always clear temp data
+             log(`Closing post-upload modal (skipped: ${skipped})`);
+             hideModal('postUploadDetailsModal');
+             if (skipped && postUploadData) {
+                 log("Title skipped, showing success with default title.");
+                 showUploadSuccessPopup(postUploadData.publicId, formatTitle(postUploadData.publicId), postUploadData.uploaderName);
+                 loadVideos(true); // Still refresh gallery
+             }
+             postUploadData = null; // Clear temp data regardless
         }
 
 
-        // --- Filtering Logic ---
+        // --- Filtering ---
         function setActiveFilter(buttonElement, filterType, preventLoad = false) {
-            if (!buttonElement) {
-                console.warn(`setActiveFilter called with null buttonElement for type ${filterType}`);
-                return;
-            }
-            console.log(`Setting active filter: ${filterType}, Prevent load: ${preventLoad}`);
-            document.querySelectorAll('.filter-btn.active-filter').forEach(btn => {
-                 btn.classList.remove('active-filter');
-                 // Remove specific theme styles added previously
-                 btn.classList.remove('bg-indigo-600', 'text-white', 'bg-green-400', 'text-black');
+            if (!buttonElement) { err(`setActiveFilter: Button element is null for type ${filterType}`); return; }
+            log(`Setting active filter to ${filterType}, prevent load: ${preventLoad}`);
+            $$('.filter-options .filter-btn').forEach(btn => {
+                btn.classList.remove('active-filter');
+                 // Remove specific theme styles
+                 btn.classList.remove('bg-indigo-600', 'text-white', 'bg-green-400', 'text-black', 'border-gray-800', 'dark:border-white'); // Adjust if needed
             });
-
             buttonElement.classList.add('active-filter');
-            // Add theme-aware active styles more reliably
-            const theme = document.documentElement.getAttribute("data-theme") || "dark";
-            const activeClasses = theme === 'light'
-                ? ['bg-indigo-600', 'text-white'] // Example light theme active
-                : ['bg-green-400', 'text-black']; // Dark theme active
-            buttonElement.classList.add(...activeClasses);
+             // Add theme-aware styles
+             const theme = document.documentElement.getAttribute("data-theme") || "dark";
+             const activeClasses = theme === 'light' ? ['bg-indigo-600', 'text-white'] : ['bg-green-400', 'text-black'];
+             buttonElement.classList.add(...activeClasses);
 
-            currentFilter = filterType;
-
-            if (!preventLoad) {
-                 loadVideos(true); // Reset and load based on new filter
+            if (currentFilter !== filterType) {
+                 currentFilter = filterType;
+                 if (!preventLoad) {
+                     loadVideos(true); // Reload only if filter changed and not prevented
+                 }
             }
         }
 
         // --- Video Loading & Rendering ---
         async function loadVideos(reset = false) {
+            log(`Loading videos (Reset: ${reset}). Current filter: ${currentFilter}, Search: "${currentSearchQuery}"`);
             const gallery = safeGetElementById("gallery");
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
-            if (!gallery || !loadMoreBtn) return; // Essential elements missing
+            if (!gallery || !loadMoreBtn) return;
 
             if (reset) {
-                console.log("Loading videos (resetting).");
-                allVideos = [];
-                displayedVideos = [];
-                currentVideoIndex = 0;
-                gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Loading videos...</p>';
-                loadMoreBtn.style.display = 'none';
-                loadMoreBtn.disabled = true;
+                gallery.innerHTML = '<p class="text-center w-full col-span-full text-lg p-8">🔄 Loading...</p>';
+                loadMoreBtn.style.display = 'none'; loadMoreBtn.disabled = true;
+                currentVideoIndex = 0; // Reset index on full reload
             } else {
-                 console.log("Loading more videos.");
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
             }
 
             try {
-                 if (reset || allVideos.length === 0) {
-                    console.log("Fetching video list...");
-                    // ADD A TIMEOUT OR LOADING INDICATOR HERE FOR BETTER UX ON SLOW FETCH
-                    const res = await fetch(`/videos`); // Ensure backend endpoint is correct
-                    if (!res.ok) {
-                        throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
-                    }
-                    const data = await res.json();
-                    if (!Array.isArray(data)) {
-                        throw new Error("Invalid data format from server.");
-                    }
-                    allVideos = data;
-                    console.log(`Fetched ${allVideos.length} videos.`);
-                 }
-
-                sortVideos();
-                const filteredVideos = applySearchFilter(allVideos);
-                console.log(`${filteredVideos.length} videos after filtering.`);
-
-                if (reset) {
-                     gallery.innerHTML = ''; // Clear loading message
-                     displayedVideos = [];
-                     currentVideoIndex = 0;
+                // Fetch only if needed (first load or forced reset)
+                if (reset || allVideos.length === 0) {
+                    log("Fetching video list from backend...");
+                    const response = await fetch(`/videos`); // Ensure your backend serves this endpoint
+                    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                    allVideos = await response.json();
+                    if (!Array.isArray(allVideos)) throw new Error("Invalid data from server");
+                    log(`Fetched ${allVideos.length} total videos.`);
                 }
 
-                renderVideoBatch(filteredVideos); // Render the appropriate batch
+                sortVideos(); // Apply sort to the full list
+                const filteredVideos = applySearchFilter(allVideos); // Apply search
+                log(`Rendering ${filteredVideos.length} videos after filtering.`);
+
+                if (reset) gallery.innerHTML = ''; // Clear loading msg only after fetch/sort/filter
+
+                renderVideoBatch(filteredVideos); // Render the next batch
 
             } catch (error) {
-                console.error("Error in loadVideos:", error);
-                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}. Please try refreshing.</p>`;
-                 loadMoreBtn.style.display = 'none';
+                err("Failed to load videos:", error);
+                gallery.innerHTML = `<p class="text-center w-full col-span-full text-red-500 p-8">❌ Error loading videos: ${error.message}.</p>`;
+                loadMoreBtn.style.display = 'none';
             }
         }
 
         function sortVideos() {
-            console.log(`Sorting by: ${currentFilter}`);
-            // Sorting logic (keep as before)
-            switch (currentFilter) { /* ... */ }
+             log(`Sorting ${allVideos.length} videos by ${currentFilter}`);
+             // Simplified sort logic - ensure created_at exists and is valid date format
+             try {
+                switch (currentFilter) {
+                    case 'popular':
+                        allVideos.sort(() => Math.random() - 0.5); // Placeholder
+                        break;
+                    case 'recent':
+                    default:
+                         allVideos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        break;
+                }
+            } catch (e) {
+                err("Error during sorting:", e);
+                // Potentially fallback to no sort or default sort
+            }
         }
 
         function applySearchFilter(videos) {
              if (!currentSearchQuery) return videos;
-             console.log(`Applying search filter: "${currentSearchQuery}"`);
-             // Filtering logic (keep as before)
-            const query = currentSearchQuery.toLowerCase();
-            return videos.filter(video => { /* ... */ });
+             const query = currentSearchQuery.toLowerCase();
+             log(`Filtering by query: "${query}"`);
+             return videos.filter(video => {
+                 const title = (renamedTitles[video.public_id] || formatTitle(video.public_id)).toLowerCase();
+                 const uploader = (uploaderNames[video.public_id] || '').toLowerCase();
+                 return title.includes(query) || uploader.includes(query);
+             });
         }
 
         function renderVideoBatch(sourceVideoList) {
@@ -903,39 +1025,42 @@
             if (!gallery || !loadMoreBtn) return;
 
             const fragment = document.createDocumentFragment();
-            const nextBatchEndIndex = Math.min(currentVideoIndex + videosPerLoad, sourceVideoList.length);
-            const batch = sourceVideoList.slice(currentVideoIndex, nextBatchEndIndex);
+            const startIndex = currentVideoIndex;
+            const endIndex = Math.min(startIndex + VIDEOS_PER_LOAD, sourceVideoList.length);
 
-            console.log(`Rendering batch ${currentVideoIndex} to ${nextBatchEndIndex - 1}`);
+            log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered: ${sourceVideoList.length})`);
 
-            if (currentVideoIndex === 0 && batch.length === 0) {
-                const message = currentSearchQuery ? `📪 No results for "${currentSearchQuery}".` : '📪 No videos found.';
+             if (startIndex === 0 && endIndex === 0) { // No videos at all after filtering
+                const message = currentSearchQuery ? `📪 No results for "${currentSearchQuery}".` : '📪 No videos yet!';
                 gallery.innerHTML = `<p class="text-center w-full col-span-full text-lg p-8">${message}</p>`;
                 loadMoreBtn.style.display = 'none';
                 return;
             }
 
-            batch.forEach(file => {
+            for (let i = startIndex; i < endIndex; i++) {
+                const file = sourceVideoList[i];
+                if (!file || !file.public_id) {
+                     err("Skipping invalid video data:", file);
+                     continue; // Skip if data is malformed
+                }
                 const publicId = file.public_id;
                 const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_'); // Simplified safe ID
                 const title = renamedTitles[publicId] || formatTitle(publicId);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
-                const videoUrl = `https://res.cloudinary.com/${cloudName}/video/upload/q_auto:eco/v1/${publicId}.mp4`;
-                const thumbnailUrl = `https://res.cloudinary.com/${cloudName}/video/upload/w_300,h_180,c_fill,q_auto,so_1/v1/${publicId}.jpg`;
+                const videoUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto:eco/v1/${publicId}.mp4`;
+                const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_180,c_fill,q_auto,so_1/v1/${publicId}.jpg`;
 
                 const card = document.createElement('div');
                 card.className = 'card';
-                // Assign public_id to card dataset for easier targeting if needed
-                card.dataset.publicId = publicId;
+                card.dataset.publicId = publicId; // Store ID on card
                 card.innerHTML = `
-                    <div class="video-container" onclick="togglePlay(this.querySelector('video'))">
+                    <div class="video-container">
                         <video muted playsinline loop preload="metadata" poster="${thumbnailUrl}">
                             <source src="${videoUrl}" type="video/mp4">
                             Video not supported.
                         </video>
                     </div>
                     <div class="card-content">
-                         <!-- Link data-id to the title element -->
                         <div class="card-title" title="${title}" data-id="${publicId}">${title}</div>
                         <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                     </div>
@@ -943,126 +1068,194 @@
                         <a href="${videoUrl}" download="${title.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4" class="download-btn" title="Download ${title}">
                              <i class="fas fa-download text-xs"></i><span class="ml-1">Download</span>
                         </a>
-                         <!-- Ensure onclick event calls toggleActionMenu correctly -->
-                        <button type="button" class="menu-btn" title="Video Options" onclick="toggleActionMenu(event, '${publicId}')">
+                        <button type="button" class="menu-btn" title="Video Options">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
                     </div>
-                    <!-- Action Popup Menu - Ensure ID is correct and unique -->
                     <div class="action-popup" id="actionPopup_${safeId}">
-                        <button type="button" onclick="triggerRename('${publicId}')"><i class="fas fa-pencil-alt fa-fw w-4"></i>Rename</button>
-                        <button type="button" class="delete-action" onclick="triggerDelete('${publicId}')"><i class="fas fa-trash-alt fa-fw w-4"></i>Delete</button>
+                        <button type="button"><i class="fas fa-pencil-alt fa-fw w-4"></i>Rename</button>
+                        <button type="button" class="delete-action"><i class="fas fa-trash-alt fa-fw w-4"></i>Delete</button>
                     </div>
                 `;
                 fragment.appendChild(card);
-            });
+            }
 
             gallery.appendChild(fragment);
-            currentVideoIndex = nextBatchEndIndex;
+            currentVideoIndex = endIndex; // Update index for the next batch
 
             // Update Load More button
             if (currentVideoIndex < sourceVideoList.length) {
                 loadMoreBtn.style.display = 'block';
                 loadMoreBtn.disabled = false;
-                loadMoreBtn.innerHTML = 'Load More Videos'; // Reset text
+                loadMoreBtn.innerHTML = 'Load More Videos';
             } else {
                 loadMoreBtn.style.display = 'none';
                 loadMoreBtn.disabled = true;
-                 console.log("All filtered videos rendered.");
+                log("All videos rendered.");
             }
         }
 
         function loadMoreVideos() {
-            const loadMoreBtn = safeGetElementById('loadMoreBtn');
-             if(!loadMoreBtn || loadMoreBtn.disabled) return;
-
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
-            console.log("Load More clicked.");
-
-            const filteredVideos = applySearchFilter(allVideos);
-
-            // Optional delay for UX
-            setTimeout(() => {
-                renderVideoBatch(filteredVideos);
-            }, 200);
+             log("Load More Videos triggered.");
+             loadVideos(false); // false indicates not a reset
         }
 
         function formatTitle(publicId) {
-            // Keep previous formatTitle logic
-            try { /* ... */ } catch(e) { /* ... */ }
+             // Basic title formatting
+            try {
+                let name = publicId.includes('/') ? publicId.split('/').pop() : publicId;
+                name = name.replace(/\.[^/.]+$/, ""); // Remove extension
+                name = name.replace(/[_-]/g, ' ');
+                return name.split(' ')
+                           .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
+                           .join(' ').trim() || "Untitled"; // Fallback for empty names
+            } catch (e) { err("Error formatting title:", e); return "Untitled"; }
         }
 
         // --- Video Card Actions ---
         function togglePlay(videoElement) {
-             if (!videoElement) { console.warn("togglePlay called with null videoElement."); return; }
-             const container = videoElement.closest('.video-container');
-             try {
-                 if (videoElement.paused) {
-                     videoElement.play().then(() => {
-                         console.log("Video playing:", videoElement.src);
-                         videoElement.classList.add('playing');
-                         if (container) container.classList.add('playing');
-                     }).catch(e => console.error("Video play error:", e));
-                 } else {
-                     videoElement.pause();
-                     console.log("Video paused:", videoElement.src);
-                     videoElement.classList.remove('playing');
-                     if (container) container.classList.remove('playing');
-                 }
-             } catch (e) {
-                 console.error("Error in togglePlay:", e);
-             }
-         }
-
-        function toggleActionMenu(event, publicId) {
+            if (!videoElement) { err("togglePlay: videoElement is null"); return; }
+            const container = videoElement.closest('.video-container');
             try {
-                event.stopPropagation(); // Prevent event bubbling
-                const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_');
-                const popup = safeGetElementById(`actionPopup_${safeId}`); // Use safe getter
-                if (!popup) {
-                    console.error(`Action popup actionPopup_${safeId} not found for ${publicId}.`);
-                    return; // Exit if popup doesn't exist
+                if (videoElement.paused) {
+                    videoElement.play().then(() => {
+                        log("Playing:", videoElement.src);
+                        videoElement.classList.add('playing');
+                        if(container) container.classList.add('playing'); // Add class to hide overlay
+                    }).catch(e => err("Play error:", e));
+                } else {
+                    videoElement.pause(); log("Paused:", videoElement.src);
+                    videoElement.classList.remove('playing');
+                     if(container) container.classList.remove('playing');
                 }
-
-                console.log(`Toggling action menu: ${popup.id}`);
-
-                // Close other popups
-                document.querySelectorAll('.action-popup').forEach(p => {
-                    if (p.id !== popup.id && p.style.display === 'block') {
-                        p.style.display = 'none';
-                         console.log(`Closed other popup: ${p.id}`);
-                    }
-                });
-
-                // Toggle target popup
-                const isVisible = popup.style.display === 'block';
-                popup.style.display = isVisible ? 'none' : 'block';
-                console.log(`Popup ${popup.id} display: ${popup.style.display}`);
-
-            } catch (error) {
-                 console.error("Error in toggleActionMenu:", error);
-            }
+            } catch (e) { err("Error in togglePlay:", e); }
         }
 
-        // Close action menus listener (Keep as before, seems robust)
-        document.addEventListener('click', function(event) {
-            // ... (keep existing logic) ...
-             const openPopup = document.querySelector('.action-popup[style*="display: block"]');
-             if (openPopup && !openPopup.contains(event.target) && !event.target.closest('.menu-btn')) {
-                 console.log("Clicked outside, closing action menu:", openPopup.id);
-                 openPopup.style.display = 'none';
-             }
-        });
+        function toggleActionMenu(event, publicId) {
+             // Event delegation handles this now, direct call not strictly needed but can be kept for clarity
+             // Logic is within handleGalleryClick
+             log(`toggleActionMenu called for ${publicId}`);
+             // Get the specific popup based on publicId and toggle display
+             const safeId = publicId.replace(/[^a-zA-Z0-9_]/g, '_');
+             const popup = safeGetElementById(`actionPopup_${safeId}`);
+             if (!popup) { err(`Action popup actionPopup_${safeId} not found.`); return; }
+
+             // Close others first
+             $$('.action-popup').forEach(p => {
+                 if (p !== popup && p.style.display === 'block') p.style.display = 'none';
+             });
+
+             popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+             log(`Action popup ${popup.id} display set to ${popup.style.display}`);
+             if (event) event.stopPropagation(); // Prevent gallery click if called directly
+        }
 
         // --- Password Protected Actions ---
-        // (Keep getPasswordAndExecute, triggerRename, proceedWithRename, triggerDelete, proceedWithDelete)
-        // Ensure they use safeGetElementById where appropriate and add logging if needed.
-        function getPasswordAndExecute(publicId, actionCallback) { /* ... keep logic, add logs ... */ }
-        function triggerRename(publicId) { /* ... keep logic, add logs ... */ }
-        function proceedWithRename(publicId) { /* ... keep logic, add logs ... */ }
-        function triggerDelete(publicId) { /* ... keep logic, add logs ... */ }
-        function proceedWithDelete(publicId) { /* ... keep logic, use safeGetElementById, add logs ... */ }
+        function getPasswordAndExecute(publicId, actionCallback) {
+             log(`Getting password for action on ${publicId}`);
+             const storedPass = localStorage.getItem(`pass_${publicId}`);
+             if (!storedPass) {
+                 err(`No password found for ${publicId}`);
+                 alert("Error: Deletion password not found locally. Unable to proceed.");
+                 return;
+             }
+             showPromptModal({
+                 title: "Password Required", label: "Enter deletion password:",
+                 inputType: 'password', confirmText: 'Verify',
+                 callback: (enteredPassword) => {
+                     if (enteredPassword === storedPass) {
+                         log("Password verified."); hidePromptModal(); actionCallback();
+                     } else {
+                         log("Incorrect password."); showPromptError('Incorrect password.');
+                     }
+                 }
+             });
+        }
+
+        function triggerRename(publicId) {
+            log(`Triggering rename for ${publicId}`);
+            getPasswordAndExecute(publicId, () => proceedWithRename(publicId));
+        }
+
+        function proceedWithRename(publicId) {
+             log(`Showing rename prompt for ${publicId}`);
+             const currentTitle = renamedTitles[publicId] || formatTitle(publicId);
+             showPromptModal({
+                 title: "Rename Video", label: `New title:`,
+                 inputType: 'text', initialValue: currentTitle, confirmText: 'Save Name',
+                 callback: (newTitleInput) => {
+                     const newTitle = newTitleInput?.trim();
+                     if (newTitle && newTitle !== currentTitle) {
+                         log(`Saving new title "${newTitle}"`);
+                         renamedTitles[publicId] = newTitle;
+                         localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                         // Update DOM Title
+                         const titleEl = $(`div.card[data-public-id="${publicId}"] .card-title`);
+                         if (titleEl) titleEl.textContent = titleEl.title = newTitle;
+                         const downloadLink = $(`div.card[data-public-id="${publicId}"] .download-btn`);
+                         if (downloadLink) downloadLink.download = `${newTitle.replace(/[^a-z0-9_\-\.]/gi, '_')}.mp4`;
+                         hidePromptModal();
+                     } else if (!newTitle) { showPromptError("Title cannot be empty.");
+                     } else { showPromptError("Title is unchanged."); }
+                 }
+             });
+        }
+
+        function triggerDelete(publicId) {
+            log(`Triggering delete for ${publicId}`);
+             getPasswordAndExecute(publicId, () => proceedWithDelete(publicId));
+        }
+
+        function proceedWithDelete(publicId) {
+             log(`Showing delete confirmation for ${publicId}`);
+             const title = renamedTitles[publicId] || formatTitle(publicId);
+             showPromptModal({
+                 isConfirmation: true, title: "Confirm Deletion",
+                 confirmationContent: `Permanently delete "<strong>${title}</strong>"?<br>This cannot be undone.`,
+                 confirmText: "Delete Forever", cancelText: "Cancel",
+                 confirmClass: 'modal-button-delete bg-red-600 hover:bg-red-700',
+                 callback: (confirmed) => {
+                     if (confirmed) {
+                         log(`Deletion confirmed for ${publicId}. Proceeding with API call.`);
+                         hidePromptModal();
+                         const cardToDelete = $(`div.card[data-public-id="${publicId}"]`);
+                         if (cardToDelete) { // Animate removal
+                              cardToDelete.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                              cardToDelete.style.opacity = '0'; cardToDelete.style.transform = 'scale(0.95)';
+                              setTimeout(() => cardToDelete.remove(), 400);
+                         }
+                         fetch(`/delete/${encodeURIComponent(publicId)}`, { method: "DELETE" })
+                             .then(async response => {
+                                 if (!response.ok) {
+                                     const errData = await response.json().catch(() => ({}));
+                                     throw new Error(errData.message || `Server Error: ${response.status}`);
+                                 }
+                                 return response.json();
+                             })
+                             .then(data => {
+                                 if (data.status === "success") {
+                                     log(`Successfully deleted ${publicId} from server.`);
+                                     localStorage.removeItem(`pass_${publicId}`);
+                                     delete renamedTitles[publicId]; delete uploaderNames[publicId];
+                                     localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                                     allVideos = allVideos.filter(v => v.public_id !== publicId);
+                                     // No alert needed, removal is visual feedback
+                                 } else { throw new Error(data.message || "Deletion failed."); }
+                             })
+                             .catch(err => {
+                                 err("Deletion failed:", err);
+                                 alert(`Error deleting video: ${err.message}`);
+                                 // If animation removed card, we might need to refresh to show it again on error
+                                 if (cardToDelete && !document.contains(cardToDelete)) loadVideos(true);
+                                 else if(cardToDelete) { // Restore style if not removed
+                                    cardToDelete.style.opacity = '1'; cardToDelete.style.transform = 'scale(1)';
+                                 }
+                             });
+                     } else { log("Deletion cancelled."); }
+                 }
+             });
+        }
 
     </script>
 
