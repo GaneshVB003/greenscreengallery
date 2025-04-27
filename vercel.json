@@ -11,3 +11,14 @@
     { "src": "/(.*)",            "dest": "/api/index.py" }
   ]
 }
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/index.py",    "use": "@vercel/python" },
+    { "src": "api/robots.txt",  "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/robots\\.txt",   "dest": "/api/robots.txt" },
+    { "src": "/(.*)",           "dest": "/api/index.py" }
+  ]
+}
