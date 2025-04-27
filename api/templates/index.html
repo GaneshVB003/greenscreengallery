@@ -38,9 +38,10 @@
             z-index: 40; display: flex; align-items: center; justify-content: center;
         }
         .header h1 { animation: fadeInDown 1s ease-in-out; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; margin: 0; flex-grow: 1; text-align: center; }
+        /* Container to position buttons relative to header edges */
         .header-buttons-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; pointer-events: none; }
-        .header-buttons { display: flex; gap: 0.5rem; pointer-events: auto; }
-        .header-btn { background: rgba(0, 0, 0, 0.5); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s; display: flex; align-items: center; gap: 0.3rem; position: relative; z-index: 41; }
+        .header-buttons { display: flex; gap: 0.5rem; pointer-events: auto; } /* Allow clicking buttons */
+        .header-btn { background: rgba(0, 0, 0, 0.5); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s, transform 0.2s; display: flex; align-items: center; gap: 0.3rem; position: relative; z-index: 41; /* Ensure buttons are clickable */ overflow: hidden; /* Needed for theme icon animation */ }
         .header-btn:hover { background: rgba(0, 0, 0, 0.7); transform: scale(1.05); }
         html[data-theme="light"] .header-btn { background: rgba(255, 255, 255, 0.7); color: black; border-color: rgba(0, 0, 0, 0.2); }
         html[data-theme="light"] .header-btn:hover { background: rgba(255, 255, 255, 0.9); }
@@ -54,7 +55,9 @@
             .header-buttons-container { padding: 0 1.5rem; }
         }
         @media (max-width: 639px) {
+            /* Hide text span on small screens */
             .header-btn span.button-text { display: none; }
+            /* Adjust padding for icon-only button */
             .header-btn { padding: 0.5rem; }
             .header h1 { font-size: 1.5rem; }
             .header { padding: 1rem 0.5rem; }
@@ -62,13 +65,16 @@
         }
 
         /* --- Sun/Moon Theme Toggle Animation --- */
-        .theme-icon { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease; opacity: 0; pointer-events: none; z-index: 40; }
+        .theme-icon { position: absolute; top: -25px; /* Start above button */ left: 50%; transform: translateX(-50%); font-size: 1.5rem; transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease; opacity: 0; pointer-events: none; z-index: 40; /* Ensure below button content */ }
         #sunIcon { color: #ffcc00; }
         #moonIcon { color: #f0e68c; }
-        html:not([data-theme="light"]) #moonIcon { transform: translate(-50%, 40px); opacity: 1; } /* Moon appears in dark mode */
-        html:not([data-theme="light"]) #sunIcon { transform: translate(-50%, 80px); opacity: 0; } /* Sun hides */
-        html[data-theme="light"] #sunIcon { transform: translate(-50%, 40px); opacity: 1; } /* Sun appears in light mode */
-        html[data-theme="light"] #moonIcon { transform: translate(-50%, 80px); opacity: 0; } /* Moon hides */
+        /* Position icons inside the button context - adjust Y offset */
+        /* Moon appears from top when switching TO dark */
+        html:not([data-theme="light"]) #moonIcon { transform: translate(-50%, 40px); opacity: 1; } /* Moves down into view */
+        html:not([data-theme="light"]) #sunIcon { transform: translate(-50%, 80px); opacity: 0; } /* Moves further down out of view */
+        /* Sun appears from top when switching TO light */
+        html[data-theme="light"] #sunIcon { transform: translate(-50%, 40px); opacity: 1; } /* Moves down into view */
+        html[data-theme="light"] #moonIcon { transform: translate(-50%, 80px); opacity: 0; } /* Moves further down out of view */
 
 
         /* --- Gallery & Cards --- */
@@ -81,17 +87,20 @@
         .video-container video { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
         .video-container::after { content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255, 255, 255, 0.8); opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
         .video-container:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        .video-container video.playing + ::after, .video-container.playing::after { opacity: 0 !important; } /* Hide play icon when container has 'playing' class */
+        /* Hide play icon when video IS playing (container has 'playing' class) */
+        .video-container.playing::after { opacity: 0 !important; }
         .card-content { padding: 1rem; flex-grow: 1; }
         .card-title { font-weight: bold; margin-bottom: 0.25rem; line-height: 1.3; height: 2.6em; overflow: hidden; font-size: 1rem; word-break: break-all; /* Prevent long titles breaking layout */ }
-        .uploader-name { font-size: 0.8rem; opacity: 0.8; text-align: right; margin-bottom: 0.5rem; color: #bbb; }
+        /* Container for uploader name and download count */
+        .meta-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-size: 0.8rem; gap: 0.5rem; }
+        .uploader-name { opacity: 0.8; color: #bbb; text-align: right; } /* Keep alignment */
         html[data-theme="light"] .uploader-name { opacity: 0.9; color: #555; }
+        /* Download Count Style */
+        .download-count { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; /* Prevent shrinking */ }
+        html[data-theme="light"] .download-count { color: #666; }
+        .download-count i { font-size: 0.7rem; animation: icon-pulse 2.5s infinite ease-in-out; /* Add subtle pulse */ display: inline-block; }
         .card-footer { padding: 0 1rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; }
         html[data-theme="light"] .card-footer { border-top-color: #e2e8f0; }
-        /* Download Count Placeholder Style */
-        .download-count { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 0.2rem; }
-        html[data-theme="light"] .download-count { color: #666; }
-        .download-count i { font-size: 0.7rem; } /* Smaller icon */
 
         .download-btn { background: #00ff88; color: black; padding: 0.5rem 1rem; text-align: center; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 0.5rem; font-size: 0.85rem; line-height: 1; transition: background-color 0.2s ease, transform 0.2s ease; }
         .download-btn:hover { background-color: #00e67a; transform: scale(1.05); }
@@ -102,7 +111,7 @@
         .menu-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid #555; border-radius: 50%; width: 32px; height: 32px; font-weight: bold; cursor: pointer; line-height: 1; color: #aaa; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.3s ease; } /* Longer transform transition */
         html[data-theme="light"] .menu-btn { background: rgba(0, 0, 0, 0.05); border-color: #ccc; color: #555; }
         .menu-btn i { transition: transform 0.3s ease; display: inline-block; }
-        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); color: white; border-color: #00ff88; transform: scale(1.1); } /* Keep scale, remove rotate */
+        .menu-btn:hover { background: rgba(0, 255, 136, 0.3); color: white; border-color: #00ff88; transform: scale(1.1); } /* Keep scale, remove rotate from button */
         .menu-btn:hover i { transform: rotate(90deg); } /* Rotate icon only */
         html[data-theme="light"] .menu-btn:hover { background: rgba(16, 185, 129, 0.2); color: #10b981; border-color: #10b981; }
 
@@ -193,23 +202,22 @@
         .filter-search-area { padding: 1.5rem; background-color: rgba(0,0,0,0.15); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(3px); } /* Lowered z-index */
         html[data-theme="light"] .filter-search-area { background-color: rgba(255,255,255,0.7); border-bottom-color: #e2e8f0; backdrop-filter: blur(5px); }
         .filter-options { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .filter-btn { /* Inactive styles set dynamically in JS */ padding: 0.5rem 1rem; margin: 0; text-align: center; font-weight: bold; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; font-size: 0.85rem; }
+        /* Filter Button styles managed dynamically in JS by setActiveFilterButton() */
+        .filter-btn { padding: 0.5rem 1rem; margin: 0; text-align: center; font-weight: bold; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; font-size: 0.85rem; }
         .filter-btn:hover:not(.active-filter) { transform: translateY(-2px); /* Hover only if not active */ }
-        .filter-btn.active-filter { /* Active styles set dynamically in JS */ transform: translateY(-1px); }
+        .filter-btn.active-filter { transform: translateY(-1px); }
         .search-container { display: flex; justify-content: center; align-items: center; max-width: 400px; margin: 0 auto; position: relative; }
         .search-container label { display: none; }
         .search-container input { flex-grow: 1; padding: 0.7rem 1rem 0.7rem 2.5rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
         .search-container::before { content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #888; font-size: 0.9rem; transition: color 0.2s, transform 0.2s; pointer-events: none;} /* Added pointer-events */
         html[data-theme="light"] .search-container::before { color: #777; }
-        .search-container input:focus ~ ::before { color: #00ccff; transform: translateY(-50%) scale(1.1);} /* Icon color/size change on focus - CORRECTED SELECTOR (use sibling combinator ~ if icon is after input, or adjust if needed) */
-        /* Correction: Icon is ::before pseudo-element of container, not sibling. Focus changes input style, then target container's ::before */
+        /* Icon glow on input focus - using adjacent sibling or focus-within if needed */
         .search-container input:focus + label + ::before, /* If label exists */
-        .search-container input:focus::before /* If icon is on input (less common) */ {
-            /* Targetting ::before of container when input inside has focus is tricky directly. We'll style the input's border/shadow instead which is standard. */
+        .search-container:focus-within::before /* More reliable */ {
+             color: #00ccff; transform: translateY(-50%) scale(1.1);
         }
+        html[data-theme="light"] .search-container:focus-within::before { color: #38bdf8; }
         .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.3); }
-        /* Let's re-add the icon glow on focus via ::before if possible */
-        .search-container input:focus ~ ::before { /* Re-attempting selector - might need JS class add */ color: #00ccff; transform: translateY(-50%) scale(1.1); } /* This might still not work reliably across browsers */
         html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3); }
         html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
 
@@ -240,6 +248,8 @@
         html[data-theme="light"] .info-section h2 { color: #10b981; }
         .info-section h3 { font-size: 1.4rem; font-weight: bold; margin-top: 2.5rem; margin-bottom: 1rem; color: #00ccff; }
         html[data-theme="light"] .info-section h3 { color: #0ea5e9; }
+        .info-section h3 i { display: inline-block; transition: transform 0.3s ease; } /* Enable icon animation */
+        .info-section h3:hover i { transform: scale(1.15) rotate(-5deg); }
         .info-section p, .info-section ol { max-w-3xl mx-auto mb-4 text-base leading-relaxed; }
         html[data-theme="dark"] .info-section p, html[data-theme="dark"] .info-section ol { color: #bbb; }
         html[data-theme="light"] .info-section p, html[data-theme="light"] .info-section ol { color: #4b5563; }
@@ -249,7 +259,7 @@
         .info-section i.fa-eye-dropper { animation: icon-bounce 1.5s infinite; display: inline-block; }
         .info-section i.fa-lightbulb { animation: icon-pulse 2s infinite ease-in-out; display: inline-block; }
         .info-section .info-cta i { transition: transform 0.2s ease; display: inline-block;}
-        .info-section .info-cta:hover i { transform: scale(1.1); }
+        .info-section .info-cta:hover i { transform: scale(1.1) translateX(3px); } /* Slight move right */
         .info-section code { background-color: rgba(255,255,255,0.15); padding: 0.2em 0.5em; border-radius: 4px; font-size: 0.9em; color: #00ff88; }
         html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.07); color: #10b981; }
         .video-wrapper { max-width: 700px; margin: 2rem auto; box-shadow: 0 8px 25px rgba(0,0,0,0.3); border-radius: 1rem; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;}
@@ -270,9 +280,9 @@
         .site-footer { text-align: center; padding: 2rem 1rem; margin-top: 3rem; font-size: 0.9rem; border-top: 1px solid #333; background-color: rgba(0,0,0,0.2); }
         html[data-theme="light"] .site-footer { border-top-color: #ddd; background-color: rgba(0,0,0,0.03); }
         .footer-links { margin-top: 0.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-        .footer-link { color: #00ccff; text-decoration: none; cursor: pointer; transition: color 0.2s, text-decoration 0.2s; }
+        .footer-link { color: #00ccff; text-decoration: none; cursor: pointer; transition: color 0.2s, transform 0.2s; display: inline-block; /* For transform */ }
         html[data-theme="light"] .footer-link { color: #0ea5e9; }
-        .footer-link:hover { color: #00ff88; text-decoration: underline; }
+        .footer-link:hover { color: #00ff88; text-decoration: underline; transform: translateY(-1px); }
         html[data-theme="light"] .footer-link:hover { color: #10b981; }
 
         /* --- Ad Placeholder Styles (Optional) --- */
@@ -336,16 +346,19 @@
         html[data-theme="light"] .gallery-message.error { color: #dc2626; background-color: #fee2e2; border: 1px solid #fecaca;}
         .gallery-message.empty { color: #60a5fa; /* Blue */ }
         html[data-theme="light"] .gallery-message.empty { color: #3b82f6; }
+        .gallery-message.end-of-list { animation: fadeInUp 0.5s ease-out; } /* Add animation to end message */
 
         /* Ensure card fade-out works */
         .card.deleting {
-            opacity: 0;
-            transform: scale(0.9);
-            height: 0;
-            margin: 0;
-            padding: 0;
-            border-width: 0;
-            overflow: hidden;
+            opacity: 0 !important; /* Use important to override other styles */
+            transform: scale(0.9) !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden !important;
+            /* Transition applied in base .card style is sufficient */
         }
 
     </style>
@@ -366,7 +379,7 @@
                  <button type="button" id="themeToggleBtn" class="header-btn" title="Toggle Theme" aria-label="Toggle color theme">
                      <i class="fas fa-adjust"></i>
                      <span class="button-text sr-only sm:not-sr-only">Theme</span>
-                     <!-- Sun and Moon Icons for Animation -->
+                     <!-- Sun and Moon Icons for Animation - Positioned inside button -->
                      <div id="sunIcon" class="theme-icon" aria-hidden="true"><i class="fas fa-sun"></i></div>
                      <div id="moonIcon" class="theme-icon" aria-hidden="true"><i class="fas fa-moon"></i></div>
                  </button>
@@ -391,8 +404,8 @@
         <div class="filter-options" role="tablist" aria-label="Video Filters">
              <button type="button" class="filter-btn" data-filter="recent" id="filter-recent" role="tab" aria-selected="true">Most Recent</button>
              <button type="button" class="filter-btn" data-filter="popular" id="filter-popular" role="tab" aria-selected="false">Popular</button>
-             <!-- Add 'Relevant' filter if backend search is implemented -->
-             <!-- <button type="button" class="filter-btn" data-filter="relevant" id="filter-relevant" role="tab" aria-selected="false">Relevant</button> -->
+             <!-- 'Relevant' filter requires backend search. Commented out for now. -->
+             <!-- <button type="button" class="filter-btn" data-filter="relevant" id="filter-relevant" role="tab" aria-selected="false" title="Requires search query">Relevant</button> -->
         </div>
         <div class="search-container">
             <label for="search" class="sr-only">Search Videos:</label>
@@ -407,6 +420,7 @@
         <div class="gallery" id="gallery" aria-live="polite">
             <!-- Initial loading message -->
              <p class="gallery-message info" id="gallery-loading-msg">🔄 Loading Videos...</p>
+             <!-- Messages like 'no results' or errors will be dynamically added here -->
         </div>
 
         <!-- Load More Button -->
@@ -414,7 +428,7 @@
 
         <!-- Info / How-to Section -->
         <section class="info-section landing-page">
-             <h2>Unlock Your Creativity</h2>
+             <h2><i class="fas fa-lightbulb mr-2"></i>Unlock Your Creativity</h2>
              <p>
                  Welcome to the Green Screen Vault! Your ultimate destination for free <span class="tooltip">chroma key<span class="tooltiptext">Chroma key compositing, or chroma keying, is a visual effects technique for compositing two images or video streams together based on color hues (chroma range).</span></span> footage and video clips. Find dynamic effects, transitions, elements, and <strong class="text-green-400 dark:text-green-300">even popular meme templates</strong> to elevate your video projects – all free to download and use! Find the perfect clip for your next video.
              </p>
@@ -437,7 +451,7 @@
                  <li><strong>Refine:</strong> Adjust Matte Generation/Cleanup/Spill Suppression settings for a clean key. Experiment with <span class="tooltip">Choke<span class="tooltiptext">Reduces the size of the matte slightly to hide faint edges.</span></span> and <span class="tooltip">Soften<span class="tooltiptext">Blurs the edges of the matte for smoother blending.</span></span> for best results.</li>
                  <li><strong>Composite:</strong> Position, scale, or animate the keyed overlay layer as needed to blend it into your scene!</li>
              </ol>
-              <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Pro Tips & Benefits for Content Creators</h3>
+              <h3><i class="fas fa-rocket mr-1"></i> Pro Tips & Benefits for Content Creators</h3>
               <p>
                   Using pre-made green screen clips saves significant time compared to creating complex effects from scratch. They add professional polish to YouTube videos, live streams (OBS/Streamlabs), social media content (TikTok/Instagram Reels), and indie films. This vault thrives on community contributions – consider uploading your own creations! Share your awesome green screen effects, transitions, video elements, or even those hilarious <strong class="text-green-400 dark:text-green-300">meme templates</strong> everyone is looking for! Help fellow creators find the perfect video clips.
               </p>
@@ -483,11 +497,6 @@
     </div>
 
     <!-- Post-Upload Details Modal (REMOVED - No longer shown automatically) -->
-    <!--
-    <div class="modal-backdrop" id="postUploadDetailsModal">
-        ... modal content ...
-    </div>
-    -->
 
     <!-- Generic Prompt/Confirmation Modal -->
     <div class="modal-backdrop" id="promptModal">
@@ -560,7 +569,7 @@
                    <h4>Information We Collect</h4>
                    <ul>
                         <li><strong>Uploaded Content:</strong> Videos you choose to upload are processed and stored via Cloudinary and become publicly accessible under the CC0 license.</li>
-                        <li><strong>Metadata:</strong> We may store metadata associated with uploads, such as the public ID provided by Cloudinary, the optional uploader name you provide, and any title you assign (if renaming is implemented server-side). This may be stored temporarily or in a simple database for listing purposes.</li>
+                        <li><strong>Metadata:</strong> We may store metadata associated with uploads, such as the public ID provided by Cloudinary, the optional uploader name you provide, and any title you assign (if renaming is implemented server-side). This may be stored temporarily or in a simple database for listing purposes. **Download counts may also be stored server-side if implemented.**</li>
                         <li><strong>Deletion Password Reference (Local Storage):</strong> The deletion password you provide during upload is stored <strong>only</strong> in your web browser's local storage. It is never sent to or stored on our servers. It is linked to the upload's public ID within your browser.</li>
                         <li><strong>User Preferences (Local Storage):</strong> We use local storage to remember your theme preference (dark/light) and whether you have accepted the terms.</li>
                         <li><strong>Locally Stored Data (Local Storage):</strong> Renamed titles and uploader names associated with videos are also stored in your browser's local storage to persist your customizations across sessions on that specific browser.</li>
@@ -620,7 +629,7 @@
                 <p class="mb-4">Hey there! We're the team behind the <strong>Green Screen Vault</strong>.</p>
                 <p class="mb-4">We're a passionate group of video editors and creators who noticed a need for a simple, free, and community-driven resource for high-quality green screen assets. That's why we built this Vault – a place to easily find, download, and share awesome chroma key clips for all kinds of projects.</p>
                 <p class="mb-4">Beyond running this site, we're also <strong>professional video editors</strong>! We love bringing stories to life and crafting visually stunning content. If you need help with your next video project, whether it's a complex edit, motion graphics, or just polishing up your footage, we're here to help.</p>
-                <p>Get in touch for editing inquiries: <a href="mailto:coolestvideoeditor@gmail.com" class="text-blue-400 hover:text-blue-300 underline">coolestvideoeditor@gmail.com</a></p>
+                <p>Get in touch for editing inquiries: <a href="mailto:coolestvideoeditor@gmail.com" class="text-blue-400 hover:text-blue-300 underline transition-colors">coolestvideoeditor@gmail.com</a></p>
                 <p class="mt-4 text-sm text-gray-400">For general site questions or feedback, please use the Contact Us link.</p>
             </div>
             <div class="modal-buttons justify-center">
@@ -639,8 +648,8 @@
                 <p class="mb-2">Maybe you have a brilliant idea for a new feature, or perhaps you just want to say hi (we like those too!).</p>
                 <p class="mt-5">Reach out directly via email:</p>
                 <p class="mt-2 text-lg font-semibold">
-                    <a href="mailto:ganeshvb003@gmail.com" class="text-purple-400 hover:text-purple-300 underline">
-                        <i class="fas fa-paper-plane mr-2"></i>ganeshvb003@gmail.com
+                    <a href="mailto:ganeshvb003@gmail.com" class="text-purple-400 hover:text-purple-300 underline transition-colors inline-block hover:scale-105">
+                        <i class="fas fa-paper-plane mr-2 inline-block transition-transform hover:rotate-12"></i>ganeshvb003@gmail.com
                     </a>
                 </p>
                  <p class="mt-5 text-sm text-gray-400">We'll do our best to get back to you soon!</p>
@@ -682,11 +691,12 @@
         // === IMPORTANT: BACKEND ENDPOINT CONFIGURATION ===
         // =====================================================================
         // Replace these with your actual backend API endpoints if you build one.
-        // If you don't have a backend, fetching/deleting will only work for uploads
-        // within the same session (using local storage) and deletions won't persist.
+        // If you don't have a backend, fetching/deleting/download counts will rely
+        // heavily on local storage and won't persist across sessions or be accurate globally.
         const VIDEO_FETCH_ENDPOINT = '/videos'; // Endpoint to get the list of all videos (e.g., from a database)
         const VIDEO_DELETE_ENDPOINT_BASE = '/delete'; // Base endpoint for deleting a video (e.g., /delete/:public_id)
-        // const DOWNLOAD_INCREMENT_ENDPOINT_BASE = '/increment_download'; // Example: Endpoint to track downloads (/increment_download/:public_id)
+        // Endpoint to track downloads - **REQUIRED** for accurate 'Popular' sort and display
+        const DOWNLOAD_INCREMENT_ENDPOINT_BASE = '/increment_download'; // Example: /increment_download/:public_id (must be implemented on backend)
         // =====================================================================
 
         const VIDEOS_PER_LOAD = 12; // How many videos to load per batch
@@ -697,7 +707,6 @@
         let uploaderNames = {}; // Key: public_id, Value: user-set name (localStorage)
         let currentFilter = 'recent'; // Default filter state
         let currentSearchQuery = ''; // Default search state
-        // let postUploadData = null; // REMOVED - No longer needed for intermediate modal
         let currentPromptCallback = null; // Callback for the generic prompt modal
         let isFetching = false; // Flag to prevent multiple fetches
 
@@ -738,8 +747,7 @@
                     modalBox.setAttribute('tabindex', '-1'); // Make it focusable if no interactive elements found
                     setTimeout(() => modalBox.focus(), 50);
                 }
-                 // Disable body scroll might be considered, but can have side effects
-                 // document.body.style.overflow = 'hidden';
+                 // document.body.style.overflow = 'hidden'; // Consider implications if enabling
             } else {
                  err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
             }
@@ -750,8 +758,7 @@
             const modal = safeGetElementById(modalId);
             if (modal && modal.classList.contains('modal-backdrop') && modal.style.display !== 'none') {
                  modal.classList.add('modal-fade-out');
-                 // Re-enable body scroll if it was disabled
-                 // document.body.style.overflow = '';
+                 // document.body.style.overflow = ''; // Re-enable if disabled
 
                 // Use setTimeout matching animation duration + slight buffer
                 setTimeout(() => {
@@ -779,7 +786,7 @@
             } catch (error) {
                 err("Initialization failed:", error);
                 const gallery = safeGetElementById('gallery');
-                if (gallery) displayGalleryMessage('Error loading page. Please refresh.', 'error');
+                if (gallery) displayGalleryMessage('❌ Error loading page. Please refresh.', 'error');
             }
         });
 
@@ -812,7 +819,6 @@
             const showContactLink = safeGetElementById('showContactLink');
             const selectUploadBtn = safeGetElementById('selectUploadBtn');
             const termsAcceptBtn = safeGetElementById('termsAcceptBtn');
-            // const postUploadSaveBtn = safeGetElementById('postUploadSaveBtn'); // REMOVED
 
             // Header Buttons
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
@@ -885,14 +891,16 @@
                 // Generic modal close (button or backdrop click)
                  const modalBackdrop = target.closest('.modal-backdrop');
                  const closeAction = target.closest('[data-action="close-modal"]');
+                 // If clicked on backdrop directly OR on a button with data-action="close-modal"
                  if (target.classList.contains('modal-backdrop') || closeAction) {
                     if(modalBackdrop) hideModal(modalBackdrop.id);
                  }
 
-                 // Specific modal actions triggered by data-action
-                 const action = target.closest('[data-action]')?.dataset.action;
-                 if (action === 'close-prompt') hideModal('promptModal');
-                 // 'skip-title' action removed as post-upload modal is bypassed
+                 // Prompt modal specific close action
+                 const closePromptAction = target.closest('[data-action="close-prompt"]');
+                 if (closePromptAction) {
+                    hideModal('promptModal');
+                 }
 
                  // Close action popups if clicked outside
                 const openPopup = document.querySelector('.action-popup[style*="display: block"]');
@@ -907,18 +915,13 @@
             // Upload Modal Specific Buttons
              if (selectUploadBtn) selectUploadBtn.addEventListener('click', openCloudinaryUpload);
              if (termsAcceptBtn) termsAcceptBtn.addEventListener('click', acceptTerms);
-             // if (postUploadSaveBtn) postUploadSaveBtn.addEventListener('click', savePostUploadDetails); // REMOVED
 
-             // Prompt modal confirm/cancel are handled within showPromptModal setup
+             // Prompt modal confirm is handled within showPromptModal setup
 
              // Gallery Event Listener (Delegation for play/menu/actions/download)
              if (galleryElement) {
                  galleryElement.addEventListener('click', handleGalleryClick);
              }
-
-             // Add listener for download button clicks specifically (for count increment)
-             // Note: This needs to happen *after* the card is created, so delegation is best.
-             // Moved into handleGalleryClick for consolidation.
 
             log("Static event listeners set up.");
         }
@@ -967,21 +970,41 @@
              const downloadBtn = target.closest('.download-btn');
              if (downloadBtn && publicId) {
                 log(`Download button clicked for ${publicId}. Triggering count increment (if backend exists).`);
-                // --- DOWNLOAD COUNT INCREMENT ---
-                // This requires a backend endpoint. Uncomment and adapt if you build one.
+
+                // --- DOWNLOAD COUNT INCREMENT (Requires Backend) ---
+                // This requires a backend endpoint like /increment_download/:public_id
+                // Uncomment and adapt if you build this endpoint.
                 /*
-                const incrementUrl = `${DOWNLOAD_INCREMENT_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
-                fetch(incrementUrl, { method: 'POST', cache: 'no-store', keepalive: true }) // keepalive helps if user navigates away
-                    .then(response => {
-                        if (!response.ok) log(`Failed to increment download count for ${publicId} (status: ${response.status})`);
-                        else log(`Increment request sent for ${publicId}`);
-                        // Optionally update the count in the UI immediately or after confirmation
-                    })
-                    .catch(err => err(`Error sending download increment for ${publicId}:`, err));
+                if (DOWNLOAD_INCREMENT_ENDPOINT_BASE) {
+                    const incrementUrl = `${DOWNLOAD_INCREMENT_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
+                    log(`Sending download increment request to: ${incrementUrl}`);
+                    // Use sendBeacon or fetch with keepalive for better reliability if user navigates away
+                    if (navigator.sendBeacon) {
+                         navigator.sendBeacon(incrementUrl);
+                         log(`Sent beacon for download increment: ${publicId}`);
+                    } else {
+                        fetch(incrementUrl, { method: 'POST', cache: 'no-store', keepalive: true })
+                            .then(response => {
+                                if (!response.ok) log(`Failed to increment download count for ${publicId} (status: ${response.status})`);
+                                else log(`Increment request succeeded for ${publicId}`);
+                                // Optionally update the count in the UI immediately (optimistic update)
+                                // or wait for fetchAndRenderVideos to potentially get updated counts.
+                                // For immediate update:
+                                // const countEl = card?.querySelector('.download-count');
+                                // if (countEl) {
+                                //    const currentCount = parseInt(countEl.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+                                //    countEl.innerHTML = `<i class="fas fa-download" aria-hidden="true"></i> ${(currentCount + 1).toLocaleString()}`;
+                                //    countEl.title = `${(currentCount + 1).toLocaleString()} downloads`;
+                                // }
+                            })
+                            .catch(err => err(`Error sending download increment for ${publicId}:`, err));
+                    }
+                } else {
+                     log("Download increment endpoint not configured, skipping count update.");
+                }
                 */
-                // NOTE: The actual file download is handled by the browser via the href/download attributes on the <a> tag.
-                // This click handler is *only* for potentially triggering the backend count.
-                // We DON'T prevent the default link behavior here.
+                // NOTE: Do NOT prevent the default link behavior here. The actual file
+                // download is handled by the browser via the href/download attributes on the <a> tag.
              }
         }
 
@@ -1099,14 +1122,19 @@
             contentDiv.innerHTML = ''; // Clear previous content first
             errorEl.innerText = ''; // Clear previous error text
             errorEl.style.display = 'none'; // Hide error initially
-            contentDiv.appendChild(errorEl); // Ensure error container is always present at the end of contentDiv
+            // Place error element inside contentDiv for dynamic content insertion
+            contentDiv.appendChild(errorEl);
 
-            // Set button classes
+            // Set button classes and text
             confirmBtn.className = 'modal-button-confirm'; // Reset base class
-             if (confirmClass) confirmBtn.classList.add(...confirmClass.split(' '));
-             else if(confirmClass === 'cancel') { // Special case for using cancel style on confirm button
-                confirmBtn.className = 'modal-button-cancel';
+             if (confirmClass) {
+                 confirmBtn.classList.add(...confirmClass.split(' '));
+             } else if (isConfirmation && !confirmClass.includes('modal-button-delete') && !confirmClass.includes('modal-button-confirm')) {
+                 // Default confirmation button style if not otherwise specified
+                 confirmBtn.classList.add('modal-button-confirm');
              }
+            confirmBtn.textContent = confirmText; // Allow icon in text later if needed
+            cancelBtn.textContent = cancelText; // Allow icon in text later if needed
 
             let inputEl = null; // Variable to hold the input element if created
 
@@ -1139,13 +1167,11 @@
                     ? "bg-gray-100 border-gray-300 text-gray-900 focus:border-blue-400 focus:ring-blue-200"
                     : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
                  inputEl.className = `${baseInputClasses} ${themeInputClasses}`;
+                 inputEl.setAttribute('aria-label', inputLabel); // Add aria-label for screen readers
 
                  contentDiv.insertBefore(labelEl, errorEl);
                  contentDiv.insertBefore(inputEl, errorEl);
             }
-
-            confirmBtn.innerText = confirmText;
-            cancelBtn.innerText = cancelText;
 
             currentPromptCallback = callback; // Store the callback
 
@@ -1164,7 +1190,6 @@
             // Focus logic
             if (inputEl) inputEl.focus(); // Focus input if it exists
             else if (isConfirmation) safeGetElementById('promptConfirmBtn')?.focus(); // Focus confirm for confirmations
-
         }
 
 
@@ -1281,21 +1306,27 @@
                  }
 
                 // --- MULTIPLE UPLOAD SUPPORT NOTE ---
-                // To enable multiple uploads, change 'multiple: false' to 'true'.
-                // HOWEVER, this requires significant changes to how the 'success' event
-                // is handled below. You'd need to:
-                // 1. Collect all successful results in an array.
-                // 2. After the widget closes (`close` event), process the array.
-                // 3. Store the *same* password for *each* successful upload's public_id.
-                // 4. Add *all* new videos to the `allVideos` array.
-                // 5. Refresh the gallery once.
-                // 6. Show a single summary success message ("X videos uploaded!").
-                // The current flow handles only single uploads.
+                // The widget is currently configured for SINGLE file uploads (`multiple: false`).
+                // To enable multiple uploads:
+                // 1. Change `multiple: false` to `multiple: true` below.
+                // 2. Create an array outside the callback (e.g., `let successfulUploads = [];`) to store results.
+                // 3. In the `success` event: Instead of processing immediately, push `result.info` into `successfulUploads`.
+                // 4. In the `close` event:
+                //    - Check if `successfulUploads` has items.
+                //    - If yes, iterate through `successfulUploads`:
+                //        - For *each* upload's `public_id`, save the *same* `delPass` and `uploaderName` to localStorage.
+                //        - Create the video data object for each and add it to `allVideos`.
+                //        - Store the `uploaderName` in the `uploaderNames` object.
+                //    - After iterating, save the updated `uploaderNames` object to localStorage *once*.
+                //    - Call `applyFiltersAndRender(true)` *once* to refresh the gallery.
+                //    - Show a *single* success message, e.g., "X videos uploaded successfully!".
+                //    - Clear the `successfulUploads` array.
+                // The current code only handles the single upload flow correctly.
                 const widget = cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
                     sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'],
                     resourceType: 'video',
-                    multiple: false, // Keep false for current single-upload logic
+                    multiple: false, // *** IMPORTANT: Change to true and modify handlers as described above for multi-upload ***
                     clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
                     maxFileSize: 300000000, // Approx 300MB limit
                     folder: 'gs_overlay', // Optional: organize uploads in Cloudinary
@@ -1319,7 +1350,7 @@
                                 if(currentStatus) currentStatus.innerText = 'Starting upload...';
                                 break;
                             case "uploadprogress":
-                                if (result.info && result.info.total_bytes) {
+                                if (result.info && typeof result.info.bytes_uploaded === 'number' && result.info.total_bytes) {
                                     const percent = Math.round((result.info.bytes_uploaded / result.info.total_bytes) * 100);
                                     if (currentProgressBar) {
                                         currentProgressBar.style.width = `${percent}%`;
@@ -1345,13 +1376,15 @@
                                     currentProgressBar.setAttribute('aria-valuenow', 100);
                                 }
 
-                                // --- MODIFIED FLOW: Handle upload success directly ---
+                                // --- Handle upload success directly (No intermediate modal) ---
                                 const successData = {
                                     publicId: result.info.public_id,
                                     originalFilename: result.info.original_filename,
                                     uploaderName: uploaderName,
                                     secureUrl: result.info.secure_url,
-                                    createdAt: new Date().toISOString() // Use current time
+                                    createdAt: new Date().toISOString(), // Use current time
+                                    // Add placeholder download count if needed by rendering
+                                    download_count: 0
                                 };
 
                                 try {
@@ -1359,7 +1392,11 @@
                                     localStorage.setItem(`pass_${successData.publicId}`, delPass);
                                     uploaderNames[successData.publicId] = successData.uploaderName;
                                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                    log(`Password and uploader name saved locally for ${successData.publicId}`);
+                                    // Store original filename locally too, if available, for better title formatting later
+                                    if (successData.originalFilename) {
+                                        localStorage.setItem(`filename_${successData.publicId}`, successData.originalFilename);
+                                    }
+                                    log(`Password, uploader name, and filename saved locally for ${successData.publicId}`);
 
                                     // Add to main video list and refresh UI immediately
                                     const newVideoData = {
@@ -1367,11 +1404,10 @@
                                         created_at: successData.createdAt,
                                         secure_url: successData.secureUrl,
                                         original_filename: successData.originalFilename,
-                                        // Add placeholder download count if needed by rendering
-                                        // download_count: 0
+                                        download_count: successData.download_count // Add download count
                                     };
                                     allVideos.unshift(newVideoData); // Add to beginning of the master list
-                                    applyFiltersAndRender(true); // Refresh gallery view
+                                    applyFiltersAndRender(true); // Refresh gallery view, resetting filters/pagination
 
                                     // Hide upload modal and show success modal
                                     hideModal('uploadPopup');
@@ -1394,13 +1430,17 @@
                                 log("Cloudinary Widget Closed.");
                                 // If widget closed manually *during* upload or after error, just re-enable button
                                 const latestStatus = safeGetElementById('uploadStatus')?.innerText || '';
-                                if (latestStatus.includes('Uploading') || latestStatus.includes('Initializing') || latestStatus.includes('Error') || latestStatus.includes('cancelled') || latestStatus.includes('Failed')) {
-                                    if(currentStatus && !latestStatus.includes('Error') && !latestStatus.includes('Failed') && !latestStatus.includes('cancelled')) {
-                                        currentStatus.innerText = 'Upload cancelled or closed.';
-                                    }
-                                    if(currentProgressContainer) currentProgressContainer.style.display = 'none';
-                                    if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable button
-                                }
+                                // Check if status indicates an incomplete or failed state
+                                const isFailureState = latestStatus.includes('Uploading') || latestStatus.includes('Initializing') || latestStatus.includes('Error') || latestStatus.includes('cancelled') || latestStatus.includes('Failed');
+
+                                if (isFailureState) {
+                                     if(currentStatus && !latestStatus.includes('Error') && !latestStatus.includes('Failed') && !latestStatus.includes('cancelled')) {
+                                         // Only set cancelled message if it wasn't already an error
+                                         currentStatus.innerText = 'Upload cancelled or closed.';
+                                     }
+                                     if(currentProgressContainer) currentProgressContainer.style.display = 'none';
+                                     if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable button
+                                 }
                                 // If success already happened, the modals were handled in the 'success' event.
                                 break;
                             case "abort": // User aborted upload
@@ -1408,6 +1448,7 @@
                             case "bytes-total-exceeded":
                             case "max-files-exceeded":
                                 const eventText = result.event.replace(/-/g, ' '); // Make event name readable
+                                err(`Cloudinary Upload Error: ${eventText}`, result.info || '');
                                 if(currentStatus) currentStatus.innerText = `❌ Upload Error: ${eventText}`;
                                 if(currentProgressContainer) currentProgressContainer.style.display = 'none';
                                 if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
@@ -1427,28 +1468,22 @@
             }
         }
 
-        // --- REMOVED Functions related to Post-Upload Details Modal ---
-        // function showPostUploadDetailsModal(data) { ... }
-        // function savePostUploadDetails() { ... }
-        // function closePostUploadModal(skipped = false) { ... }
-
-
         // --- Filtering & Sorting ---
         function setActiveFilterButton(buttonElement = null) {
              const theme = document.documentElement.getAttribute("data-theme") || "dark";
              // Define classes clearly
              const baseClasses = {
-                inactive: ['border-transparent', 'opacity-80', 'hover:opacity-100'], // Adjusted opacity
-                active: ['border-2', 'shadow-md', 'opacity-100'] // Adjusted opacity
+                inactive: ['border-transparent', 'opacity-80', 'hover:opacity-100'],
+                active: ['border-2', 'shadow-md', 'opacity-100', 'active-filter'] // Added active-filter class
              };
              const themeClasses = {
                  dark: {
-                     inactive: ['bg-gray-600', 'text-gray-100', 'hover:bg-gray-500'], // Slightly lighter hover
-                     active: ['bg-green-400', 'text-black', 'border-green-600', 'shadow-lg', 'shadow-green-500/30']
+                     inactive: ['bg-gray-600', 'text-gray-100', 'hover:bg-gray-500'],
+                     active: ['bg-green-500', 'text-black', 'border-green-600', 'shadow-lg', 'shadow-green-500/30'] // Adjusted green
                  },
                  light: {
-                     inactive: ['bg-gray-300', 'text-gray-700', 'hover:bg-gray-400'], // Adjusted light inactive
-                     active: ['bg-indigo-600', 'text-white', 'border-indigo-700']
+                     inactive: ['bg-gray-300', 'text-gray-700', 'hover:bg-gray-400'],
+                     active: ['bg-indigo-600', 'text-white', 'border-indigo-700', 'shadow-lg', 'shadow-indigo-500/30'] // Adjusted indigo
                  }
              };
              const currentThemeClasses = theme === 'light' ? themeClasses.light : themeClasses.dark;
@@ -1456,7 +1491,8 @@
              const allPossibleClasses = [
                  ...baseClasses.inactive, ...baseClasses.active,
                  ...themeClasses.dark.inactive, ...themeClasses.dark.active,
-                 ...themeClasses.light.inactive, ...themeClasses.light.active
+                 ...themeClasses.light.inactive, ...themeClasses.light.active,
+                 'active-filter' // Ensure this is removable
              ].filter(c => c); // Filter out any potentially undefined classes
 
              if (!buttonElement) {
@@ -1512,37 +1548,37 @@
              loadMoreBtn.style.display = 'none';
              loadMoreBtn.disabled = true;
 
-            // --- BACKEND NOTE ---
-            // The following fetch assumes you have a backend endpoint `/videos`
-            // that returns a JSON array of video objects. Each object should have at least:
-            // - public_id (string)
-            // - secure_url (string)
-            // - created_at (string - ISO 8601 format recommended)
-            // - original_filename (string - optional, for default title)
-            // - download_count (number - optional, for 'Popular' sort and display)
-            // If you don't have a backend, this fetch will fail. You could potentially
-            // modify this to load from a static JSON file for testing, but uploads
-            // and deletions wouldn't persist across sessions without a backend.
+            // --- BACKEND REQUIRED ---
+            // Fetch video data from your backend endpoint.
+            // Expected JSON format: Array of objects, each with at least:
+            // {
+            //   "public_id": "string",
+            //   "secure_url": "string_url",
+            //   "created_at": "string_iso_date",
+            //   "original_filename": "string_optional",
+            //   "download_count": number_optional_but_needed_for_popular_sort
+            // }
             try {
                 log(`Fetching from endpoint: ${VIDEO_FETCH_ENDPOINT}`);
-                const response = await fetch(VIDEO_FETCH_ENDPOINT);
+                const response = await fetch(VIDEO_FETCH_ENDPOINT, { cache: 'no-store' }); // Avoid caching issues
 
                 if (!response.ok) {
-                    // --- FRONTEND ONLY FALLBACK (Example - Remove if backend exists) ---
+                    // --- FRONTEND ONLY FALLBACK (Example - For testing without backend) ---
                     if (response.status === 404 && VIDEO_FETCH_ENDPOINT === '/videos') {
-                         log("Backend endpoint '/videos' not found. Using localStorage videos only for this session.");
+                         log("Backend endpoint '/videos' not found (404). Using localStorage videos only for this session (limited data).");
                          allVideos = Object.keys(localStorage)
                              .filter(key => key.startsWith('pass_'))
                              .map(key => {
                                  const publicId = key.substring(5);
-                                 // Attempt to construct basic data. Missing secure_url and created_at!
+                                 // Attempt to construct basic data. Missing secure_url and precise created_at!
+                                 const storedFilename = localStorage.getItem(`filename_${publicId}`); // Retrieve stored filename
                                  return {
                                      public_id: publicId,
-                                     // secure_url: ??? - Cannot get this reliably from localStorage
-                                     secure_url: `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${publicId}.mp4`, // Guess URL
+                                     // Guess secure_url - MAY BE INCORRECT if format/resource_type changes
+                                     secure_url: `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${publicId}.mp4`,
                                      created_at: new Date(0).toISOString(), // Use epoch as placeholder
-                                     original_filename: localStorage.getItem(`filename_${publicId}`) || null, // Need to store filename too
-                                     // download_count: 0 // Placeholder
+                                     original_filename: storedFilename || null, // Use stored filename
+                                     download_count: 0 // Placeholder download count
                                  };
                              });
                         if (allVideos.length === 0) {
@@ -1550,7 +1586,7 @@
                              isFetching = false;
                              return;
                          }
-                         log(`Loaded ${allVideos.length} videos from localStorage (limited data).`);
+                         log(`Loaded ${allVideos.length} videos from localStorage (limited data, fallback mode).`);
                          clearGalleryMessages();
                          applyFiltersAndRender(true);
                          isFetching = false;
@@ -1595,7 +1631,11 @@
                 // Handle fetch errors (network error, server error, fallback error)
                 err("Failed to fetch videos:", error);
                 const displayMessage = error instanceof Error ? error.message : String(error);
-                displayGalleryMessage(`❌ Error loading videos: ${displayMessage}. Check console or backend.`, 'error');
+                // Provide specific message if backend is likely needed
+                 const backendNeededMsg = (VIDEO_FETCH_ENDPOINT === '/videos' && displayMessage.includes('404'))
+                    ? " (Backend endpoint seems missing. Using local fallback if possible.)"
+                    : "";
+                displayGalleryMessage(`❌ Error loading videos: ${displayMessage}.${backendNeededMsg} Check console or backend.`, 'error');
                 loadMoreBtn.style.display = 'none';
             } finally {
                 isFetching = false; // Allow fetching again
@@ -1639,8 +1679,10 @@
                 const query = currentSearchQuery.toLowerCase();
                 filtered = allVideos.filter(video => {
                     if (!video || !video.public_id) return false; // Skip invalid entries
+                    // Retrieve potential original filename from local storage if needed (fallback scenario)
+                    const originalFilename = video.original_filename || localStorage.getItem(`filename_${video.public_id}`);
                     // Check locally stored title first, then formatted title, then uploader name
-                    const title = (renamedTitles[video.public_id] || formatTitle(video.public_id, video.original_filename)).toLowerCase();
+                    const title = (renamedTitles[video.public_id] || formatTitle(video.public_id, originalFilename)).toLowerCase();
                     const uploader = (uploaderNames[video.public_id] || 'Anonymous').toLowerCase();
                     return title.includes(query) || uploader.includes(query);
                 });
@@ -1662,17 +1704,10 @@
                         } else {
                              // Placeholder: Random sort if no download_count available
                              filtered.sort(() => Math.random() - 0.5);
-                             log("Sorted by 'popular' (using random - backend download_count needed for real sort).");
+                             log("Sorted by 'popular' (using RANDOM - backend download_count needed for real sort).");
                         }
                         break;
-                    // case 'relevant':
-                    //     // --- BACKEND REQUIRED for Relevance Sort ---
-                    //     // This would typically rely on the backend search algorithm's scoring.
-                    //     // If using client-side filtering only, 'relevant' doesn't make sense as a separate sort.
-                    //     log("Sorting by 'relevant' requires backend search implementation.");
-                    //     // Default to recent or no specific sort order if filtered by search term
-                    //     filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-                    //     break;
+                    // 'relevant' case removed - requires backend search logic.
                     case 'recent': default:
                          // Ensure created_at exists and is valid before sorting
                          filtered.sort((a, b) => {
@@ -1701,8 +1736,8 @@
                 // Display temporary message only if there are results to load
                 if (displayedVideos.length > 0) {
                     displayGalleryMessage('🔄 Applying Filters & Loading...', 'info');
-                    // Delay rendering slightly to ensure UI updates
-                    setTimeout(() => renderVideoBatch(true), 50);
+                    // Delay rendering slightly to ensure UI updates and message visibility
+                    setTimeout(() => renderVideoBatch(true), 100);
                 } else {
                     renderVideoBatch(true); // Render "no results" message immediately
                 }
@@ -1717,8 +1752,11 @@
             const loadMoreBtn = safeGetElementById('loadMoreBtn');
             if (!gallery || !loadMoreBtn) return;
 
-            // Clear loading/filtering message if it exists
-            clearGalleryMessages();
+            // Clear temporary loading/filtering message if it exists
+             const loadingMsg = gallery.querySelector('.gallery-message.info');
+             if (loadingMsg && loadingMsg.textContent.includes('Loading')) {
+                loadingMsg.remove();
+             }
 
             const fragment = document.createDocumentFragment();
             const startIndex = currentVideoIndex;
@@ -1754,19 +1792,23 @@
                 const publicId = file.public_id;
                 // Ensure ID is safe for CSS selectors and JS lookups
                 const safeId = publicId.replace(/[^a-zA-Z0-9_-]/g, '_');
-                const title = renamedTitles[publicId] || formatTitle(publicId, file.original_filename);
+                // Retrieve potential original filename (needed for formatTitle)
+                const originalFilename = file.original_filename || localStorage.getItem(`filename_${publicId}`); // Fallback for local-only scenario
+                const title = renamedTitles[publicId] || formatTitle(publicId, originalFilename);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
                 const videoUrl = file.secure_url; // Use the secure URL directly
                 const downloadCount = typeof file.download_count === 'number' ? file.download_count : null; // Get download count if available
 
                  // Generate thumbnail URL using Cloudinary transformations
+                // Fetches the frame at 1 second (so_1)
                 const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_169,c_fill,q_auto,f_auto,so_1/${publicId}.jpg`;
 
                 const card = document.createElement('div');
                 card.style.animationDelay = `${(i - startIndex) * 0.05}s`; // Stagger animation
                 card.className = 'card';
                 card.dataset.publicId = publicId; // Store ID for actions
-                card.dataset.originalFilename = file.original_filename || ''; // Store original filename
+                // Store original filename if available (useful for formatTitle if title not renamed)
+                if (file.original_filename) card.dataset.originalFilename = file.original_filename;
 
                 // Sanitize title for download attribute (replace potentially problematic chars)
                 const safeDownloadFilename = `${title.replace(/[^a-z0-9_\-.]/gi, '_')}.mp4`;
@@ -1782,14 +1824,14 @@
                     </div>
                     <div class="card-content">
                         <div class="card-title" title="${title}">${title}</div>
-                         <div class="flex justify-between items-center mt-1"> <!-- Flex container for uploader and download count -->
-                             ${downloadCount !== null ? `<span class="download-count" title="${downloadCount.toLocaleString()} downloads"><i class="fas fa-download" aria-hidden="true"></i> ${downloadCount.toLocaleString()}</span>` : '<div></div>' /* Placeholder div for spacing */}
-                             <div class="uploader-name text-right" title="Uploaded by ${uploader}">by ${uploader}</div>
+                         <div class="meta-info"> <!-- Flex container for uploader and download count -->
+                             ${downloadCount !== null ? `<span class="download-count" title="${downloadCount.toLocaleString()} downloads"><i class="fas fa-download" aria-hidden="true"></i> ${downloadCount.toLocaleString()}</span>` : '<div></div>' /* Empty div for spacing if no count */}
+                             <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                          </div>
                     </div>
                     <div class="card-footer">
                         <a href="${videoUrl}" download="${safeDownloadFilename}" class="download-btn" title="Download ${title}">
-                             <i class="fas fa-download text-xs" aria-hidden="true"></i><span class="ml-1">Download</span>
+                             <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
                         </a>
                         <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
                             <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
@@ -1832,7 +1874,8 @@
                 // Remove potential leftover multiple spaces
                 name = name.replace(/\s{2,}/g, ' ');
                 // Handle cases where the name might just be random characters or empty after cleaning
-                return name && name.length > 2 ? name : `Video (${publicId.slice(-6)})`; // Use last 6 chars of ID if title is too short/generic
+                 const cleanedName = name.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove non-alphanumeric/space chars for length check
+                return cleanedName && cleanedName.length > 2 ? name : `Video Clip (${publicId.slice(-6)})`; // Use last 6 chars of ID if title is too short/generic
             } catch (e) {
                 err("Error formatting title from:", nameSource, e);
                 // Provide a simple fallback using the last part of the public_id
@@ -1846,7 +1889,6 @@
         function togglePlay(videoElement) {
             if (!videoElement) { err("togglePlay: videoElement is null"); return; }
             const container = videoElement.closest('.video-container');
-            const card = videoElement.closest('.card'); // Need card for ID
             const publicId = videoElement.dataset.publicId; // Get ID from video element itself
             if (!publicId) { err("togglePlay: Cannot find publicId on video element."); return; }
 
@@ -1868,10 +1910,16 @@
                             videoElement.classList.add('playing');
                             container?.classList.add('playing'); // Add class to container too (for hiding play icon)
                         }).catch(e => {
-                             err(`Play error for ${publicId}:`, e);
-                             // Handle specific errors like user interaction required if needed
-                             // Display error non-intrusively or just log it
-                             // displayGalleryMessage(`Could not play video: ${e.message}`, 'error'); // Avoid message spam
+                             // Ignore common AbortError if user clicks quickly elsewhere
+                             if (e.name !== 'AbortError') {
+                                err(`Play error for ${publicId}:`, e);
+                                // displayGalleryMessage(`Could not play video: ${e.message}`, 'error'); // Avoid message spam
+                             } else {
+                                 log(`Play interrupted for ${publicId}`);
+                                 // Ensure state is reset if play was aborted
+                                 videoElement.classList.remove('playing');
+                                 container?.classList.remove('playing');
+                             }
                         });
                     } else {
                         // Fallback for browsers not returning a promise (less common now)
@@ -1936,9 +1984,9 @@
                  showPromptModal({
                      title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Password Missing",
                      isConfirmation: true,
-                     contentHTML: `<p>The deletion password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser, cleared your storage, or the password failed to save during upload.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
+                     contentHTML: `<p>The deletion/rename password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser, cleared your storage, or the password failed to save during upload.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
                      confirmText: "OK",
-                     confirmClass: 'cancel', // Use cancel style for info button
+                     confirmClass: 'modal-button-cancel', // Use cancel style for info button
                      callback: () => hidePromptModal() // Just close the info modal
                  });
                  return;
@@ -1947,7 +1995,7 @@
              // Proceed to ask for password
              showPromptModal({
                  title: "<i class='fas fa-lock text-yellow-400 mr-2'></i> Password Required",
-                 inputLabel: `Enter deletion password to ${actionName}:`,
+                 inputLabel: `Enter password to ${actionName}:`,
                  inputType: 'password',
                  placeholder: 'Enter your saved password',
                  confirmText: 'Verify & Proceed',
@@ -1965,6 +2013,8 @@
                          log("Incorrect password entered.");
                          showPromptError('Incorrect password. Please try again.');
                          // Keep the modal open for another try
+                         const inputField = safeGetElementById('promptInput');
+                         if(inputField) inputField.focus(); // Refocus field
                      }
                  }
              });
@@ -1978,8 +2028,8 @@
         function proceedWithRename(publicId) {
              log(`Showing rename prompt for ${publicId}`);
              const card = $(`div.card[data-public-id="${publicId}"]`);
-             // Try to get original filename from data attribute if possible
-             const originalFilename = card?.dataset.originalFilename;
+             // Try to get original filename from data attribute or local storage
+             const originalFilename = card?.dataset.originalFilename || localStorage.getItem(`filename_${publicId}`);
              const currentTitle = renamedTitles[publicId] || formatTitle(publicId, originalFilename); // Use helper
 
              showPromptModal({
@@ -2023,6 +2073,8 @@
                      } else if (!newTitle) {
                           showPromptError("Title cannot be empty.");
                           // Keep modal open
+                          const inputField = safeGetElementById('promptInput');
+                          if(inputField) inputField.focus(); // Refocus field
                      } else {
                           log("Title unchanged, closing rename prompt.");
                           hidePromptModal(); // Title unchanged, just close
@@ -2036,10 +2088,11 @@
              getPasswordAndExecute(publicId, () => proceedWithDelete(publicId), "delete video");
         }
 
-        function proceedWithDelete(publicId) {
+        async function proceedWithDelete(publicId) { // Make async for await fetch
              log(`Showing delete confirmation for ${publicId}`);
              const card = $(`div.card[data-public-id="${publicId}"]`);
-             const originalFilename = card?.dataset.originalFilename;
+             // Try to get original filename from data attribute or local storage
+             const originalFilename = card?.dataset.originalFilename || localStorage.getItem(`filename_${publicId}`);
              const title = renamedTitles[publicId] || formatTitle(publicId, originalFilename);
 
              showPromptModal({
@@ -2059,97 +2112,115 @@
                          if (cardToDelete) cardToDelete.style.opacity = '0.5';
 
                          // --- BACKEND INTERACTION REQUIRED for Persistent Deletion ---
-                         // This section attempts to call the backend delete endpoint.
-                         // If no backend is configured or the call fails, it will still
-                         // remove the item locally, but it won't be truly deleted from Cloudinary
-                         // or other users' views unless the backend handles it.
                          let serverDeletionSuccess = false;
+                         let backendError = null;
                          try {
-                            const deleteUrl = `${VIDEO_DELETE_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
-                            log(`Sending DELETE request to: ${deleteUrl}`);
+                             if (!VIDEO_DELETE_ENDPOINT_BASE) {
+                                 log("Backend delete endpoint not configured. Proceeding with local removal only.");
+                                 // Skip fetch, treat as 'success' for local removal
+                             } else {
+                                 const deleteUrl = `${VIDEO_DELETE_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
+                                 log(`Sending DELETE request to: ${deleteUrl}`);
 
-                            const response = await fetch(deleteUrl, { method: 'DELETE' });
+                                 const response = await fetch(deleteUrl, { method: 'DELETE' });
 
-                            if (!response.ok) {
-                                // Handle common case where endpoint doesn't exist gracefully
-                                if (response.status === 404 && VIDEO_DELETE_ENDPOINT_BASE === '/delete') {
-                                     log("Backend delete endpoint not found. Proceeding with local removal only.");
-                                     // Treat as 'success' for local removal purposes, but not true deletion
-                                } else {
-                                     let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
-                                     try {
-                                         const errData = await response.json();
-                                         errorMsg = errData.message || `Failed with status ${response.status}`;
-                                         err("Server deletion error details:", errData);
-                                     } catch (e) { /* Ignore if parsing fails */ }
-                                     throw new Error(errorMsg); // Throw for other server errors
-                                }
-                            } else {
-                                // Check for success response (e.g., 200 OK with JSON, or 204 No Content)
-                                let responseData = { status: "success", message: "Deleted successfully." }; // Assume success for 204
-                                if (response.status === 200) {
-                                    responseData = await response.json();
-                                    if (responseData.status !== "success") {
-                                        throw new Error(responseData.message || "Deletion reported failed by server.");
-                                    }
-                                }
-                                log(`Successfully deleted ${publicId} from server. Response:`, responseData);
-                                serverDeletionSuccess = true; // Mark as successful server deletion
-                            }
-
-                            // Regardless of backend success (unless a hard error was thrown), remove locally
-                             log(`Proceeding with local removal of ${publicId}.`);
-
-                            // 1. Animate and remove card from DOM
-                            if (cardToDelete) {
-                                 cardToDelete.classList.add('deleting'); // Add class for transition
-                                 cardToDelete.addEventListener('transitionend', () => {
-                                    cardToDelete.remove();
-                                    // Check if gallery is empty after removing card
-                                    if (safeGetElementById('gallery')?.children.length === 0) {
-                                        applyFiltersAndRender(true); // Re-render to show 'no videos' message
-                                    } else {
-                                        updateLoadMoreButtonState(); // Check button state
-                                    }
-                                 }, { once: true });
-                            } else {
-                                 log("Card already removed or not found for DOM removal.");
-                            }
-
-                             // 2. Clean up local storage
-                             localStorage.removeItem(`pass_${publicId}`);
-                             delete renamedTitles[publicId];
-                             delete uploaderNames[publicId];
-                             try {
-                                 localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
-                                 localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                 log(`Cleaned up local storage for ${publicId}.`);
-                             } catch (e) {
-                                 err("Error cleaning up localStorage after delete:", e);
+                                 if (!response.ok) {
+                                     // Handle common case where endpoint doesn't exist gracefully
+                                     if (response.status === 404) {
+                                          log("Backend delete endpoint not found (404). Proceeding with local removal only.");
+                                          // Treat as 'success' for local removal purposes, but not true deletion
+                                     } else {
+                                          let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
+                                          try {
+                                              const errData = await response.json();
+                                              errorMsg = errData.message || `Failed with status ${response.status}`;
+                                              err("Server deletion error details:", errData);
+                                          } catch (e) { /* Ignore if parsing fails */ }
+                                          throw new Error(errorMsg); // Throw for other server errors
+                                     }
+                                 } else {
+                                     // Check for success response (e.g., 200 OK with JSON, or 204 No Content)
+                                     log(`Server response status: ${response.status}`);
+                                     if (response.status === 204) { // No Content is success
+                                          log(`Successfully deleted ${publicId} from server (204 No Content).`);
+                                     } else { // Assume 200 OK might have content
+                                          try {
+                                              const responseData = await response.json();
+                                              log(`Successfully deleted ${publicId} from server. Response:`, responseData);
+                                              if (responseData.status === "error" || responseData.success === false) {
+                                                  throw new Error(responseData.message || "Deletion reported failed by server.");
+                                              }
+                                          } catch(parseError) {
+                                              err("Could not parse successful delete response, assuming OK based on status 200.", parseError);
+                                          }
+                                     }
+                                     serverDeletionSuccess = true; // Mark as successful server deletion
+                                 }
                              }
 
-                             // 3. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
-                             allVideos = allVideos.filter(v => v.public_id !== publicId);
-                             displayedVideos = displayedVideos.filter(v => v.public_id !== publicId);
-
-                             // 4. Update Load More button state if necessary
-                             updateLoadMoreButtonState();
-
                          } catch (error) {
-                             // This catch block now primarily handles actual server errors (not 404 if handled above)
+                             // This catch block handles fetch errors or thrown server errors
                              err(`Deletion failed for ${publicId}:`, error);
-                             // Restore card opacity if deletion failed
-                             if (cardToDelete) cardToDelete.style.opacity = '1';
-                             // Show error to user
-                             showPromptModal({
-                                 title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
-                                 isConfirmation: true,
-                                 contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${error.message}</p><p>Please try again later or contact support if the issue persists.</p>`,
-                                 confirmText: "OK",
-                                 confirmClass: 'cancel',
-                                 callback: () => hidePromptModal()
-                             });
+                             backendError = error; // Store the error to show user
                          }
+
+                         // --- Perform Local Cleanup ---
+                         // Proceed with local removal even if backend failed, BUT show error message if it did.
+                         log(`Proceeding with local removal of ${publicId}. Server success: ${serverDeletionSuccess}`);
+
+                         // 1. Animate and remove card from DOM
+                         if (cardToDelete) {
+                              cardToDelete.classList.add('deleting'); // Add class for transition
+                              cardToDelete.addEventListener('transitionend', () => {
+                                 cardToDelete.remove();
+                                 log(`Card removed from DOM for ${publicId}`);
+                                 // Check if gallery is empty after removing card
+                                 const gallery = safeGetElementById('gallery');
+                                 if (gallery && gallery.children.length === 0) {
+                                     log("Gallery empty after deletion, re-rendering to show message.");
+                                     applyFiltersAndRender(true); // Re-render to show 'no videos' message
+                                 } else {
+                                     updateLoadMoreButtonState(); // Check button state
+                                 }
+                              }, { once: true });
+                         } else {
+                              log("Card already removed or not found for DOM removal.");
+                         }
+
+                         // 2. Clean up local storage
+                         localStorage.removeItem(`pass_${publicId}`);
+                         localStorage.removeItem(`filename_${publicId}`); // Also remove filename
+                         delete renamedTitles[publicId];
+                         delete uploaderNames[publicId];
+                         try {
+                              localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
+                              localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                              log(`Cleaned up local storage for ${publicId}.`);
+                         } catch (e) {
+                              err("Error cleaning up localStorage after delete:", e);
+                         }
+
+                         // 3. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
+                         allVideos = allVideos.filter(v => v?.public_id !== publicId);
+                         displayedVideos = displayedVideos.filter(v => v?.public_id !== publicId);
+
+                         // 4. Update Load More button state if necessary (will be handled by transitionend removal check)
+                         // updateLoadMoreButtonState();
+
+                         // 5. Show Error Message if backend deletion failed
+                         if (backendError) {
+                              showPromptModal({
+                                  title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
+                                  isConfirmation: true,
+                                  contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${backendError.message}</p><p>The video has been removed from your local view, but might still exist on the server.</p>`,
+                                  confirmText: "OK",
+                                  confirmClass: 'modal-button-cancel',
+                                  callback: () => hidePromptModal()
+                              });
+                         } else {
+                             log(`Local removal complete for ${publicId}.`);
+                         }
+
                      } else {
                         log("Deletion cancelled by user.");
                         hidePromptModal(); // Just close if cancelled
@@ -2170,11 +2241,11 @@
 
              if (currentVideoIndex >= displayedVideos.length) {
                  loadMoreBtn.style.display = 'none';
-                 // Only add 'end of list' message if there are videos displayed
-                 if (displayedVideos.length > 0 && gallery.children.length > 0) { // Check children length too
+                 // Only add 'end of list' message if there are videos displayed and the gallery isn't showing other messages
+                 if (displayedVideos.length > 0 && gallery.children.length > 0 && !gallery.querySelector('.gallery-message:not(.end-of-list)')) {
                       const endMsg = document.createElement('p');
                       endMsg.className = 'gallery-message info end-of-list'; // Added end-of-list class
-                      endMsg.textContent = "✨ You've reached the end! ✨";
+                      endMsg.innerHTML = "✨ You've reached the end! ✨"; // Use innerHTML for emoji
                       // Append after a short delay to avoid flash if content is still rendering
                       setTimeout(() => {
                            // Check again if gallery still exists and doesn't have the message
@@ -2182,12 +2253,12 @@
                            if(currentGallery && !currentGallery.querySelector('.gallery-message.end-of-list')) {
                                 currentGallery.appendChild(endMsg);
                            }
-                      }, 100);
+                      }, 150); // Slightly longer delay
                  }
              } else {
                   loadMoreBtn.style.display = 'block';
-                  loadMoreBtn.disabled = false;
-                  loadMoreBtn.innerHTML = 'Load More Videos';
+                  loadMoreBtn.disabled = false; // Ensure button is enabled
+                  loadMoreBtn.innerHTML = 'Load More Videos'; // Reset button text
              }
         }
 
@@ -2195,6 +2266,3 @@
 
 </body>
 </html>
-```
-
---- END OF UPDATED FILE index (4).html ---
