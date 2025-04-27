@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
@@ -57,10 +57,10 @@ def delete_video(public_id):
         app.logger.error(f"ERROR deleting video {public_id}: {str(e)}", exc_info=True)
         return jsonify({"status": "error", "message": "Server error during deletion.", "details": str(e)}), 500
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
+# Move sitemap route ABOVE app.run
 @app.route("/sitemap.xml")
 def sitemap():
-    return send_from_directory('.', 'sitemap.xml')
+    return send_from_directory(directory=os.getcwd(), path='sitemap.xml', mimetype='application/xml')
 
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000, debug=True)
