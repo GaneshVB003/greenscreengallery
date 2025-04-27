@@ -4,11 +4,11 @@
     { "src": "api/index.py", "use": "@vercel/python" }
   ],
   "routes": [
-    // route sitemap/robots requests into your Python handler
+
     { "src": "/sitemap\\.xml", "dest": "/api/index.py" },
     { "src": "/robots\\.txt",  "dest": "/api/index.py" },
 
-    // everything else to Flask as before
+
     { "src": "/(.*)",         "dest": "/api/index.py" }
   ]
 }
