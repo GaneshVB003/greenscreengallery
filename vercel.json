@@ -1,11 +1,16 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py",    "use": "@vercel/python" },
-    { "src": "api/robots.txt",  "use": "@vercel/static" }
+    { "src": "api/index.py",     "use": "@vercel/python"   },
+    { "src": "api/sitemap.xml",  "use": "@vercel/static"   },
+    { "src": "api/robots.txt",   "use": "@vercel/static"   }
   ],
   "routes": [
-    { "src": "/robots\\.txt",   "dest": "/api/robots.txt" },
-    { "src": "/(.*)",           "dest": "/api/index.py" }
+    // first try to serve the XML and TXT directly
+    { "src": "/sitemap\\.xml",   "dest": "/api/sitemap.xml"  },
+    { "src": "/robots\\.txt",    "dest": "/api/robots.txt"   },
+
+    // everything else goes to your Flask function
+    { "src": "/(.*)",            "dest": "/api/index.py"     }
   ]
 }
