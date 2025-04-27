@@ -9,12 +9,13 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Initialize Flask, pointing to api/templates for HTML
+# Initialize Flask
 api_dir = os.path.dirname(__file__)
 
 app = Flask(
     __name__,
-    template_folder=os.path.join(api_dir, 'templates')
+    template_folder=os.path.join(api_dir, 'templates'),
+    static_folder=os.path.join(api_dir, 'static')  # Static folder should be in api/ for Vercel
 )
 
 # Configure logging
@@ -71,23 +72,14 @@ def delete_video(public_id):
         logging.error("ERROR deleting video", exc_info=True)
         return jsonify(status="error", message="Server error", details=str(e)), 500
 
-# Route: Serve sitemap.xml from the 'api' directory
-@app.route("/sitemap.xml")
-def sitemap():
-    return send_from_directory(
-        directory=api_dir,
-        filename="sitemap.xml",
-        mimetype="application/xml"
-    )
-
-# Route: Serve robots.txt from the 'api' directory
+# Static file serving (robots.txt and sitemap.xml)
 @app.route("/robots.txt")
 def robots():
-    return send_from_directory(
-        directory=api_dir,
-        filename="robots.txt",
-        mimetype="text/plain"
-    )
+    return send_from_directory(api_dir, "robots.txt", mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory(api_dir, "sitemap.xml", mimetype="application/xml")
 
 # Run the Flask app (this will not be triggered on Vercel; it's for local testing)
 if __name__ == "__main__":
