@@ -1298,7 +1298,7 @@
                     multiple: false, // Keep false for current single-upload logic
                     clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
                     maxFileSize: 300000000, // Approx 300MB limit
-                    folder: 'gs_overlay_vault', // Optional: organize uploads in Cloudinary
+                    folder: 'gs_overlay', // Optional: organize uploads in Cloudinary
                     theme: document.documentElement.getAttribute("data-theme") || "dark" // Match site theme
                 }, (error, result) => {
                     // Re-select elements within callback scope to ensure they exist if modal was closed/reopened (unlikely here but safer)
