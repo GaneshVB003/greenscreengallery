@@ -71,5 +71,12 @@ def sitemap():
                                filename="sitemap.xml",
                                mimetype="application/xml")
 
+
+@app.route("/robots.txt")
+def robots():
+    api_dir = os.path.dirname(__file__)
+    return send_from_directory(api_dir, "robots.txt", mimetype="text/plain")
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
