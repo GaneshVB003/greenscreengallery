@@ -1,17 +1,32 @@
-
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    }
   ],
   "routes": [
-    { "src": "/sitemap\\.xml", "dest": "/api/index.py" },
-    { "src": "/robots\\.txt",  "dest": "/api/index.py" },
-    { "src": "/(.*)",          "dest": "/api/index.py" }
+    {
+      "src": "/sitemap\\.xml",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/robots\\.txt",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.py"
+    }
   ],
   "functions": {
     "api/index.py": {
-      "includeFiles": "api/*.{xml,txt}"
+      "includeFiles": [
+        "api/*.xml",
+        "api/*.txt",
+        "api/templates/**"
+      ]
     }
   }
 }
