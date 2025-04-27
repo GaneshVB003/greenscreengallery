@@ -1,16 +1,14 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py",     "use": "@vercel/python"   },
-    { "src": "api/sitemap.xml",  "use": "@vercel/static"   },
-    { "src": "api/robots.txt",   "use": "@vercel/static"   }
+    { "src": "api/index.py", "use": "@vercel/python" }
   ],
   "routes": [
+    // route sitemap/robots requests into your Python handler
+    { "src": "/sitemap\\.xml", "dest": "/api/index.py" },
+    { "src": "/robots\\.txt",  "dest": "/api/index.py" },
 
-    { "src": "/sitemap\\.xml",   "dest": "/api/sitemap.xml"  },
-    { "src": "/robots\\.txt",    "dest": "/api/robots.txt"   },
-
-
-    { "src": "/(.*)",            "dest": "/api/index.py"     }
+    // everything else to Flask as before
+    { "src": "/(.*)",         "dest": "/api/index.py" }
   ]
 }
