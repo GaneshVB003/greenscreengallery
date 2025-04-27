@@ -9,11 +9,11 @@
   "routes": [
     {
       "src": "/sitemap\\.xml",
-      "dest": "/api/index.py"
+      "dest": "/api/sitemap.xml"
     },
     {
       "src": "/robots\\.txt",
-      "dest": "/api/index.py"
+      "dest": "/api/robots.txt"
     },
     {
       "src": "/(.*)",
