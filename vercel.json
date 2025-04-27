@@ -13,7 +13,7 @@
   ],
   "functions": {
     "api/index.py": {
-      "includeFiles": "api/*.{xml,txt},api/templates/**"
+      "includeFiles": "api/**"
     }
   }
 }
