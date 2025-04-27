@@ -8,11 +8,11 @@
   ],
   "routes": [
     {
-      "src": "/sitemap\\.xml",
+      "src": "/sitemap.xml",
       "dest": "/api/sitemap.xml"
     },
     {
-      "src": "/robots\\.txt",
+      "src": "/robots.txt",
       "dest": "/api/robots.txt"
     },
     {
