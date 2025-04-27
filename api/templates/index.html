@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <!-- SEO Meta Tags -->
-    <title>Green Screen Vault - Free Overlays & Clips (Fixed)</title>
-    <meta name="description" content="Discover and download thousands of free green screen overlays, effects, transitions, and video clips. Perfect for YouTube, streaming, social media, and film projects. Upload your own chroma key footage, including meme templates!"/>
-    <meta name="keywords" content="green screen, chroma key, video overlay, free download, video effects, transitions, stock footage, video clips, meme template, green screen download, video editing assets, content creator resources, premiere pro, after effects, final cut pro, davinci resolve, obs studio, cc0 license"/>
+    <!-- SEO Meta Tags (Updated) -->
+    <title>Green Screen Vault - Free Overlays, Memes & Clips</title>
+    <meta name="description" content="Discover thousands of free green screen overlays, effects, transitions, meme templates, and video clips. Perfect for YouTube, streaming (OBS), social media (TikTok/Reels), and film projects. Download CC0 chroma key footage instantly. Upload your own!"/>
+    <meta name="keywords" content="green screen, chroma key, video overlay, free download, video effects, transitions, stock footage, video clips, meme template, green screen download, video editing assets, content creator resources, premiere pro, after effects, final cut pro, davinci resolve, obs studio, streamlabs, tiktok, reels, youtube shorts, cc0 license, public domain video, free green screen memes, chroma key memes, green screen effects download, free video assets, motion graphics elements"/>
     <meta name="robots" content="index, follow">
     <!-- Add Open Graph and Twitter Card meta tags here for social sharing -->
-    <!-- e.g., <meta property="og:title" content="..."> -->
+    <!-- e.g., <meta property="og:title" content="Green Screen Vault - Free Overlays, Memes & Clips"> -->
+    <!-- e.g., <meta property="og:description" content="Download thousands of free CC0 green screen videos, effects, and meme templates."> -->
+    <!-- e.g., <meta property="og:image" content="[URL to a preview image]"> -->
+    <!-- e.g., <meta name="twitter:card" content="summary_large_image"> -->
 
     <!-- Cloudinary Script -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
@@ -62,10 +65,10 @@
         .theme-icon { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease; opacity: 0; pointer-events: none; z-index: 40; }
         #sunIcon { color: #ffcc00; }
         #moonIcon { color: #f0e68c; }
-        html:not([data-theme="light"]) #moonIcon { transform: translate(-50%, 40px); opacity: 1; }
-        html:not([data-theme="light"]) #sunIcon { transform: translate(-50%, 80px); opacity: 0; }
-        html[data-theme="light"] #sunIcon { transform: translate(-50%, 40px); opacity: 1; }
-        html[data-theme="light"] #moonIcon { transform: translate(-50%, 80px); opacity: 0; }
+        html:not([data-theme="light"]) #moonIcon { transform: translate(-50%, 40px); opacity: 1; } /* Moon appears in dark mode */
+        html:not([data-theme="light"]) #sunIcon { transform: translate(-50%, 80px); opacity: 0; } /* Sun hides */
+        html[data-theme="light"] #sunIcon { transform: translate(-50%, 40px); opacity: 1; } /* Sun appears in light mode */
+        html[data-theme="light"] #moonIcon { transform: translate(-50%, 80px); opacity: 0; } /* Moon hides */
 
 
         /* --- Gallery & Cards --- */
@@ -85,6 +88,11 @@
         html[data-theme="light"] .uploader-name { opacity: 0.9; color: #555; }
         .card-footer { padding: 0 1rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid #333; margin-top: auto; }
         html[data-theme="light"] .card-footer { border-top-color: #e2e8f0; }
+        /* Download Count Placeholder Style */
+        .download-count { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 0.2rem; }
+        html[data-theme="light"] .download-count { color: #666; }
+        .download-count i { font-size: 0.7rem; } /* Smaller icon */
+
         .download-btn { background: #00ff88; color: black; padding: 0.5rem 1rem; text-align: center; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 0.5rem; font-size: 0.85rem; line-height: 1; transition: background-color 0.2s ease, transform 0.2s ease; }
         .download-btn:hover { background-color: #00e67a; transform: scale(1.05); }
         .download-btn i { transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: inline-block; }
@@ -138,7 +146,7 @@
         html[data-theme="light"] .modal-box { background-color: #ffffff; color: black; border-color: #ccc; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); }
         @media (min-width: 640px) { .modal-box { padding: 2rem; } }
         .modal-box h2 { font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; color: #00ff88; text-align: center; }
-        .modal-box h2 i { animation: icon-pulse 2s infinite ease-in-out; margin-right: 0.5rem; } /* Animate icon in modal title */
+        .modal-box h2 i { animation: icon-pulse 2s infinite ease-in-out; margin-right: 0.5rem; display: inline-block; } /* Animate icon in modal title */
         html[data-theme="light"] .modal-box h2 { color: #10b981; }
         .modal-box label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: bold; color: #ccc; }
         html[data-theme="light"] .modal-box label { color: #555; }
@@ -193,11 +201,18 @@
         .search-container input { flex-grow: 1; padding: 0.7rem 1rem 0.7rem 2.5rem; border-radius: 1rem; background-color: #333; border: 1px solid #555; color: white; transition: border-color 0.2s, box-shadow 0.2s; }
         .search-container::before { content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #888; font-size: 0.9rem; transition: color 0.2s, transform 0.2s; pointer-events: none;} /* Added pointer-events */
         html[data-theme="light"] .search-container::before { color: #777; }
-        .search-container input:focus + ::before { color: #00ccff; transform: translateY(-50%) scale(1.1);} /* Icon color/size change on focus - corrected selector */
-        html[data-theme="light"] .search-container input:focus + ::before { color: #38bdf8; }
+        .search-container input:focus ~ ::before { color: #00ccff; transform: translateY(-50%) scale(1.1);} /* Icon color/size change on focus - CORRECTED SELECTOR (use sibling combinator ~ if icon is after input, or adjust if needed) */
+        /* Correction: Icon is ::before pseudo-element of container, not sibling. Focus changes input style, then target container's ::before */
+        .search-container input:focus + label + ::before, /* If label exists */
+        .search-container input:focus::before /* If icon is on input (less common) */ {
+            /* Targetting ::before of container when input inside has focus is tricky directly. We'll style the input's border/shadow instead which is standard. */
+        }
         .search-container input:focus { outline: none; border-color: #00ccff; box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.3); }
-        html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
+        /* Let's re-add the icon glow on focus via ::before if possible */
+        .search-container input:focus ~ ::before { /* Re-attempting selector - might need JS class add */ color: #00ccff; transform: translateY(-50%) scale(1.1); } /* This might still not work reliably across browsers */
         html[data-theme="light"] .search-container input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3); }
+        html[data-theme="light"] .search-container input { background-color: #e5e7eb; border-color: #ccc; color: black; }
+
 
         /* --- Intro Screen --- */
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -231,8 +246,8 @@
         .info-section ol { text-align: left; padding-left: 1.5rem; list-style-position: inside; list-style-type: decimal; }
         .info-section ol li { margin-bottom: 0.5rem; }
         /* Info Section Icon Animation */
-        .info-section i.fa-eye-dropper { animation: icon-bounce 1.5s infinite; }
-        .info-section i.fa-lightbulb { animation: icon-pulse 2s infinite ease-in-out; }
+        .info-section i.fa-eye-dropper { animation: icon-bounce 1.5s infinite; display: inline-block; }
+        .info-section i.fa-lightbulb { animation: icon-pulse 2s infinite ease-in-out; display: inline-block; }
         .info-section .info-cta i { transition: transform 0.2s ease; display: inline-block;}
         .info-section .info-cta:hover i { transform: scale(1.1); }
         .info-section code { background-color: rgba(255,255,255,0.15); padding: 0.2em 0.5em; border-radius: 4px; font-size: 0.9em; color: #00ff88; }
@@ -242,7 +257,7 @@
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .info-cta { margin-top: 2rem; display: inline-block; background: linear-gradient(90deg, #00ff88, #00ccff); color: black; padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: bold; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .info-cta:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4); }
-        .info-section .fa-info-circle { animation: icon-pulse 2s infinite ease-in-out; }
+        .info-section .fa-info-circle { animation: icon-pulse 2s infinite ease-in-out; display: inline-block; }
 
         /* --- Tooltip Styles --- */
         .tooltip { position: relative; display: inline-block; cursor: help; border-bottom: 1px dotted #00ccff; }
@@ -376,7 +391,8 @@
         <div class="filter-options" role="tablist" aria-label="Video Filters">
              <button type="button" class="filter-btn" data-filter="recent" id="filter-recent" role="tab" aria-selected="true">Most Recent</button>
              <button type="button" class="filter-btn" data-filter="popular" id="filter-popular" role="tab" aria-selected="false">Popular</button>
-             <!-- Add more filters if needed -->
+             <!-- Add 'Relevant' filter if backend search is implemented -->
+             <!-- <button type="button" class="filter-btn" data-filter="relevant" id="filter-relevant" role="tab" aria-selected="false">Relevant</button> -->
         </div>
         <div class="search-container">
             <label for="search" class="sr-only">Search Videos:</label>
@@ -412,7 +428,7 @@
                    allowfullscreen>
                </iframe>
              </div>
-             <h3>Quick Guide: Using Overlays (Premiere Pro Example)</h3>
+             <h3><i class="fas fa-question-circle mr-1"></i>Quick Guide: Using Overlays (Premiere Pro Example)</h3>
              <ol>
                  <li><strong>Import:</strong> Add your main footage and the downloaded green screen clip (.mp4, .mov) to your project.</li>
                  <li><strong>Layer:</strong> Place the overlay clip on the timeline track <strong>above</strong> your main footage.</li>
@@ -423,7 +439,7 @@
              </ol>
               <h3><i class="fas fa-lightbulb" aria-hidden="true"></i> Pro Tips & Benefits for Content Creators</h3>
               <p>
-                  Using pre-made green screen clips saves significant time compared to creating complex effects from scratch. They add professional polish to YouTube videos, live streams (OBS/Streamlabs), social media content (TikTok/Instagram Reels), and indie films. This vault thrives on community contributions – consider uploading your own creations! Share your awesome green screen effects, transitions, video elements, or even those hilarious meme templates everyone is looking for! Help fellow creators find the perfect video clips.
+                  Using pre-made green screen clips saves significant time compared to creating complex effects from scratch. They add professional polish to YouTube videos, live streams (OBS/Streamlabs), social media content (TikTok/Instagram Reels), and indie films. This vault thrives on community contributions – consider uploading your own creations! Share your awesome green screen effects, transitions, video elements, or even those hilarious <strong class="text-green-400 dark:text-green-300">meme templates</strong> everyone is looking for! Help fellow creators find the perfect video clips.
               </p>
               <p>
                   <strong>Shooting Tip:</strong> Ensure your green screen is evenly lit and wrinkle-free for the easiest keying. Avoid green clothing or highly reflective objects on your subject. Consistent lighting is key!
@@ -466,24 +482,12 @@
         </div>
     </div>
 
-    <!-- Post-Upload Details Modal -->
+    <!-- Post-Upload Details Modal (REMOVED - No longer shown automatically) -->
+    <!--
     <div class="modal-backdrop" id="postUploadDetailsModal">
-        <div class="modal-box">
-             <button type="button" class="modal-close-btn" data-action="skip-title" aria-label="Close Details Popup">×</button>
-            <h2>Finalize Upload Details</h2>
-            <p class="text-sm mb-4 text-center">Your video is uploaded! Give it a descriptive title.</p>
-            <div>
-                <label for="postUploadTitleInput">Video Title (Required):</label>
-                <input type="text" id="postUploadTitleInput" name="postUploadTitleInput" required>
-                <p class="text-xs mt-1 text-gray-400">Uploader: <span id="postUploadUploaderName"></span></p>
-                <p class="modal-error" id="postUploadError" aria-live="assertive"></p>
-            </div>
-            <div class="modal-buttons">
-                 <button type="button" class="modal-button-cancel" data-action="skip-title">Skip Title</button>
-                <button type="button" class="modal-button-confirm" id="postUploadSaveBtn">Save Details</button>
-            </div>
-        </div>
+        ... modal content ...
     </div>
+    -->
 
     <!-- Generic Prompt/Confirmation Modal -->
     <div class="modal-backdrop" id="promptModal">
@@ -521,9 +525,9 @@
     <div class="modal-backdrop" id="termsModal">
         <div class="modal-box">
               <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Terms Popup">×</button>
-              <h2>Terms & Privacy</h2>
+              <h2><i class="fas fa-file-contract mr-1"></i>Terms & Privacy</h2>
               <div class="terms-content" tabindex="0"> <!-- Make content scrollable and focusable -->
-                  <!-- Full T&C Text Here -->
+                  <!-- Full T&C Text Here (Keep existing text) -->
                    <h3>Terms and Conditions</h3><p><em>Last updated: 2024-05-16</em></p><p>Welcome to the Green Screen Vault! These terms and conditions outline the rules and regulations for the use of our website and services, located at [Your Website URL - Replace This]. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Green Screen Vault if you do not agree to take all of the terms and conditions stated on this page.</p>
                     <h4>License (CC0)</h4>
                     <p>Unless otherwise stated, Green Screen Vault and/or its licensors own the intellectual property rights for original site design and functionality. <strong>User-uploaded content (videos) is licensed under Creative Commons Zero (CC0) - Public Domain Dedication upon successful upload.</strong> This means:</p>
@@ -556,24 +560,26 @@
                    <h4>Information We Collect</h4>
                    <ul>
                         <li><strong>Uploaded Content:</strong> Videos you choose to upload are processed and stored via Cloudinary and become publicly accessible under the CC0 license.</li>
-                        <li><strong>Metadata:</strong> We may store metadata associated with uploads, such as the public ID provided by Cloudinary, the optional uploader name you provide, and any title you assign. This may be stored temporarily or in a simple database for listing purposes.</li>
+                        <li><strong>Metadata:</strong> We may store metadata associated with uploads, such as the public ID provided by Cloudinary, the optional uploader name you provide, and any title you assign (if renaming is implemented server-side). This may be stored temporarily or in a simple database for listing purposes.</li>
                         <li><strong>Deletion Password Reference (Local Storage):</strong> The deletion password you provide during upload is stored <strong>only</strong> in your web browser's local storage. It is never sent to or stored on our servers. It is linked to the upload's public ID within your browser.</li>
                         <li><strong>User Preferences (Local Storage):</strong> We use local storage to remember your theme preference (dark/light) and whether you have accepted the terms.</li>
                         <li><strong>Locally Stored Data (Local Storage):</strong> Renamed titles and uploader names associated with videos are also stored in your browser's local storage to persist your customizations across sessions on that specific browser.</li>
                         <li><strong>Analytics Data (Non-Personal):</strong> We may collect anonymous usage data (e.g., page views, features used, general geographic location based on IP address) through standard web server logs or third-party analytics services (like Google Analytics, if implemented) to understand how the site is used and to improve it. This data is aggregated and does not personally identify you.</li>
+                        <li><strong>Download Interaction Data (If Implemented):</strong> If download tracking is implemented, non-personally identifiable interaction data (e.g., which video ID was downloaded, timestamp) might be sent to the server to increment a counter. We would not link this directly to a specific user account (as there are none).</li>
                    </ul>
                    <h4>How We Use Information</h4>
                     <ul>
-                        <li>To operate and display the website, including the video gallery and associated metadata (title, uploader).</li>
+                        <li>To operate and display the website, including the video gallery and associated metadata (title, uploader, download count if implemented).</li>
                         <li>To enable the content deletion functionality using the password stored in *your* browser's local storage.</li>
                         <li>To remember your site preferences.</li>
                         <li>To analyze usage patterns and improve the website's functionality, content, and user experience.</li>
                         <li>To monitor for and prevent violations of our Terms and Conditions.</li>
+                        <li>To track aggregated content popularity (e.g., download counts) if implemented.</li>
                     </ul>
                    <h4>Data Storage & Security</h4>
                    <ul>
                         <li>Videos are hosted and delivered by Cloudinary. Please refer to Cloudinary's Privacy Policy for their data practices.</li>
-                        <li>Metadata required for listing might be stored on our server infrastructure. We take reasonable measures to protect this data, but no system is 100% secure.</li>
+                        <li>Metadata required for listing (and download counts if implemented) might be stored on our server infrastructure. We take reasonable measures to protect this data, but no system is 100% secure.</li>
                         <li><strong>Deletion passwords, user preferences, renamed titles, and associated uploader names are stored only in your browser's local storage. Clearing your browser's data will permanently remove this information, including any stored deletion passwords, making deletion impossible via the website interface.</strong></li>
                    </ul>
                     <h4>Third-Party Services</h4>
@@ -673,18 +679,25 @@
         const CLOUD_NAME = 'dogxcu1sj'; // *** REPLACE WITH YOUR Cloudinary Cloud Name ***
         const UPLOAD_PRESET = 'gs_overlay'; // *** REPLACE WITH The EXACT name of your UNSIGNED Upload Preset ***
         // =====================================================================
-        const VIDEOS_PER_LOAD = 12; // How many videos to load per batch
-        const VIDEO_FETCH_ENDPOINT = '/videos'; // *** REPLACE if your backend endpoint is different ***
-        const VIDEO_DELETE_ENDPOINT_BASE = '/delete'; // *** REPLACE if your backend delete endpoint is different ***
+        // === IMPORTANT: BACKEND ENDPOINT CONFIGURATION ===
+        // =====================================================================
+        // Replace these with your actual backend API endpoints if you build one.
+        // If you don't have a backend, fetching/deleting will only work for uploads
+        // within the same session (using local storage) and deletions won't persist.
+        const VIDEO_FETCH_ENDPOINT = '/videos'; // Endpoint to get the list of all videos (e.g., from a database)
+        const VIDEO_DELETE_ENDPOINT_BASE = '/delete'; // Base endpoint for deleting a video (e.g., /delete/:public_id)
+        // const DOWNLOAD_INCREMENT_ENDPOINT_BASE = '/increment_download'; // Example: Endpoint to track downloads (/increment_download/:public_id)
+        // =====================================================================
 
-        let allVideos = []; // Holds all fetched video data (from backend)
+        const VIDEOS_PER_LOAD = 12; // How many videos to load per batch
+        let allVideos = []; // Holds all fetched video data (ideally from backend)
         let displayedVideos = []; // Holds the currently sorted/filtered videos for display
         let currentVideoIndex = 0; // Index for pagination within displayedVideos
         let renamedTitles = {}; // Key: public_id, Value: user-set title (localStorage)
         let uploaderNames = {}; // Key: public_id, Value: user-set name (localStorage)
         let currentFilter = 'recent'; // Default filter state
         let currentSearchQuery = ''; // Default search state
-        let postUploadData = null; // Temp storage between Cloudinary success and title modal
+        // let postUploadData = null; // REMOVED - No longer needed for intermediate modal
         let currentPromptCallback = null; // Callback for the generic prompt modal
         let isFetching = false; // Flag to prevent multiple fetches
 
@@ -719,12 +732,13 @@
                 const focusableElement = modal.querySelector('button:not([disabled]), input:not([disabled]), [tabindex="0"], a[href]');
                 const modalBox = modal.querySelector('.modal-box');
                 if (focusableElement) {
-                    focusableElement.focus();
+                    // Delay focus slightly to allow animation to start
+                    setTimeout(() => focusableElement.focus(), 50);
                 } else if (modalBox) {
                     modalBox.setAttribute('tabindex', '-1'); // Make it focusable if no interactive elements found
-                    modalBox.focus();
+                    setTimeout(() => modalBox.focus(), 50);
                 }
-                 // Disable body scroll when modal is open
+                 // Disable body scroll might be considered, but can have side effects
                  // document.body.style.overflow = 'hidden';
             } else {
                  err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
@@ -736,7 +750,7 @@
             const modal = safeGetElementById(modalId);
             if (modal && modal.classList.contains('modal-backdrop') && modal.style.display !== 'none') {
                  modal.classList.add('modal-fade-out');
-                 // Re-enable body scroll when modal is closed
+                 // Re-enable body scroll if it was disabled
                  // document.body.style.overflow = '';
 
                 // Use setTimeout matching animation duration + slight buffer
@@ -798,7 +812,7 @@
             const showContactLink = safeGetElementById('showContactLink');
             const selectUploadBtn = safeGetElementById('selectUploadBtn');
             const termsAcceptBtn = safeGetElementById('termsAcceptBtn');
-            const postUploadSaveBtn = safeGetElementById('postUploadSaveBtn');
+            // const postUploadSaveBtn = safeGetElementById('postUploadSaveBtn'); // REMOVED
 
             // Header Buttons
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
@@ -826,6 +840,7 @@
                 scrollToUploadLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     showUploadBtn.click(); // Trigger the upload button click
+                    safeGetElementById('uploadPopup')?.querySelector('input, button')?.focus(); // Focus first element in modal
                 });
             }
 
@@ -876,9 +891,8 @@
 
                  // Specific modal actions triggered by data-action
                  const action = target.closest('[data-action]')?.dataset.action;
-                 if (action === 'skip-title') closePostUploadModal(true); // true = skipped
-                 else if (action === 'close-prompt') hideModal('promptModal');
-                 // close-modal is handled above
+                 if (action === 'close-prompt') hideModal('promptModal');
+                 // 'skip-title' action removed as post-upload modal is bypassed
 
                  // Close action popups if clicked outside
                 const openPopup = document.querySelector('.action-popup[style*="display: block"]');
@@ -893,23 +907,30 @@
             // Upload Modal Specific Buttons
              if (selectUploadBtn) selectUploadBtn.addEventListener('click', openCloudinaryUpload);
              if (termsAcceptBtn) termsAcceptBtn.addEventListener('click', acceptTerms);
-             if (postUploadSaveBtn) postUploadSaveBtn.addEventListener('click', savePostUploadDetails);
+             // if (postUploadSaveBtn) postUploadSaveBtn.addEventListener('click', savePostUploadDetails); // REMOVED
+
              // Prompt modal confirm/cancel are handled within showPromptModal setup
 
-             // Gallery Event Listener (Delegation for play/menu/actions)
+             // Gallery Event Listener (Delegation for play/menu/actions/download)
              if (galleryElement) {
                  galleryElement.addEventListener('click', handleGalleryClick);
              }
+
+             // Add listener for download button clicks specifically (for count increment)
+             // Note: This needs to happen *after* the card is created, so delegation is best.
+             // Moved into handleGalleryClick for consolidation.
 
             log("Static event listeners set up.");
         }
 
         function handleGalleryClick(event) {
              const target = event.target;
+             const card = target.closest('.card');
+             const publicId = card?.dataset.publicId;
 
              // Video Play/Pause
              const videoContainer = target.closest('.video-container');
-             if (videoContainer) {
+             if (videoContainer && publicId) {
                  const video = videoContainer.querySelector('video');
                  if(video) togglePlay(video);
                  event.stopPropagation(); // Prevent other clicks if video container clicked
@@ -918,28 +939,15 @@
 
              // Menu Button Click
              const menuButton = target.closest('.menu-btn');
-             if (menuButton) {
-                 const card = menuButton.closest('.card');
-                 const publicId = card?.dataset.publicId;
-                 if (publicId) {
-                    toggleActionMenu(publicId, menuButton); // Pass button to position popup
-                 } else {
-                    err("Could not find publicId for menu button click.");
-                 }
+             if (menuButton && publicId) {
+                 toggleActionMenu(publicId, menuButton); // Pass button to position popup
                  event.stopPropagation(); // Prevent other clicks if menu button clicked
                  return; // Handled
              }
 
              // Action Popup Button Click (Rename/Delete)
              const actionButton = target.closest('.action-popup button');
-             if (actionButton) {
-                 const card = actionButton.closest('.card');
-                 const publicId = card?.dataset.publicId;
-                 if (!publicId) {
-                     err("Could not find publicId for action button click.");
-                     event.stopPropagation();
-                     return; // Handled (error)
-                 }
+             if (actionButton && publicId) {
                  // Hide the popup immediately
                  const popup = actionButton.closest('.action-popup');
                  if (popup) popup.style.display = 'none';
@@ -953,6 +961,27 @@
                  }
                  event.stopPropagation(); // Prevent other clicks if action button clicked
                  return; // Handled
+             }
+
+             // Download Button Click (for triggering count increment - download itself is handled by <a> tag)
+             const downloadBtn = target.closest('.download-btn');
+             if (downloadBtn && publicId) {
+                log(`Download button clicked for ${publicId}. Triggering count increment (if backend exists).`);
+                // --- DOWNLOAD COUNT INCREMENT ---
+                // This requires a backend endpoint. Uncomment and adapt if you build one.
+                /*
+                const incrementUrl = `${DOWNLOAD_INCREMENT_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
+                fetch(incrementUrl, { method: 'POST', cache: 'no-store', keepalive: true }) // keepalive helps if user navigates away
+                    .then(response => {
+                        if (!response.ok) log(`Failed to increment download count for ${publicId} (status: ${response.status})`);
+                        else log(`Increment request sent for ${publicId}`);
+                        // Optionally update the count in the UI immediately or after confirmation
+                    })
+                    .catch(err => err(`Error sending download increment for ${publicId}:`, err));
+                */
+                // NOTE: The actual file download is handled by the browser via the href/download attributes on the <a> tag.
+                // This click handler is *only* for potentially triggering the backend count.
+                // We DON'T prevent the default link behavior here.
              }
         }
 
@@ -1084,7 +1113,7 @@
             if (isConfirmation) {
                 // Display confirmation text
                 const p = document.createElement('p');
-                p.innerHTML = contentHTML;
+                p.innerHTML = contentHTML; // Use innerHTML to allow basic formatting
                 contentDiv.insertBefore(p, errorEl); // Insert confirmation text before error message
             } else {
                  // Display any static HTML content provided
@@ -1203,6 +1232,8 @@
                     : "bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-400 focus:ring-opacity-50";
                  promptInput.className = `${baseInputClasses} ${themeInputClasses}`;
              }
+             // Update Cloudinary widget theme if open (optional, requires storing widget instance)
+             // if (window.cloudinaryWidgetInstance) { window.cloudinaryWidgetInstance.update({ theme: newTheme }); }
         }
 
         // --- Upload Logic ---
@@ -1249,11 +1280,22 @@
                      throw new Error("Cloudinary script not loaded or invalid.");
                  }
 
+                // --- MULTIPLE UPLOAD SUPPORT NOTE ---
+                // To enable multiple uploads, change 'multiple: false' to 'true'.
+                // HOWEVER, this requires significant changes to how the 'success' event
+                // is handled below. You'd need to:
+                // 1. Collect all successful results in an array.
+                // 2. After the widget closes (`close` event), process the array.
+                // 3. Store the *same* password for *each* successful upload's public_id.
+                // 4. Add *all* new videos to the `allVideos` array.
+                // 5. Refresh the gallery once.
+                // 6. Show a single summary success message ("X videos uploaded!").
+                // The current flow handles only single uploads.
                 const widget = cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
                     sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'],
                     resourceType: 'video',
-                    multiple: false, // Keep single upload for simplicity with title/pass flow
+                    multiple: false, // Keep false for current single-upload logic
                     clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
                     maxFileSize: 300000000, // Approx 300MB limit
                     folder: 'gs_overlay_vault', // Optional: organize uploads in Cloudinary
@@ -1264,7 +1306,6 @@
                     const currentStatus = safeGetElementById('uploadStatus');
                     const currentProgressBar = safeGetElementById('progressBar');
                     const currentProgressContainer = safeGetElementById('progressContainer');
-
 
                     if (error) {
                         err("Cloudinary Widget Error:", error);
@@ -1303,40 +1344,64 @@
                                     currentProgressBar.style.width = '100%';
                                     currentProgressBar.setAttribute('aria-valuenow', 100);
                                 }
-                                // Store data needed for the next step (post-upload modal)
-                                postUploadData = {
+
+                                // --- MODIFIED FLOW: Handle upload success directly ---
+                                const successData = {
                                     publicId: result.info.public_id,
                                     originalFilename: result.info.original_filename,
                                     uploaderName: uploaderName,
-                                    secureUrl: result.info.secure_url
+                                    secureUrl: result.info.secure_url,
+                                    createdAt: new Date().toISOString() // Use current time
                                 };
+
                                 try {
-                                    // Save password and uploader name to local storage IMMEDIATELY after successful upload
-                                    localStorage.setItem(`pass_${result.info.public_id}`, delPass);
-                                    uploaderNames[result.info.public_id] = uploaderName;
+                                    // Save password and uploader name to local storage IMMEDIATELY
+                                    localStorage.setItem(`pass_${successData.publicId}`, delPass);
+                                    uploaderNames[successData.publicId] = successData.uploaderName;
                                     localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                    log(`Password and uploader name saved locally for ${result.info.public_id}`);
+                                    log(`Password and uploader name saved locally for ${successData.publicId}`);
+
+                                    // Add to main video list and refresh UI immediately
+                                    const newVideoData = {
+                                        public_id: successData.publicId,
+                                        created_at: successData.createdAt,
+                                        secure_url: successData.secureUrl,
+                                        original_filename: successData.originalFilename,
+                                        // Add placeholder download count if needed by rendering
+                                        // download_count: 0
+                                    };
+                                    allVideos.unshift(newVideoData); // Add to beginning of the master list
+                                    applyFiltersAndRender(true); // Refresh gallery view
+
+                                    // Hide upload modal and show success modal
+                                    hideModal('uploadPopup');
+                                    const defaultTitle = formatTitle(successData.publicId, successData.originalFilename);
+                                    showUploadSuccessPopup(successData.publicId, defaultTitle, successData.uploaderName);
+
                                 } catch(e) {
-                                    err("Error saving password/uploader to localStorage:", e);
-                                     if(currentStatus) currentStatus.innerText = '✅ Uploaded, but failed to save password locally!';
-                                     // Proceed anyway, but user won't be able to delete later via UI
+                                    err("Error saving password/uploader to localStorage or updating UI:", e);
+                                     if(currentStatus) currentStatus.innerText = '✅ Uploaded, but failed to save data locally!';
+                                     // Try to proceed with UI update anyway if possible
+                                     hideModal('uploadPopup'); // Still hide upload popup
+                                     // Consider showing a generic success or error message here
                                 }
-                                // Widget auto-closes on success, the "close" event will handle next steps
+                                // --- END MODIFIED FLOW ---
+
+                                // Note: Widget might auto-close on success. The "close" event below is a fallback.
                                 break;
+
                              case "close":
                                 log("Cloudinary Widget Closed.");
-                                // Only transition to details modal if upload was successful (postUploadData is set)
-                                if (postUploadData) {
-                                    hideModal('uploadPopup'); // Hide upload popup first
-                                    showPostUploadDetailsModal(postUploadData); // Show details popup
-                                } else {
-                                    // If closed manually *during* upload or after error, just re-enable button
-                                    if (currentStatus && (currentStatus.innerText.includes('Uploading') || currentStatus.innerText.includes('Initializing'))) {
-                                        currentStatus.innerText = 'Upload cancelled or failed.';
+                                // If widget closed manually *during* upload or after error, just re-enable button
+                                const latestStatus = safeGetElementById('uploadStatus')?.innerText || '';
+                                if (latestStatus.includes('Uploading') || latestStatus.includes('Initializing') || latestStatus.includes('Error') || latestStatus.includes('cancelled') || latestStatus.includes('Failed')) {
+                                    if(currentStatus && !latestStatus.includes('Error') && !latestStatus.includes('Failed') && !latestStatus.includes('cancelled')) {
+                                        currentStatus.innerText = 'Upload cancelled or closed.';
                                     }
                                     if(currentProgressContainer) currentProgressContainer.style.display = 'none';
                                     if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable button
                                 }
+                                // If success already happened, the modals were handled in the 'success' event.
                                 break;
                             case "abort": // User aborted upload
                             case "queue-too-large":
@@ -1354,8 +1419,6 @@
                         }
                     }
                 });
-                // Store widget instance if needed for theme updates etc. (optional)
-                // window.cloudinaryWidgetInstance = widget;
             } catch (widgetError) {
                 err("Error opening Cloudinary Widget:", widgetError);
                 if(status) status.innerText = "❌ Failed to open upload widget. Script might be missing or misconfigured.";
@@ -1364,103 +1427,10 @@
             }
         }
 
-        function showPostUploadDetailsModal(data) {
-             log("Showing post-upload details modal:", data);
-             const titleInput = safeGetElementById('postUploadTitleInput');
-             const uploaderSpan = safeGetElementById('postUploadUploaderName');
-             const errorMsg = safeGetElementById('postUploadError');
-             const saveBtn = safeGetElementById('postUploadSaveBtn');
-             if (!titleInput || !uploaderSpan || !errorMsg || !saveBtn) {
-                 err("Post-upload modal elements missing.");
-                 // Fallback: add video with default title immediately if modal elements fail
-                 closePostUploadModal(true); // Treat as skipped
-                 return;
-             }
-
-             titleInput.value = formatTitle(data.publicId, data.originalFilename); // Use helper
-             uploaderSpan.textContent = data.uploaderName || 'Anonymous';
-             errorMsg.textContent = '';
-             saveBtn.disabled = false;
-
-             showModal('postUploadDetailsModal');
-             titleInput.focus();
-        }
-
-        function savePostUploadDetails() {
-             log("Saving post-upload details...");
-             if (!postUploadData) { err("Cannot save, postUploadData is missing!"); return; }
-             const titleInput = safeGetElementById('postUploadTitleInput');
-             const errorMsg = safeGetElementById('postUploadError');
-             const saveBtn = safeGetElementById('postUploadSaveBtn');
-             if (!titleInput || !errorMsg || !saveBtn) return;
-
-             const newTitle = titleInput.value.trim();
-             if (!newTitle) {
-                 errorMsg.textContent = "Title cannot be empty.";
-                 titleInput.focus();
-                 return;
-             }
-
-             log(`Saving title "${newTitle}" for ${postUploadData.publicId}`);
-             saveBtn.disabled = true; errorMsg.textContent = '';
-
-             renamedTitles[postUploadData.publicId] = newTitle;
-             try {
-                 localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
-                 log("Title saved locally.");
-             } catch (e) {
-                 err("Error saving title to localStorage:", e);
-                 errorMsg.textContent = "Failed to save title locally.";
-                 // Optionally proceed without local save, or stop
-             }
-
-             // Add to main video list and refresh UI
-              const newVideoData = {
-                 public_id: postUploadData.publicId,
-                 created_at: new Date().toISOString(), // Use current time as approximation
-                 secure_url: postUploadData.secureUrl,
-                 original_filename: postUploadData.originalFilename // Keep original name if needed
-                 // Add other relevant fields your backend might return if needed for filtering/sorting
-              };
-              // Ensure we add the video *even* if localstorage fails
-              allVideos.unshift(newVideoData); // Add to beginning of the master list
-              applyFiltersAndRender(true); // Refresh gallery view immediately with the new video at the top (if sorted by recent)
-
-             hideModal('postUploadDetailsModal');
-             showUploadSuccessPopup(postUploadData.publicId, newTitle, postUploadData.uploaderName);
-             postUploadData = null; // Clear temp data
-        }
-
-        function closePostUploadModal(skipped = false) {
-             log(`Closing post-upload modal (skipped: ${skipped})`);
-             if (skipped && postUploadData) {
-                 log("Title skipped, using default title.");
-                 const defaultTitle = formatTitle(postUploadData.publicId, postUploadData.originalFilename);
-
-                 // Ensure uploader name is still saved if provided during upload
-                 if (!uploaderNames[postUploadData.publicId]) {
-                    uploaderNames[postUploadData.publicId] = postUploadData.uploaderName;
-                    try {
-                        localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                    } catch (e) {
-                        err("Error saving uploader name (on skip) to localStorage:", e);
-                    }
-                 }
-
-                 // Add to main video list even if title was skipped
-                 const newVideoData = {
-                    public_id: postUploadData.publicId,
-                    created_at: new Date().toISOString(),
-                    secure_url: postUploadData.secureUrl,
-                    original_filename: postUploadData.originalFilename
-                 };
-                 allVideos.unshift(newVideoData);
-                 applyFiltersAndRender(true); // Refresh gallery view
-                 showUploadSuccessPopup(postUploadData.publicId, defaultTitle, postUploadData.uploaderName);
-             }
-             hideModal('postUploadDetailsModal'); // Hide regardless
-             postUploadData = null; // Clear temp data
-        }
+        // --- REMOVED Functions related to Post-Upload Details Modal ---
+        // function showPostUploadDetailsModal(data) { ... }
+        // function savePostUploadDetails() { ... }
+        // function closePostUploadModal(skipped = false) { ... }
 
 
         // --- Filtering & Sorting ---
@@ -1542,11 +1512,52 @@
              loadMoreBtn.style.display = 'none';
              loadMoreBtn.disabled = true;
 
+            // --- BACKEND NOTE ---
+            // The following fetch assumes you have a backend endpoint `/videos`
+            // that returns a JSON array of video objects. Each object should have at least:
+            // - public_id (string)
+            // - secure_url (string)
+            // - created_at (string - ISO 8601 format recommended)
+            // - original_filename (string - optional, for default title)
+            // - download_count (number - optional, for 'Popular' sort and display)
+            // If you don't have a backend, this fetch will fail. You could potentially
+            // modify this to load from a static JSON file for testing, but uploads
+            // and deletions wouldn't persist across sessions without a backend.
             try {
                 log(`Fetching from endpoint: ${VIDEO_FETCH_ENDPOINT}`);
                 const response = await fetch(VIDEO_FETCH_ENDPOINT);
 
                 if (!response.ok) {
+                    // --- FRONTEND ONLY FALLBACK (Example - Remove if backend exists) ---
+                    if (response.status === 404 && VIDEO_FETCH_ENDPOINT === '/videos') {
+                         log("Backend endpoint '/videos' not found. Using localStorage videos only for this session.");
+                         allVideos = Object.keys(localStorage)
+                             .filter(key => key.startsWith('pass_'))
+                             .map(key => {
+                                 const publicId = key.substring(5);
+                                 // Attempt to construct basic data. Missing secure_url and created_at!
+                                 return {
+                                     public_id: publicId,
+                                     // secure_url: ??? - Cannot get this reliably from localStorage
+                                     secure_url: `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${publicId}.mp4`, // Guess URL
+                                     created_at: new Date(0).toISOString(), // Use epoch as placeholder
+                                     original_filename: localStorage.getItem(`filename_${publicId}`) || null, // Need to store filename too
+                                     // download_count: 0 // Placeholder
+                                 };
+                             });
+                        if (allVideos.length === 0) {
+                             displayGalleryMessage('📪 No videos found locally! Be the first to upload.', 'empty');
+                             isFetching = false;
+                             return;
+                         }
+                         log(`Loaded ${allVideos.length} videos from localStorage (limited data).`);
+                         clearGalleryMessages();
+                         applyFiltersAndRender(true);
+                         isFetching = false;
+                         return; // Exit fetch block after handling fallback
+                    }
+                    // --- End Frontend Only Fallback ---
+
                     let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
                     try {
                         const errorData = await response.json();
@@ -1554,10 +1565,9 @@
                         err("Server error details:", errorData);
                     } catch (e) {
                         log("Could not parse error response body:", e);
-                        // Try to get text if JSON parsing fails
                         try {
                             const errorText = await response.text();
-                            if (errorText) errorMsg += ` - ${errorText.substring(0, 100)}`; // Show snippet
+                            if (errorText) errorMsg += ` - ${errorText.substring(0, 100)}`;
                         } catch (textErr) { /* Ignore */ }
                     }
                     throw new Error(errorMsg);
@@ -1569,7 +1579,7 @@
                     err("Invalid data format received from server (expected an array).", allVideos);
                     throw new Error("Invalid data format received from server.");
                 }
-                log(`Fetched ${allVideos.length} total videos.`);
+                log(`Fetched ${allVideos.length} total videos from backend.`);
 
                 if (allVideos.length === 0) {
                      displayGalleryMessage('📪 No videos found yet! Be the first to upload.', 'empty');
@@ -1582,10 +1592,11 @@
                  applyFiltersAndRender(true); // Apply initial sort/filter and render first batch
 
             } catch (error) {
-                err("Failed to fetch videos:", error); // Log the full error object
-                const displayMessage = error instanceof Error ? error.message : String(error); // Get message or stringify
-                displayGalleryMessage(`❌ Error loading videos: ${displayMessage}. Please check console and backend logs.`, 'error');
-                loadMoreBtn.style.display = 'none'; // Hide load more on error
+                // Handle fetch errors (network error, server error, fallback error)
+                err("Failed to fetch videos:", error);
+                const displayMessage = error instanceof Error ? error.message : String(error);
+                displayGalleryMessage(`❌ Error loading videos: ${displayMessage}. Check console or backend.`, 'error');
+                loadMoreBtn.style.display = 'none';
             } finally {
                 isFetching = false; // Allow fetching again
             }
@@ -1643,11 +1654,25 @@
              try {
                 switch (currentFilter) {
                     case 'popular':
-                        // Placeholder: Requires backend logic (e.g., view/download counts)
-                        // For now, maybe sort by original filename length (longer might be less common?) or just random
-                        filtered.sort(() => Math.random() - 0.5);
-                        log("Sorted by 'popular' (currently random). Implement backend logic for real popularity.");
+                        // --- BACKEND REQUIRED for real Popularity Sort ---
+                        // Sort by download_count descending if the backend provides it.
+                        if (filtered.length > 0 && typeof filtered[0].download_count === 'number') {
+                             filtered.sort((a, b) => (b.download_count || 0) - (a.download_count || 0));
+                             log("Sorted by 'popular' (using download_count from backend).");
+                        } else {
+                             // Placeholder: Random sort if no download_count available
+                             filtered.sort(() => Math.random() - 0.5);
+                             log("Sorted by 'popular' (using random - backend download_count needed for real sort).");
+                        }
                         break;
+                    // case 'relevant':
+                    //     // --- BACKEND REQUIRED for Relevance Sort ---
+                    //     // This would typically rely on the backend search algorithm's scoring.
+                    //     // If using client-side filtering only, 'relevant' doesn't make sense as a separate sort.
+                    //     log("Sorting by 'relevant' requires backend search implementation.");
+                    //     // Default to recent or no specific sort order if filtered by search term
+                    //     filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                    //     break;
                     case 'recent': default:
                          // Ensure created_at exists and is valid before sorting
                          filtered.sort((a, b) => {
@@ -1701,7 +1726,7 @@
 
             log(`Rendering batch from index ${startIndex} to ${endIndex - 1} (Total filtered/sorted: ${displayedVideos.length})`);
 
-             if (displayedVideos.length === 0) { // Handle No Results specifically
+             if (isInitialRender && displayedVideos.length === 0) { // Handle No Results specifically on initial/reset render
                  const message = currentSearchQuery
                                ? `📪 No results found for "${currentSearchQuery}". Try a different search?`
                                : (allVideos.length === 0 ? '📪 No videos found yet! Be the first to upload.' : '📪 No videos match the current filter.');
@@ -1711,9 +1736,9 @@
              }
 
              // Don't show loading state on button if nothing new to load in this call
-            if (startIndex >= endIndex) {
+            if (startIndex >= endIndex && !isInitialRender) {
                  log("No more videos to render in this batch call.");
-            } else {
+            } else if (startIndex < endIndex) {
                  // Disable button while loading this batch
                  loadMoreBtn.disabled = true;
                  loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Loading...';
@@ -1732,12 +1757,9 @@
                 const title = renamedTitles[publicId] || formatTitle(publicId, file.original_filename);
                 const uploader = uploaderNames[publicId] || 'Anonymous';
                 const videoUrl = file.secure_url; // Use the secure URL directly
+                const downloadCount = typeof file.download_count === 'number' ? file.download_count : null; // Get download count if available
 
                  // Generate thumbnail URL using Cloudinary transformations
-                 // w_300: width 300px, h_169: height 169px (16:9), c_fill: crop to fill
-                 // q_auto: auto quality, f_auto: auto format (jpg, webp, avif)
-                 // so_1: seek to 1 second into the video for thumbnail
-                 // Use .jpg extension hint for broad compatibility, f_auto handles actual format
                 const thumbnailUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_300,h_169,c_fill,q_auto,f_auto,so_1/${publicId}.jpg`;
 
                 const card = document.createElement('div');
@@ -1745,6 +1767,9 @@
                 card.className = 'card';
                 card.dataset.publicId = publicId; // Store ID for actions
                 card.dataset.originalFilename = file.original_filename || ''; // Store original filename
+
+                // Sanitize title for download attribute (replace potentially problematic chars)
+                const safeDownloadFilename = `${title.replace(/[^a-z0-9_\-.]/gi, '_')}.mp4`;
 
                 card.innerHTML = `
                     <div class="video-container">
@@ -1757,10 +1782,13 @@
                     </div>
                     <div class="card-content">
                         <div class="card-title" title="${title}">${title}</div>
-                        <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
+                         <div class="flex justify-between items-center mt-1"> <!-- Flex container for uploader and download count -->
+                             ${downloadCount !== null ? `<span class="download-count" title="${downloadCount.toLocaleString()} downloads"><i class="fas fa-download" aria-hidden="true"></i> ${downloadCount.toLocaleString()}</span>` : '<div></div>' /* Placeholder div for spacing */}
+                             <div class="uploader-name text-right" title="Uploaded by ${uploader}">by ${uploader}</div>
+                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="${videoUrl}" download="${title.replace(/[^a-z0-9_\-.]/gi, '_')}.mp4" class="download-btn" title="Download ${title}">
+                        <a href="${videoUrl}" download="${safeDownloadFilename}" class="download-btn" title="Download ${title}">
                              <i class="fas fa-download text-xs" aria-hidden="true"></i><span class="ml-1">Download</span>
                         </a>
                         <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
@@ -1842,7 +1870,8 @@
                         }).catch(e => {
                              err(`Play error for ${publicId}:`, e);
                              // Handle specific errors like user interaction required if needed
-                             displayGalleryMessage(`Could not play video: ${e.message}`, 'error'); // Inform user
+                             // Display error non-intrusively or just log it
+                             // displayGalleryMessage(`Could not play video: ${e.message}`, 'error'); // Avoid message spam
                         });
                     } else {
                         // Fallback for browsers not returning a promise (less common now)
@@ -1858,7 +1887,7 @@
                 }
             } catch (e) {
                 err("Error in togglePlay:", e);
-                 displayGalleryMessage(`Playback error: ${e.message}`, 'error');
+                 // displayGalleryMessage(`Playback error: ${e.message}`, 'error');
             }
         }
 
@@ -1971,10 +2000,8 @@
                          } catch (e) {
                              err("Error saving renamed title to localStorage:", e);
                              showPromptError("Failed to save title locally.");
-                             // Don't proceed if local save fails? Or allow UI update anyway?
-                             // Let's allow UI update but log error.
+                             // Allow UI update anyway but log error.
                          }
-
 
                          // Update DOM immediately
                          if (card) {
@@ -2018,7 +2045,7 @@
              showPromptModal({
                  isConfirmation: true, // This tells the modal not to show an input field
                  title: "<i class='fas fa-trash-alt text-red-500 mr-2'></i> Confirm Deletion",
-                 contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2 break-words">"${title}"?</p><p class="text-red-400 font-semibold">This action requires server interaction and cannot be undone.</p>`,
+                 contentHTML: `<p>Are you absolutely sure you want to permanently delete the overlay:</p><p class="font-bold my-2 break-words">"${title}"?</p><p class="text-red-400 font-semibold">This action requires server interaction (if backend is configured) and cannot be undone.</p>`,
                  confirmText: "Yes, Delete Forever",
                  cancelText: "Cancel",
                  confirmClass: 'modal-button-delete', // Use red button style
@@ -2031,38 +2058,49 @@
                          // Add visual indicator while deleting
                          if (cardToDelete) cardToDelete.style.opacity = '0.5';
 
+                         // --- BACKEND INTERACTION REQUIRED for Persistent Deletion ---
+                         // This section attempts to call the backend delete endpoint.
+                         // If no backend is configured or the call fails, it will still
+                         // remove the item locally, but it won't be truly deleted from Cloudinary
+                         // or other users' views unless the backend handles it.
+                         let serverDeletionSuccess = false;
                          try {
-                            // *** BACKEND INTERACTION REQUIRED ***
-                            // This assumes your backend has an endpoint at /delete/:public_id (or configured base)
-                            // that handles the actual deletion from Cloudinary and its own database.
-                            // The backend MUST handle authentication/authorization itself.
-                            // We are NOT sending the password here for security reasons.
                             const deleteUrl = `${VIDEO_DELETE_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
                             log(`Sending DELETE request to: ${deleteUrl}`);
 
                             const response = await fetch(deleteUrl, { method: 'DELETE' });
 
                             if (!response.ok) {
-                                let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
-                                try {
-                                    const errData = await response.json();
-                                    errorMsg = errData.message || `Failed with status ${response.status}`;
-                                    err("Server deletion error details:", errData);
-                                } catch (e) { /* Ignore if parsing fails */ }
-                                throw new Error(errorMsg);
-                            }
-
-                            // Check for success response (e.g., 200 OK with JSON, or 204 No Content)
-                            let responseData = { status: "success", message: "Deleted successfully." }; // Assume success for 204
-                            if (response.status === 200) {
-                                responseData = await response.json();
-                                if (responseData.status !== "success") {
-                                    throw new Error(responseData.message || "Deletion reported failed by server.");
+                                // Handle common case where endpoint doesn't exist gracefully
+                                if (response.status === 404 && VIDEO_DELETE_ENDPOINT_BASE === '/delete') {
+                                     log("Backend delete endpoint not found. Proceeding with local removal only.");
+                                     // Treat as 'success' for local removal purposes, but not true deletion
+                                } else {
+                                     let errorMsg = `Server Error: ${response.status} ${response.statusText}`;
+                                     try {
+                                         const errData = await response.json();
+                                         errorMsg = errData.message || `Failed with status ${response.status}`;
+                                         err("Server deletion error details:", errData);
+                                     } catch (e) { /* Ignore if parsing fails */ }
+                                     throw new Error(errorMsg); // Throw for other server errors
                                 }
+                            } else {
+                                // Check for success response (e.g., 200 OK with JSON, or 204 No Content)
+                                let responseData = { status: "success", message: "Deleted successfully." }; // Assume success for 204
+                                if (response.status === 200) {
+                                    responseData = await response.json();
+                                    if (responseData.status !== "success") {
+                                        throw new Error(responseData.message || "Deletion reported failed by server.");
+                                    }
+                                }
+                                log(`Successfully deleted ${publicId} from server. Response:`, responseData);
+                                serverDeletionSuccess = true; // Mark as successful server deletion
                             }
-                            log(`Successfully deleted ${publicId} from server. Response:`, responseData);
 
-                            // 1. Animate and remove card from DOM on server success
+                            // Regardless of backend success (unless a hard error was thrown), remove locally
+                             log(`Proceeding with local removal of ${publicId}.`);
+
+                            // 1. Animate and remove card from DOM
                             if (cardToDelete) {
                                  cardToDelete.classList.add('deleting'); // Add class for transition
                                  cardToDelete.addEventListener('transitionend', () => {
@@ -2078,7 +2116,7 @@
                                  log("Card already removed or not found for DOM removal.");
                             }
 
-                             // 2. Clean up local storage *only on confirmed server success*
+                             // 2. Clean up local storage
                              localStorage.removeItem(`pass_${publicId}`);
                              delete renamedTitles[publicId];
                              delete uploaderNames[publicId];
@@ -2090,7 +2128,6 @@
                                  err("Error cleaning up localStorage after delete:", e);
                              }
 
-
                              // 3. Remove from main 'allVideos' and 'displayedVideos' arrays in memory
                              allVideos = allVideos.filter(v => v.public_id !== publicId);
                              displayedVideos = displayedVideos.filter(v => v.public_id !== publicId);
@@ -2099,6 +2136,7 @@
                              updateLoadMoreButtonState();
 
                          } catch (error) {
+                             // This catch block now primarily handles actual server errors (not 404 if handled above)
                              err(`Deletion failed for ${publicId}:`, error);
                              // Restore card opacity if deletion failed
                              if (cardToDelete) cardToDelete.style.opacity = '1';
@@ -2126,23 +2164,30 @@
              const gallery = safeGetElementById('gallery');
              if (!loadMoreBtn || !gallery) return;
 
+              // Remove any existing end-of-list message first
+             const existingEndMsg = gallery.querySelector('.gallery-message.end-of-list');
+             if (existingEndMsg) existingEndMsg.remove();
+
              if (currentVideoIndex >= displayedVideos.length) {
                  loadMoreBtn.style.display = 'none';
-                 // Only add 'end of list' message if there are videos displayed and message isn't already there
-                 const endMsgExists = gallery.querySelector('.gallery-message.end-of-list');
-                 if (displayedVideos.length > 0 && !endMsgExists && gallery.children.length > 0) { // Check children length too
+                 // Only add 'end of list' message if there are videos displayed
+                 if (displayedVideos.length > 0 && gallery.children.length > 0) { // Check children length too
                       const endMsg = document.createElement('p');
                       endMsg.className = 'gallery-message info end-of-list'; // Added end-of-list class
                       endMsg.textContent = "✨ You've reached the end! ✨";
-                      gallery.appendChild(endMsg);
+                      // Append after a short delay to avoid flash if content is still rendering
+                      setTimeout(() => {
+                           // Check again if gallery still exists and doesn't have the message
+                           const currentGallery = safeGetElementById('gallery');
+                           if(currentGallery && !currentGallery.querySelector('.gallery-message.end-of-list')) {
+                                currentGallery.appendChild(endMsg);
+                           }
+                      }, 100);
                  }
              } else {
                   loadMoreBtn.style.display = 'block';
                   loadMoreBtn.disabled = false;
                   loadMoreBtn.innerHTML = 'Load More Videos';
-                   // Remove 'end of list' message if it exists and there are more to load
-                  const endMsg = gallery.querySelector('.gallery-message.end-of-list');
-                  if(endMsg) endMsg.remove();
              }
         }
 
@@ -2150,3 +2195,6 @@
 
 </body>
 </html>
+```
+
+--- END OF UPDATED FILE index (4).html ---
