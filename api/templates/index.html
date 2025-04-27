@@ -14,6 +14,9 @@
     <!-- e.g., <meta property="og:image" content="[URL to a preview image]"> -->
     <!-- e.g., <meta name="twitter:card" content="summary_large_image"> -->
 
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="KW9LITbigX2kYkD1Pt-ShwyWVkKL24BSvGMcRAR33L4" />
+
     <!-- Cloudinary Script -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <!-- Tailwind CSS -->
@@ -23,6 +26,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5641687897051414"
+         crossorigin="anonymous"></script>
 
     <style>
         /* --- Base & Theme Styles --- */
@@ -475,20 +482,20 @@
     <div class="modal-backdrop" id="uploadPopup">
         <div class="modal-box w-full max-w-md">
             <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Upload Popup">×</button>
-            <h2><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Upload Overlay</h2>
+            <h2><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Upload Overlays</h2>
             <p class="text-sm text-gray-400 mb-4 text-center">Help the community grow! Share effects, transitions, or meme templates.</p>
             <div>
                 <label for="uploaderNameInput">Your Name/Alias (Optional):</label>
-                <input type="text" id="uploaderNameInput" placeholder="Shown publicly with your video" class="mb-4" aria-describedby="uploaderHelp">
+                <input type="text" id="uploaderNameInput" placeholder="Shown publicly with your video(s)" class="mb-4" aria-describedby="uploaderHelp">
                 <p id="uploaderHelp" class="sr-only">Enter the name you want displayed as the uploader</p>
             </div>
             <div>
                 <label for="deletePassword">Deletion Password (Required):</label>
                 <input type="password" id="deletePassword" placeholder="Save this password securely!" class="mb-4" aria-describedby="passwordHelp" required>
-                 <p id="passwordHelp" class="text-xs text-gray-500 mb-4 -mt-2">6+ characters. Needed if you ever want to delete your upload.</p>
+                 <p id="passwordHelp" class="text-xs text-gray-500 mb-4 -mt-2">6+ characters. Needed if you ever want to delete your upload(s).</p>
             </div>
             <button type="button" id="selectUploadBtn" class="modal-button-confirm w-full justify-center text-base py-3">
-                <i class="fas fa-file-video mr-2" aria-hidden="true"></i> Select & Upload Video
+                <i class="fas fa-file-video mr-2" aria-hidden="true"></i> Select & Upload Video(s)
             </button>
             <div class="progress-container mt-4" id="progressContainer" style="display: none;" aria-label="Upload progress"><div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>
             <p id="uploadStatus" class="mt-2 text-sm h-5 text-center" aria-live="polite"></p>
@@ -505,7 +512,7 @@
             <h2 id="promptTitle">Prompt</h2>
             <div id="promptContent" class="mt-4 mb-4">
                  <!-- Dynamic content goes here (input field or confirmation text) -->
-                 <p class="modal-error" id="promptError" aria-live="assertive"></p> <!-- Error message container -->
+                 <p class="modal-error" id="promptError" aria-live="assertive" style="display: none;"></p> <!-- Error message container, hidden initially -->
             </div>
             <div class="modal-buttons">
                  <button type="button" class="modal-button-cancel" id="promptCancelBtn" data-action="close-prompt">Cancel</button>
@@ -514,15 +521,15 @@
         </div>
     </div>
 
-    <!-- Upload Success Modal -->
+    <!-- Upload Success Modal (Adapted for Multiple) -->
     <div class="modal-backdrop" id="uploadSuccessPopup">
         <div class="modal-box text-center">
              <button type="button" class="modal-close-btn" data-action="close-modal" aria-label="Close Success Popup">×</button> <!-- Use close-modal generic action -->
             <h2 class="text-2xl"><i class="fas fa-rocket text-blue-400 mr-2" aria-hidden="true"></i>Upload Complete!</h2>
             <div id="uploadSuccessContent" class="my-5"> <!-- Increased margin -->
-                <p>Thank you, <strong id="successUploaderName" class="text-green-400"></strong>!</p>
-                <p>Your overlay "<strong id="successVideoTitle" class="text-yellow-400"></strong>" is now live.</p>
-                <p class="mt-3 text-sm text-gray-400">Sharing helps the creative community grow!</p>
+                 <p>Thank you, <strong id="successUploaderName" class="text-green-400">Uploader</strong>!</p>
+                 <p id="successSummaryText">Your overlay(s) are now live.</p> <!-- Dynamic text -->
+                 <p class="mt-3 text-sm text-gray-400">Sharing helps the creative community grow!</p>
             </div>
             <div class="modal-buttons justify-center">
                  <button type="button" class="modal-button-confirm" data-action="close-modal">Awesome!</button> <!-- Use close-modal generic action -->
@@ -709,6 +716,7 @@
         let currentSearchQuery = ''; // Default search state
         let currentPromptCallback = null; // Callback for the generic prompt modal
         let isFetching = false; // Flag to prevent multiple fetches
+        let successfulUploads = []; // Array to hold results for multiple uploads
 
         // --- Utility Functions ---
         const $ = (selector) => document.querySelector(selector);
@@ -766,7 +774,7 @@
                         modal.style.display = 'none';
                         modal.classList.remove('modal-fade-out');
                         const errorEl = modal.querySelector('.modal-error');
-                        if (errorEl) errorEl.textContent = '';
+                        if (errorEl) errorEl.textContent = ''; errorEl.style.display = 'none'; // Also hide error field
                         // Remove temporary tabindex if added
                         const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
                         if(modalBox) modalBox.removeAttribute('tabindex');
@@ -824,6 +832,7 @@
             if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
             if (showUploadBtn) showUploadBtn.addEventListener('click', () => {
                 // Reset upload form on open
+                successfulUploads = []; // Clear any previous upload results
                 const uploaderInput = safeGetElementById('uploaderNameInput');
                 const passInput = safeGetElementById('deletePassword');
                 const status = safeGetElementById('uploadStatus');
@@ -954,7 +963,7 @@
                  // Hide the popup immediately
                  const popup = actionButton.closest('.action-popup');
                  if (popup) popup.style.display = 'none';
-                 const parentMenuButton = $(`button[aria-controls="${popup.id}"]`);
+                 const parentMenuButton = $(`button[aria-controls="${popup?.id}"]`); // Added optional chaining for safety
                  if(parentMenuButton) parentMenuButton.setAttribute('aria-expanded', 'false');
 
                  if (actionButton.textContent.includes('Rename')) {
@@ -972,9 +981,6 @@
                 log(`Download button clicked for ${publicId}. Triggering count increment (if backend exists).`);
 
                 // --- DOWNLOAD COUNT INCREMENT (Requires Backend) ---
-                // This requires a backend endpoint like /increment_download/:public_id
-                // Uncomment and adapt if you build this endpoint.
-                /*
                 if (DOWNLOAD_INCREMENT_ENDPOINT_BASE) {
                     const incrementUrl = `${DOWNLOAD_INCREMENT_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
                     log(`Sending download increment request to: ${incrementUrl}`);
@@ -987,22 +993,24 @@
                             .then(response => {
                                 if (!response.ok) log(`Failed to increment download count for ${publicId} (status: ${response.status})`);
                                 else log(`Increment request succeeded for ${publicId}`);
-                                // Optionally update the count in the UI immediately (optimistic update)
-                                // or wait for fetchAndRenderVideos to potentially get updated counts.
-                                // For immediate update:
+                                // OPTIONALLY update count in UI immediately (Optimistic Update)
                                 // const countEl = card?.querySelector('.download-count');
                                 // if (countEl) {
-                                //    const currentCount = parseInt(countEl.textContent.replace(/[^0-9]/g, ''), 10) || 0;
-                                //    countEl.innerHTML = `<i class="fas fa-download" aria-hidden="true"></i> ${(currentCount + 1).toLocaleString()}`;
-                                //    countEl.title = `${(currentCount + 1).toLocaleString()} downloads`;
+                                //    const currentCountText = countEl.textContent || '0';
+                                //    const currentCount = parseInt(currentCountText.replace(/[^0-9]/g, ''), 10) || 0;
+                                //    const newCount = currentCount + 1;
+                                //    countEl.innerHTML = `<i class="fas fa-download" aria-hidden="true"></i> ${newCount.toLocaleString()}`;
+                                //    countEl.title = `${newCount.toLocaleString()} downloads`;
+                                //    // Update the underlying data if needed, though fetchAndRenderVideos is safer
+                                //    const videoData = allVideos.find(v => v.public_id === publicId);
+                                //    if(videoData) videoData.download_count = newCount;
                                 // }
                             })
-                            .catch(err => err(`Error sending download increment for ${publicId}:`, err));
+                            .catch(fetchErr => err(`Error sending download increment for ${publicId}:`, fetchErr)); // Corrected variable name
                     }
                 } else {
                      log("Download increment endpoint not configured, skipping count update.");
                 }
-                */
                 // NOTE: Do NOT prevent the default link behavior here. The actual file
                 // download is handled by the browser via the href/download attributes on the <a> tag.
              }
@@ -1104,46 +1112,44 @@
 
         // --- Modal Helpers (Generic Prompt) ---
         function showPromptModal({ title, contentHTML = '', inputLabel = '', inputType = 'text', placeholder = '', confirmText = 'Confirm', cancelText = 'Cancel', callback, initialValue = '', isConfirmation = false, confirmClass = '' }) {
-            log(`Showing prompt modal: "${title}"`);
+            log(`Showing prompt modal: "${title}" (isConfirmation: ${isConfirmation})`);
             const modalId = 'promptModal';
             const titleEl = safeGetElementById('promptTitle');
             const contentDiv = safeGetElementById('promptContent');
             const confirmBtn = safeGetElementById('promptConfirmBtn');
             const cancelBtn = safeGetElementById('promptCancelBtn');
-            const errorEl = safeGetElementById('promptError'); // Ensure error element is part of the structure
+            const errorEl = safeGetElementById('promptError');
 
             if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) {
                 err("Prompt modal elements missing.");
                 return;
             }
 
-            // Reset
+            // Reset common elements
             titleEl.innerHTML = title; // Allow icons in title
-            contentDiv.innerHTML = ''; // Clear previous content first
+            contentDiv.innerHTML = ''; // Clear previous dynamic content
             errorEl.innerText = ''; // Clear previous error text
             errorEl.style.display = 'none'; // Hide error initially
-            // Place error element inside contentDiv for dynamic content insertion
-            contentDiv.appendChild(errorEl);
+            contentDiv.appendChild(errorEl); // Ensure error element is part of the content div structure
 
             // Set button classes and text
-            confirmBtn.className = 'modal-button-confirm'; // Reset base class
+            confirmBtn.className = 'modal-button-confirm'; // Reset to base confirm class first
              if (confirmClass) {
-                 confirmBtn.classList.add(...confirmClass.split(' '));
-             } else if (isConfirmation && !confirmClass.includes('modal-button-delete') && !confirmClass.includes('modal-button-confirm')) {
-                 // Default confirmation button style if not otherwise specified
-                 confirmBtn.classList.add('modal-button-confirm');
+                 confirmBtn.classList.add(...confirmClass.split(' ')); // Apply specific classes (like delete)
              }
-            confirmBtn.textContent = confirmText; // Allow icon in text later if needed
-            cancelBtn.textContent = cancelText; // Allow icon in text later if needed
+            confirmBtn.textContent = confirmText;
+            cancelBtn.textContent = cancelText;
 
             let inputEl = null; // Variable to hold the input element if created
 
             if (isConfirmation) {
+                log("Setting up prompt as confirmation.");
                 // Display confirmation text
                 const p = document.createElement('p');
                 p.innerHTML = contentHTML; // Use innerHTML to allow basic formatting
                 contentDiv.insertBefore(p, errorEl); // Insert confirmation text before error message
             } else {
+                 log("Setting up prompt with input.");
                  // Display any static HTML content provided
                  if(contentHTML) {
                     const staticContent = document.createElement('div');
@@ -1185,11 +1191,16 @@
             newCancelBtn.setAttribute('data-action', 'close-prompt'); // Use data-action
             cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
 
-            showModal(modalId);
+            showModal(modalId); // Show the configured modal
 
             // Focus logic
-            if (inputEl) inputEl.focus(); // Focus input if it exists
-            else if (isConfirmation) safeGetElementById('promptConfirmBtn')?.focus(); // Focus confirm for confirmations
+            if (inputEl) {
+                log("Focusing prompt input.");
+                setTimeout(() => inputEl.focus(), 100); // Delay focus slightly
+            } else if (isConfirmation) {
+                log("Focusing prompt confirm button.");
+                setTimeout(() => safeGetElementById('promptConfirmBtn')?.focus(), 100); // Focus confirm for confirmations
+            }
         }
 
 
@@ -1198,8 +1209,9 @@
             if (currentPromptCallback) {
                 const input = safeGetElementById('promptInput');
                 const value = input ? input.value : true; // Pass true for confirmation prompts without input
+                log("Executing prompt callback with value:", input ? '(input value)' : value);
                 currentPromptCallback(value); // Execute the stored callback
-                // Don't automatically hide here; callback should decide (e.g., on error vs success)
+                // Let the callback decide whether to hide the modal or show an error
             } else {
                 err("No callback registered for prompt confirmation.");
                 hidePromptModal(); // Close anyway if no callback found
@@ -1222,14 +1234,20 @@
             }
         }
 
-         function showUploadSuccessPopup(publicId, title, uploader) {
-            log(`Showing success popup for ${publicId}`);
-            const titleSpan = safeGetElementById('successVideoTitle');
+         function showUploadSuccessPopup(uploaderName, count) {
+            log(`Showing success popup for ${count} uploads by ${uploaderName}`);
             const uploaderSpan = safeGetElementById('successUploaderName');
-            if (titleSpan) titleSpan.innerText = title || formatTitle(publicId);
-            if (uploaderSpan) uploaderSpan.innerText = uploader || 'Anonymous';
+            const summaryText = safeGetElementById('successSummaryText');
+
+            if (uploaderSpan) uploaderSpan.innerText = uploaderName || 'Anonymous';
+            if (summaryText) {
+                summaryText.innerText = count === 1
+                    ? 'Your overlay is now live.'
+                    : `Your ${count} overlays are now live.`;
+            }
             showModal('uploadSuccessPopup');
         }
+
 
         // --- Theme Toggle ---
          function initializeTheme() {
@@ -1261,9 +1279,9 @@
              // if (window.cloudinaryWidgetInstance) { window.cloudinaryWidgetInstance.update({ theme: newTheme }); }
         }
 
-        // --- Upload Logic ---
+        // --- Upload Logic (Modified for Multiple Files) ---
         function openCloudinaryUpload() {
-            log("Initiating Cloudinary upload process...");
+            log("Initiating Cloudinary upload process (multiple enabled)...");
             const uploaderNameInput = safeGetElementById('uploaderNameInput');
             const delPassInput = safeGetElementById('deletePassword');
             const progressBar = safeGetElementById('progressBar');
@@ -1298,6 +1316,7 @@
             progressBar.style.width = '0%';
             progressContainer.style.display = 'block';
             uploadButton.disabled = true; // Disable button during upload process
+            successfulUploads = []; // Reset the array for this session
 
             try {
                 // Ensure Cloudinary object exists
@@ -1305,34 +1324,17 @@
                      throw new Error("Cloudinary script not loaded or invalid.");
                  }
 
-                // --- MULTIPLE UPLOAD SUPPORT NOTE ---
-                // The widget is currently configured for SINGLE file uploads (`multiple: false`).
-                // To enable multiple uploads:
-                // 1. Change `multiple: false` to `multiple: true` below.
-                // 2. Create an array outside the callback (e.g., `let successfulUploads = [];`) to store results.
-                // 3. In the `success` event: Instead of processing immediately, push `result.info` into `successfulUploads`.
-                // 4. In the `close` event:
-                //    - Check if `successfulUploads` has items.
-                //    - If yes, iterate through `successfulUploads`:
-                //        - For *each* upload's `public_id`, save the *same* `delPass` and `uploaderName` to localStorage.
-                //        - Create the video data object for each and add it to `allVideos`.
-                //        - Store the `uploaderName` in the `uploaderNames` object.
-                //    - After iterating, save the updated `uploaderNames` object to localStorage *once*.
-                //    - Call `applyFiltersAndRender(true)` *once* to refresh the gallery.
-                //    - Show a *single* success message, e.g., "X videos uploaded successfully!".
-                //    - Clear the `successfulUploads` array.
-                // The current code only handles the single upload flow correctly.
-                const widget = cloudinary.openUploadWidget({
+                 const widget = cloudinary.openUploadWidget({
                     cloudName: CLOUD_NAME, uploadPreset: UPLOAD_PRESET,
                     sources: ['local', 'url', 'camera', 'dropbox', 'google_drive'],
                     resourceType: 'video',
-                    multiple: false, // *** IMPORTANT: Change to true and modify handlers as described above for multi-upload ***
+                    multiple: true, // *** ENABLED MULTIPLE UPLOADS ***
                     clientAllowedFormats: ['mp4', 'webm', 'mov'], // Common web video formats
-                    maxFileSize: 300000000, // Approx 300MB limit
+                    // maxFileSize: 300000000, // *** REMOVED CLIENT-SIDE LIMIT *** Cloudinary account limits still apply!
                     folder: 'gs_overlay', // Optional: organize uploads in Cloudinary
                     theme: document.documentElement.getAttribute("data-theme") || "dark" // Match site theme
                 }, (error, result) => {
-                    // Re-select elements within callback scope to ensure they exist if modal was closed/reopened (unlikely here but safer)
+                    // Re-select elements within callback scope to ensure they exist
                     const currentUploadButton = safeGetElementById('selectUploadBtn');
                     const currentStatus = safeGetElementById('uploadStatus');
                     const currentProgressBar = safeGetElementById('progressBar');
@@ -1342,12 +1344,15 @@
                         err("Cloudinary Widget Error:", error);
                         if(currentStatus) currentStatus.innerText = `❌ Error: ${error.statusText || error.message || 'Upload failed'}`;
                         if(currentProgressContainer) currentProgressContainer.style.display = 'none';
-                         if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
+                        if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
+                        successfulUploads = []; // Clear array on error
                     } else if (result && result.event) {
                         log("Cloudinary Event:", result.event, result.info || '');
                         switch (result.event) {
                             case "upload-added":
-                                if(currentStatus) currentStatus.innerText = 'Starting upload...';
+                                if(currentStatus) currentStatus.innerText = `Adding file(s)...`;
+                                if (currentProgressBar) currentProgressBar.style.width = `0%`; // Reset progress for new file
+                                if(currentProgressContainer) currentProgressContainer.style.display = 'block'; // Ensure visible
                                 break;
                             case "uploadprogress":
                                 if (result.info && typeof result.info.bytes_uploaded === 'number' && result.info.total_bytes) {
@@ -1356,92 +1361,36 @@
                                         currentProgressBar.style.width = `${percent}%`;
                                         currentProgressBar.setAttribute('aria-valuenow', percent);
                                     }
-                                    if(currentStatus) currentStatus.innerText = `Uploading... ${percent}%`;
+                                    // Show progress for the *current* file being uploaded
+                                    const filename = result.info.original_filename || 'current file';
+                                    if(currentStatus) currentStatus.innerText = `Uploading ${filename}... ${percent}%`;
                                 } else {
                                     if(currentStatus) currentStatus.innerText = `Uploading...`; // Fallback if byte info missing
                                 }
                                 break;
                             case "success":
-                                log("Cloudinary Success:", result.info);
+                                log("Cloudinary Success (single file):", result.info);
                                 if (!result.info?.public_id || !result.info?.secure_url) {
                                      err("Cloudinary success event missing critical data:", result.info);
-                                     if(currentStatus) currentStatus.innerText = `❌ Error: Upload data incomplete.`;
-                                     if(currentProgressContainer) currentProgressContainer.style.display = 'none';
-                                     if(currentUploadButton) currentUploadButton.disabled = false;
+                                     if(currentStatus) currentStatus.innerText = `❌ Error: Upload data incomplete for one file.`;
+                                     // Don't stop other uploads, but log the issue
                                      return;
                                 }
-                                if(currentStatus) currentStatus.innerText = `✅ Processing...`;
+                                // Store result for later processing
+                                successfulUploads.push(result.info);
+                                if(currentStatus) currentStatus.innerText = `✅ ${successfulUploads.length} file(s) uploaded successfully. Finishing...`;
                                 if (currentProgressBar) {
-                                    currentProgressBar.style.width = '100%';
+                                    currentProgressBar.style.width = '100%'; // Show complete for this file
                                     currentProgressBar.setAttribute('aria-valuenow', 100);
                                 }
-
-                                // --- Handle upload success directly (No intermediate modal) ---
-                                const successData = {
-                                    publicId: result.info.public_id,
-                                    originalFilename: result.info.original_filename,
-                                    uploaderName: uploaderName,
-                                    secureUrl: result.info.secure_url,
-                                    createdAt: new Date().toISOString(), // Use current time
-                                    // Add placeholder download count if needed by rendering
-                                    download_count: 0
-                                };
-
-                                try {
-                                    // Save password and uploader name to local storage IMMEDIATELY
-                                    localStorage.setItem(`pass_${successData.publicId}`, delPass);
-                                    uploaderNames[successData.publicId] = successData.uploaderName;
-                                    localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
-                                    // Store original filename locally too, if available, for better title formatting later
-                                    if (successData.originalFilename) {
-                                        localStorage.setItem(`filename_${successData.publicId}`, successData.originalFilename);
-                                    }
-                                    log(`Password, uploader name, and filename saved locally for ${successData.publicId}`);
-
-                                    // Add to main video list and refresh UI immediately
-                                    const newVideoData = {
-                                        public_id: successData.publicId,
-                                        created_at: successData.createdAt,
-                                        secure_url: successData.secureUrl,
-                                        original_filename: successData.originalFilename,
-                                        download_count: successData.download_count // Add download count
-                                    };
-                                    allVideos.unshift(newVideoData); // Add to beginning of the master list
-                                    applyFiltersAndRender(true); // Refresh gallery view, resetting filters/pagination
-
-                                    // Hide upload modal and show success modal
-                                    hideModal('uploadPopup');
-                                    const defaultTitle = formatTitle(successData.publicId, successData.originalFilename);
-                                    showUploadSuccessPopup(successData.publicId, defaultTitle, successData.uploaderName);
-
-                                } catch(e) {
-                                    err("Error saving password/uploader to localStorage or updating UI:", e);
-                                     if(currentStatus) currentStatus.innerText = '✅ Uploaded, but failed to save data locally!';
-                                     // Try to proceed with UI update anyway if possible
-                                     hideModal('uploadPopup'); // Still hide upload popup
-                                     // Consider showing a generic success or error message here
-                                }
-                                // --- END MODIFIED FLOW ---
-
-                                // Note: Widget might auto-close on success. The "close" event below is a fallback.
                                 break;
 
                              case "close":
                                 log("Cloudinary Widget Closed.");
-                                // If widget closed manually *during* upload or after error, just re-enable button
-                                const latestStatus = safeGetElementById('uploadStatus')?.innerText || '';
-                                // Check if status indicates an incomplete or failed state
-                                const isFailureState = latestStatus.includes('Uploading') || latestStatus.includes('Initializing') || latestStatus.includes('Error') || latestStatus.includes('cancelled') || latestStatus.includes('Failed');
-
-                                if (isFailureState) {
-                                     if(currentStatus && !latestStatus.includes('Error') && !latestStatus.includes('Failed') && !latestStatus.includes('cancelled')) {
-                                         // Only set cancelled message if it wasn't already an error
-                                         currentStatus.innerText = 'Upload cancelled or closed.';
-                                     }
-                                     if(currentProgressContainer) currentProgressContainer.style.display = 'none';
-                                     if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable button
-                                 }
-                                // If success already happened, the modals were handled in the 'success' event.
+                                handleMultipleUploadSuccess(uploaderName, delPass); // Process all successful uploads
+                                // Reset UI elements in the upload modal, ready for next time
+                                if (currentUploadButton) currentUploadButton.disabled = false;
+                                // Status message handled by handleMultipleUploadSuccess or error cases
                                 break;
                             case "abort": // User aborted upload
                             case "queue-too-large":
@@ -1452,6 +1401,7 @@
                                 if(currentStatus) currentStatus.innerText = `❌ Upload Error: ${eventText}`;
                                 if(currentProgressContainer) currentProgressContainer.style.display = 'none';
                                 if(currentUploadButton) currentUploadButton.disabled = false; // Re-enable on error
+                                successfulUploads = []; // Clear array on error
                                 break;
                             default:
                                 // Log other events if needed for debugging
@@ -1465,8 +1415,83 @@
                 if(status) status.innerText = "❌ Failed to open upload widget. Script might be missing or misconfigured.";
                 if(progressContainer) progressContainer.style.display = 'none';
                 if (uploadButton) uploadButton.disabled = false; // Re-enable button
+                successfulUploads = []; // Clear array on error
             }
         }
+
+        function handleMultipleUploadSuccess(uploaderName, delPass) {
+            log(`Processing ${successfulUploads.length} successful uploads.`);
+            const currentStatus = safeGetElementById('uploadStatus');
+            const currentProgressContainer = safeGetElementById('progressContainer');
+
+            if (successfulUploads.length === 0) {
+                log("No successful uploads to process.");
+                // Optionally update status if it wasn't an explicit error before closing
+                if (currentStatus && !currentStatus.innerText.includes('Error')) {
+                     currentStatus.innerText = 'Widget closed or cancelled.';
+                }
+                 if(currentProgressContainer) currentProgressContainer.style.display = 'none';
+                return;
+            }
+
+            const newVideoEntries = [];
+            let localSaveError = false;
+
+            try {
+                successfulUploads.forEach(uploadInfo => {
+                    const publicId = uploadInfo.public_id;
+                    const originalFilename = uploadInfo.original_filename;
+                    const secureUrl = uploadInfo.secure_url;
+
+                    if (!publicId || !secureUrl) {
+                        err("Skipping an upload due to missing data:", uploadInfo);
+                        return; // Skip this iteration
+                    }
+
+                    // 1. Save password, uploader name, and original filename locally for EACH file
+                    localStorage.setItem(`pass_${publicId}`, delPass);
+                    uploaderNames[publicId] = uploaderName; // Add to the uploaderNames object
+                     if (originalFilename) {
+                         localStorage.setItem(`filename_${publicId}`, originalFilename);
+                     }
+
+                    // 2. Prepare data for the main video list
+                    const newVideoData = {
+                        public_id: publicId,
+                        created_at: new Date().toISOString(), // Use current time
+                        secure_url: secureUrl,
+                        original_filename: originalFilename || null,
+                        download_count: 0 // Default download count
+                    };
+                    newVideoEntries.push(newVideoData);
+                });
+
+                // 3. Save the *entire* updated uploaderNames object to localStorage *once*
+                localStorage.setItem('uploaderNames', JSON.stringify(uploaderNames));
+                log(`Passwords, uploader names, and filenames saved locally for ${newVideoEntries.length} uploads.`);
+
+            } catch(e) {
+                err("Error saving passwords/uploader names/filenames to localStorage:", e);
+                 if(currentStatus) currentStatus.innerText = '✅ Uploaded, but failed to save some data locally!';
+                localSaveError = true;
+                 // Continue with adding to the list and refreshing UI
+            }
+
+            // 4. Add all new entries to the main video list (prepend to show newest first)
+            allVideos.unshift(...newVideoEntries);
+            log(`Added ${newVideoEntries.length} new videos to the main list.`);
+
+            // 5. Refresh the gallery view
+            applyFiltersAndRender(true); // Reset filters/pagination
+
+            // 6. Hide upload modal and show success modal
+            hideModal('uploadPopup');
+            showUploadSuccessPopup(uploaderName, newVideoEntries.length);
+
+            // Reset the successful uploads array
+            successfulUploads = [];
+        }
+
 
         // --- Filtering & Sorting ---
         function setActiveFilterButton(buttonElement = null) {
@@ -2000,15 +2025,20 @@
                  placeholder: 'Enter your saved password',
                  confirmText: 'Verify & Proceed',
                  callback: (enteredPassword) => {
+                     log("Password prompt callback executed."); // DEBUG
                      if (!enteredPassword) { // Handle empty input
                          showPromptError('Password cannot be empty.');
                          // Keep modal open
                          return;
                      }
                      if (enteredPassword === storedPass) {
-                         log(`Password verified for ${actionName} on ${publicId}.`);
+                         log(`Password verified for ${actionName} on ${publicId}. Hiding prompt and executing action.`); // DEBUG
                          hidePromptModal(); // Hide prompt *before* executing action
-                         actionCallback(); // Execute the intended action (rename or delete)
+                         // Use a small timeout to ensure the modal is hidden before the next action (which might show another modal)
+                         setTimeout(() => {
+                            log("Executing action callback after brief delay."); // DEBUG
+                            actionCallback(); // Execute the intended action (rename or delete)
+                         }, 50); // Short delay
                      } else {
                          log("Incorrect password entered.");
                          showPromptError('Incorrect password. Please try again.');
@@ -2089,7 +2119,7 @@
         }
 
         async function proceedWithDelete(publicId) { // Make async for await fetch
-             log(`Showing delete confirmation for ${publicId}`);
+             log(`>>> Inside proceedWithDelete for ${publicId}. Showing confirmation prompt...`); // DEBUG
              const card = $(`div.card[data-public-id="${publicId}"]`);
              // Try to get original filename from data attribute or local storage
              const originalFilename = card?.dataset.originalFilename || localStorage.getItem(`filename_${publicId}`);
@@ -2103,6 +2133,7 @@
                  cancelText: "Cancel",
                  confirmClass: 'modal-button-delete', // Use red button style
                  callback: async (confirmed) => { // Make callback async to await fetch
+                     log(`>>> Delete confirmation callback executed. Confirmed: ${confirmed}`); // DEBUG
                      if (confirmed) {
                          log(`Deletion confirmed for ${publicId}. Initiating server deletion...`);
                          hidePromptModal(); // Hide confirmation modal
@@ -2115,8 +2146,8 @@
                          let serverDeletionSuccess = false;
                          let backendError = null;
                          try {
-                             if (!VIDEO_DELETE_ENDPOINT_BASE) {
-                                 log("Backend delete endpoint not configured. Proceeding with local removal only.");
+                             if (!VIDEO_DELETE_ENDPOINT_BASE || VIDEO_DELETE_ENDPOINT_BASE === '/delete') { // Check if endpoint is valid
+                                 log("Backend delete endpoint not configured or invalid. Proceeding with local removal only.");
                                  // Skip fetch, treat as 'success' for local removal
                              } else {
                                  const deleteUrl = `${VIDEO_DELETE_ENDPOINT_BASE}/${encodeURIComponent(publicId)}`;
@@ -2209,14 +2240,17 @@
 
                          // 5. Show Error Message if backend deletion failed
                          if (backendError) {
-                              showPromptModal({
-                                  title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
-                                  isConfirmation: true,
-                                  contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${backendError.message}</p><p>The video has been removed from your local view, but might still exist on the server.</p>`,
-                                  confirmText: "OK",
-                                  confirmClass: 'modal-button-cancel',
-                                  callback: () => hidePromptModal()
-                              });
+                              // Use a timeout to ensure the previous modal is fully gone
+                              setTimeout(() => {
+                                showPromptModal({
+                                    title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
+                                    isConfirmation: true,
+                                    contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${backendError.message}</p><p>The video has been removed from your local view, but might still exist on the server.</p>`,
+                                    confirmText: "OK",
+                                    confirmClass: 'modal-button-cancel',
+                                    callback: () => hidePromptModal()
+                                });
+                             }, 100); // Short delay for modal transition
                          } else {
                              log(`Local removal complete for ${publicId}.`);
                          }
