@@ -4,7 +4,7 @@
     { "src": "api/index.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/sitemap.xml", "dest": "/api/sitemap.xml" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
     { "src": "/(.*)", "dest": "/api/index.py" }
   ]
 }
