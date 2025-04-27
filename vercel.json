@@ -7,26 +7,13 @@
     }
   ],
   "routes": [
-    {
-      "src": "/sitemap\\.xml",
-      "dest": "/api/index.py"
-    },
-    {
-      "src": "/robots\\.txt",
-      "dest": "/api/index.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.py"
-    }
+    { "src": "/sitemap\\.xml", "dest": "/api/index.py" },
+    { "src": "/robots\\.txt",  "dest": "/api/index.py" },
+    { "src": "/(.*)",          "dest": "/api/index.py" }
   ],
   "functions": {
     "api/index.py": {
-      "includeFiles": [
-        "api/*.xml",
-        "api/*.txt",
-        "api/templates/**"
-      ]
+      "includeFiles": "api/*.{xml,txt},api/templates/**"
     }
   }
 }
