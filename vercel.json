@@ -1,10 +1,13 @@
+// vercel.json
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
+    { "src": "api/index.py",     "use": "@vercel/python" },
+    { "src": "api/sitemap.xml",  "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
-    { "src": "/(.*)", "dest": "/api/index.py" }
+    // static file route into the function bundle
+    { "src": "/sitemap\\.xml",   "dest": "/api/sitemap.xml" },
+    { "src": "/(.*)",            "dest": "/api/index.py" }
   ]
 }
