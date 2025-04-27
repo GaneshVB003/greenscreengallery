@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, send_from_directory
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
@@ -9,14 +9,11 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Determine the directory containing this file
+# Initialize Flask, pointing to api/templates for HTML
 api_dir = os.path.dirname(__file__)
 
-# Initialize Flask, pointing to api/templates for HTML and api/static for assets
 app = Flask(
     __name__,
-    static_url_path='/static',
-    static_folder=os.path.join(api_dir, 'static'),
     template_folder=os.path.join(api_dir, 'templates')
 )
 
@@ -74,7 +71,7 @@ def delete_video(public_id):
         logging.error("ERROR deleting video", exc_info=True)
         return jsonify(status="error", message="Server error", details=str(e)), 500
 
-# Route: Serve sitemap.xml
+# Route: Serve sitemap.xml from the 'api' directory
 @app.route("/sitemap.xml")
 def sitemap():
     return send_from_directory(
@@ -83,7 +80,7 @@ def sitemap():
         mimetype="application/xml"
     )
 
-# Route: Serve robots.txt
+# Route: Serve robots.txt from the 'api' directory
 @app.route("/robots.txt")
 def robots():
     return send_from_directory(
@@ -92,5 +89,6 @@ def robots():
         mimetype="text/plain"
     )
 
+# Run the Flask app (this will not be triggered on Vercel; it's for local testing)
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
