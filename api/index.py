@@ -62,5 +62,14 @@ def delete_video(public_id):
 def sitemap():
     return send_from_directory(directory=os.getcwd(), path='sitemap.xml', mimetype='application/xml')
 
+
+@app.route("/sitemap.xml")
+def sitemap():
+    # __file__ is api/index.py, so this points at api/sitemap.xml
+    api_dir = os.path.dirname(__file__)
+    return send_from_directory(directory=api_dir,
+                               filename="sitemap.xml",
+                               mimetype="application/xml")
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
