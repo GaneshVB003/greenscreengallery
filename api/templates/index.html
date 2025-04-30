@@ -1863,22 +1863,9 @@
                              <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                          </div>
                     </div>
-                 <div class="card-footer">
-  <!-- Use a placeholder href and add an id for JavaScript targeting -->
-  <a href="#" id="downloadLink" class="download-btn" title="Download ${title}">
-    <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
-  </a>
-  <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
-    <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-    <span class="sr-only">Options for ${title}</span>
-  </button>
-</div>
-
-<div class="action-popup" id="actionPopup_${safeId}" role="menu">
-  <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>Rename</button>
-  <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>Delete</button>
-</div>
-
+                 <a href="${videoUrl}" download="${safeDownloadFilename}" class="download-btn" title="Download ${title}">
+  <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
+</a>
 
 </span>
                         </a>
