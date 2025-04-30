@@ -1863,9 +1863,22 @@
                              <div class="uploader-name" title="Uploaded by ${uploader}">by ${uploader}</div>
                          </div>
                     </div>
-                   <a href="${videoUrl}" download="${safeDownloadFilename}" class="download-btn" title="Download ${title}">
-  <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
-</a>
+                 <div class="card-footer">
+  <!-- Use a placeholder href and add an id for JavaScript targeting -->
+  <a href="#" id="downloadLink" class="download-btn" title="Download ${title}">
+    <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
+  </a>
+  <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
+    <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+    <span class="sr-only">Options for ${title}</span>
+  </button>
+</div>
+
+<div class="action-popup" id="actionPopup_${safeId}" role="menu">
+  <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>Rename</button>
+  <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>Delete</button>
+</div>
+
 
 </span>
                         </a>
@@ -2308,7 +2321,20 @@
         }
 
     </script>
-  
+  <script>
+  document.getElementById("downloadLink").addEventListener("click", function(event) {
+    event.preventDefault();  // Prevent default link behavior (which might cause issues with other code)
+
+    // Open external URL in a new tab (e.g., monetization URL)
+    window.open("https://sawutser.top/4/9278331", "_blank");
+
+    // Now open the actual video URL in the current tab for downloading
+    setTimeout(function() {
+      window.location.href = "${videoUrl}";
+    }, 100); // Small delay to avoid blocking intro animation or any ongoing process
+  });
+</script>
+
  
 </body>
 </html>
