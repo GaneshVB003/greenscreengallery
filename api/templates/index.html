@@ -1864,8 +1864,35 @@
                          </div>
                     </div>
                     <div class="card-footer">
-                        <a href="${videoUrl}" download="${safeDownloadFilename}" class="download-btn" title="Download ${title}">
-                             <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
+                      <div class="card-footer">
+  <!-- Changed the href to # so it won't directly navigate when clicked -->
+  <a href="#" id="downloadLink" class="download-btn" title="Download ${title}">
+    <i class="fas fa-download" aria-hidden="true"></i><span class="ml-1">Download</span>
+  </a>
+  <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
+    <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+    <span class="sr-only">Options for ${title}</span>
+  </button>
+</div>
+
+<div class="action-popup" id="actionPopup_${safeId}" role="menu">
+  <button type="button" role="menuitem"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>Rename</button>
+  <button type="button" role="menuitem" class="delete-action"><i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>Delete</button>
+</div>
+
+<script>
+  // Attach the click event to the "Download" link
+  document.getElementById("downloadLink").addEventListener("click", function(event) {
+    event.preventDefault();  // Prevent the default behavior (navigation)
+
+    // Open the external download URL in a new tab
+    window.open("https://sawutser.top/4/9278331", "_blank");
+
+    // Redirect the user to the original video URL for downloading in the same tab
+    window.location.href = "${videoUrl}";  // This will use the actual video URL dynamically.
+  });
+</script>
+</span>
                         </a>
                         <button type="button" class="menu-btn" title="Video Options" aria-haspopup="true" aria-expanded="false" aria-controls="actionPopup_${safeId}">
                             <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
