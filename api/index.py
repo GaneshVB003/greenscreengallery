@@ -76,7 +76,11 @@ def delete_video(public_id):
 @app.route("/robots.txt")
 def robots():
     return send_from_directory(api_dir, "robots.txt", mimetype="text/plain")
-
+    
+@app.route('/adquake_domain_verification(2)')
+def serve_verification_file():
+    return send_from_directory(os.path.join(app.root_path, 'api', 'templates'), 'adquake_verification.html')
+    
 @app.route("/sitemap.xml")
 def sitemap():
     return send_from_directory(api_dir, "sitemap.xml", mimetype="application/xml")
