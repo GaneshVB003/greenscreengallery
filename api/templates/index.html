@@ -191,7 +191,7 @@ html[data-theme="light"] .info-section p, html[data-theme="light"] .info-section
 .info-section .info-cta i { transition: transform 0.2s ease; display: inline-block;}
 .info-section .info-cta:hover i { transform: scale(1.1) translateX(3px); }
 .info-section code { background-color: rgba(255,255,255,0.15); padding: 0.2em 0.5em; border-radius: 4px; font-size: 0.9em; color: #00ff88; }
-html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.07); color: #10b981; }
+html[data-theme="light"] .info-section code { background-color: rgba(0,0,0,0.07); color#10b981; }
 .video-wrapper { max-width: 700px; margin: 2rem auto; box-shadow: 0 8px 25px rgba(0,0,0,0.3); border-radius: 1rem; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;}
 html[data-theme="light"] .video-wrapper { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
 .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
@@ -517,14 +517,19 @@ let currentSearchQuery = '';
 let currentPromptCallback = null;
 let isFetching = false;
 let successfulUploads = [];
+// Map to store hide timeouts for modals
+const modalHideTimeouts = new Map();
+
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 const log = (...args) => console.log('[GSV]', ...args);
 const err = (...args) => console.error('[GSV ERROR]', ...args);
+
 function safeGetElementById(id) {
 const el = document.getElementById(id);
 return el;
 }
+
 function debounce(func, wait) {
 let timeout;
 return function executedFunction(...args) {
@@ -533,55 +538,71 @@ clearTimeout(timeout);
 timeout = setTimeout(later, wait);
 };
 }
+
 function showModal(modalId) {
 log(`Showing modal: ${modalId}`);
 const modal = safeGetElementById(modalId);
 if (modal && modal.classList.contains('modal-backdrop')) {
+// Clear any pending hide timeout for this modal
+if (modalHideTimeouts.has(modalId)) {
+    clearTimeout(modalHideTimeouts.get(modalId));
+    modalHideTimeouts.delete(modalId);
+    log(`Cleared pending hide timeout for ${modalId}`);
+}
+modal.classList.remove('modal-fade-out'); // Ensure fade-out class is removed if it was interrupted
 modal.style.display = 'flex';
 const focusableElement = modal.querySelector('button:not([disabled]), input:not([disabled]), [tabindex="0"], a[href]');
 const modalBox = modal.querySelector('.modal-box');
 if (focusableElement) {
-setTimeout(() => focusableElement.focus(), 50);
+    setTimeout(() => focusableElement.focus(), 50);
 } else if (modalBox) {
-modalBox.setAttribute('tabindex', '-1');
-setTimeout(() => modalBox.focus(), 50);
+    modalBox.setAttribute('tabindex', '-1');
+    setTimeout(() => modalBox.focus(), 50);
 }
 } else {
 err(`Cannot show modal - Element ${modalId} not found or not a modal backdrop.`);
 }
 }
+
 function hideModal(modalId) {
-log(`Hiding modal: ${modalId}`);
-const modal = safeGetElementById(modalId);
-if (modal && modal.classList.contains('modal-backdrop') && modal.style.display !== 'none') {
-modal.classList.add('modal-fade-out');
-setTimeout(() => {
-if (modal) {
-modal.style.display = 'none';
-modal.classList.remove('modal-fade-out');
-const errorEl = modal.querySelector('.modal-error');
-if (errorEl) errorEl.textContent = ''; errorEl.style.display = 'none';
-const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
-if(modalBox) modalBox.removeAttribute('tabindex');
+    log(`Hiding modal: ${modalId}`);
+    return new Promise((resolve) => {
+        const modal = safeGetElementById(modalId);
+        if (modal && modal.classList.contains('modal-backdrop') && modal.style.display !== 'none') {
+            modal.classList.add('modal-fade-out');
 
-// Re-enable buttons if they were disabled (e.g., in promptModal)
-const confirmBtn = modal.querySelector('#promptConfirmBtn');
-const cancelBtn = modal.querySelector('#promptCancelBtn');
-if (confirmBtn) {
-    confirmBtn.disabled = false;
-    // Restore original text if it was changed to loading state
-    if (confirmBtn.dataset.originalText) {
-        confirmBtn.innerHTML = confirmBtn.dataset.originalText;
-        delete confirmBtn.dataset.originalText;
-    }
-}
-if (cancelBtn) {
-    cancelBtn.disabled = false;
-}
+            const timeoutId = setTimeout(() => {
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('modal-fade-out');
+                    const errorEl = modal.querySelector('.modal-error');
+                    if (errorEl) { errorEl.textContent = ''; errorEl.style.display = 'none'; }
+                    const modalBox = modal.querySelector('.modal-box[tabindex="-1"]');
+                    if (modalBox) { modalBox.removeAttribute('tabindex'); }
 
-}
-}, 350);
-}
+                    const confirmBtn = modal.querySelector('#promptConfirmBtn');
+                    const cancelBtn = modal.querySelector('#promptCancelBtn');
+                    if (confirmBtn) {
+                        confirmBtn.disabled = false;
+                        if (confirmBtn.dataset.originalText) {
+                            confirmBtn.innerHTML = confirmBtn.dataset.originalText;
+                            delete confirmBtn.dataset.originalText;
+                        }
+                    }
+                    if (cancelBtn) {
+                        cancelBtn.disabled = false;
+                    }
+                    modalHideTimeouts.delete(modalId); // Remove timeout from map
+                    resolve();
+                } else {
+                    resolve(); // Resolve even if modal is somehow gone
+                }
+            }, 350);
+            modalHideTimeouts.set(modalId, timeoutId); // Store the timeout ID
+        } else {
+            resolve(); // Resolve immediately if not visible or not a modal
+        }
+    });
 }
 document.addEventListener('DOMContentLoaded', () => {
 log("DOM Ready. Initializing...");
@@ -836,8 +857,8 @@ log(`Showing prompt modal: "${title}" (isConfirmation: ${isConfirmation})`);
 const modalId = 'promptModal';
 const titleEl = safeGetElementById('promptTitle');
 const contentDiv = safeGetElementById('promptContent');
-let confirmBtn = safeGetElementById('promptConfirmBtn'); // Use let for potential re-assignment
-let cancelBtn = safeGetElementById('promptCancelBtn'); // Use let for potential re-assignment
+let confirmBtn = safeGetElementById('promptConfirmBtn');
+let cancelBtn = safeGetElementById('promptCancelBtn');
 const errorEl = safeGetElementById('promptError');
 if (!titleEl || !contentDiv || !confirmBtn || !cancelBtn || !errorEl) {
 err("Prompt modal elements missing.");
@@ -849,13 +870,13 @@ errorEl.innerText = '';
 errorEl.style.display = 'none';
 contentDiv.appendChild(errorEl);
 
-confirmBtn.className = 'modal-button-confirm'; // Reset classes
+confirmBtn.className = 'modal-button-confirm';
 if (confirmClass) {
 confirmBtn.classList.add(...confirmClass.split(' '));
 }
-confirmBtn.innerHTML = confirmText; // Use innerHTML for icons
+confirmBtn.innerHTML = confirmText;
 confirmBtn.disabled = false;
-if (confirmBtn.dataset.originalText) delete confirmBtn.dataset.originalText; // Clear previous original text
+if (confirmBtn.dataset.originalText) delete confirmBtn.dataset.originalText;
 
 cancelBtn.textContent = cancelText;
 cancelBtn.disabled = false;
@@ -892,15 +913,17 @@ contentDiv.insertBefore(labelEl, errorEl);
 contentDiv.insertBefore(inputEl, errorEl);
 }
 currentPromptCallback = callback;
-// Re-clone buttons to ensure event listeners are fresh if modal is reused.
+
 const newConfirmBtn = confirmBtn.cloneNode(true);
 confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-confirmBtn = newConfirmBtn; // Update reference
+confirmBtn = newConfirmBtn;
 confirmBtn.addEventListener('click', handlePromptConfirm);
+
 const newCancelBtn = cancelBtn.cloneNode(true);
 cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-cancelBtn = newCancelBtn; // Update reference
-cancelBtn.setAttribute('data-action', 'close-prompt'); // Keep data-action for generic close handler
+cancelBtn = newCancelBtn;
+cancelBtn.setAttribute('data-action', 'close-prompt');
+
 showModal(modalId);
 if (inputEl) {
 log("Focusing prompt input.");
@@ -927,9 +950,9 @@ err("No callback registered for prompt confirmation.");
 hidePromptModal();
 }
 }
-function hidePromptModal() {
-hideModal('promptModal');
-currentPromptCallback = null;
+async function hidePromptModal() {
+    await hideModal('promptModal');
+    currentPromptCallback = null;
 }
 function showPromptError(message) {
 log("Showing prompt error:", message);
@@ -1529,48 +1552,49 @@ log(`Action popup ${popup.id} closed`);
 menuButton.focus();
 }
 }
-function getPasswordAndExecute(publicId, actionCallback, actionName = "perform action") {
-log(`Getting password for ${actionName} on ${publicId}`);
-const storedPass = localStorage.getItem(`pass_${publicId}`);
-if (!storedPass) {
-err(`No password found locally for ${publicId}`);
-showPromptModal({
-title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Password Missing",
-isConfirmation: true,
-contentHTML: `<p>The deletion/rename password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser, cleared your storage, or the password failed to save during upload.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
-confirmText: "OK",
-confirmClass: 'modal-button-cancel',
-callback: () => hidePromptModal()
-});
-return;
-}
-showPromptModal({
-title: "<i class='fas fa-lock text-yellow-400 mr-2'></i> Password Required",
-inputLabel: `Enter password to ${actionName}:`,
-inputType: 'password',
-placeholder: 'Enter your saved password',
-confirmText: 'Verify & Proceed',
-callback: (enteredPassword) => {
-log("Password prompt callback executed.");
-if (!enteredPassword) {
-showPromptError('Password cannot be empty.');
-return;
-}
-if (enteredPassword === storedPass) {
-log(`Password verified for ${actionName} on ${publicId}. Hiding prompt and executing action.`);
-hidePromptModal();
-setTimeout(() => {
-log("Executing action callback after brief delay.");
-actionCallback();
-}, 50);
-} else {
-log("Incorrect password entered.");
-showPromptError('Incorrect password. Please try again.');
-const inputField = safeGetElementById('promptInput');
-if(inputField) inputField.focus();
-}
-}
-});
+async function getPasswordAndExecute(publicId, actionCallback, actionName = "perform action") {
+    log(`Getting password for ${actionName} on ${publicId}`);
+    const storedPass = localStorage.getItem(`pass_${publicId}`);
+    if (!storedPass) {
+        err(`No password found locally for ${publicId}`);
+        showPromptModal({
+            title: "<i class='fas fa-exclamation-triangle text-yellow-400 mr-2'></i> Password Missing",
+            isConfirmation: true,
+            contentHTML: `<p>The deletion/rename password for this video is not stored in this browser's local storage.</p><p>You might have uploaded it from a different browser, cleared your storage, or the password failed to save during upload.</p><p class="mt-2 text-sm text-gray-400">Unfortunately, the action cannot proceed without the correct password.</p>`,
+            confirmText: "OK",
+            confirmClass: 'modal-button-cancel',
+            callback: async () => { await hidePromptModal(); }
+        });
+        return;
+    }
+
+    showPromptModal({
+        title: "<i class='fas fa-lock text-yellow-400 mr-2'></i> Password Required",
+        inputLabel: `Enter password to ${actionName}:`,
+        inputType: 'password',
+        placeholder: 'Enter your saved password',
+        confirmText: 'Verify & Proceed',
+        callback: async (enteredPassword) => {
+            log("Password prompt callback executed.");
+            if (!enteredPassword) {
+                showPromptError('Password cannot be empty.');
+                return;
+            }
+            if (enteredPassword === storedPass) {
+                log(`Password verified for ${actionName} on ${publicId}. Hiding prompt and executing action.`);
+                await hidePromptModal(); // Wait for prompt to hide
+                setTimeout(() => {
+                    log("Executing action callback after brief delay.");
+                    actionCallback();
+                }, 50);
+            } else {
+                log("Incorrect password entered.");
+                showPromptError('Incorrect password. Please try again.');
+                const inputField = safeGetElementById('promptInput');
+                if(inputField) inputField.focus();
+            }
+        }
+    });
 }
 function triggerRename(publicId) {
 log(`Triggering rename for ${publicId}`);
@@ -1588,7 +1612,7 @@ inputType: 'text',
 initialValue: currentTitle,
 placeholder: 'Enter a descriptive title',
 confirmText: 'Save New Title',
-callback: (newTitleInput) => {
+callback: async (newTitleInput) => {
 const newTitle = newTitleInput?.trim();
 if (newTitle && newTitle !== currentTitle) {
 log(`Renaming ${publicId} locally from "${currentTitle}" to "${newTitle}"`);
@@ -1598,7 +1622,7 @@ localStorage.setItem('renamedTitles', JSON.stringify(renamedTitles));
 log("Title saved locally.");
 } catch (e) {
 err("Error saving renamed title to localStorage:", e);
-showPromptError("Failed to save title locally.");
+showPromptError("Failed to save title locally."); // This error will be in the *new* prompt if not careful
 }
 if (card) {
 const titleEl = card.querySelector('.card-title');
@@ -1612,7 +1636,7 @@ downloadLink.title = `Download ${newTitle}`;
 }
 if (videoEl) videoEl.title = `Click to play/pause: ${newTitle}`;
 }
-hidePromptModal();
+await hidePromptModal();
 log("Rename successful (locally).");
 } else if (!newTitle) {
 showPromptError("Title cannot be empty.");
@@ -1620,7 +1644,7 @@ const inputField = safeGetElementById('promptInput');
 if(inputField) inputField.focus();
 } else {
 log("Title unchanged, closing rename prompt.");
-hidePromptModal();
+await hidePromptModal();
 }
 }
 });
@@ -1649,7 +1673,7 @@ const promptCancelBtn = document.getElementById('promptCancelBtn');
 
 if (promptConfirmBtn) {
     promptConfirmBtn.disabled = true;
-    promptConfirmBtn.dataset.originalText = promptConfirmBtn.innerHTML; // Store original content
+    promptConfirmBtn.dataset.originalText = promptConfirmBtn.innerHTML;
     promptConfirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Deleting...';
 }
 if (promptCancelBtn) {
@@ -1705,8 +1729,7 @@ try {
     backendError = error;
 }
 
-// Now hide the prompt *after* the async operation is complete
-hidePromptModal();
+await hidePromptModal(); // Ensure the current "Confirm Deletion" prompt is fully hidden
 
 log(`Proceeding with local removal of ${publicId}. Server success: ${serverDeletionSuccess}`);
 if (cardToDelete) {
@@ -1740,22 +1763,23 @@ allVideos = allVideos.filter(v => v?.public_id !== publicId);
 displayedVideos = displayedVideos.filter(v => v?.public_id !== publicId);
 
 if (backendError) {
-    setTimeout(() => {
+    // The "Confirm Deletion" prompt is now hidden. We can show the error prompt.
+    setTimeout(() => { // Brief delay for smoother transition
         showPromptModal({
             title: "<i class='fas fa-exclamation-circle text-red-500 mr-2'></i> Deletion Error",
             isConfirmation: true,
             contentHTML: `<p>Failed to delete the video from the server:</p><p class="my-2 text-red-400">${backendError.message}</p><p>The video has been removed from your local view, but might still exist on the server.</p>`,
             confirmText: "OK",
             confirmClass: 'modal-button-cancel',
-            callback: () => hidePromptModal()
+            callback: async () => { await hidePromptModal(); }
         });
-    }, 100);
+    }, 100); // Short delay before showing next modal
 } else {
     log(`Local removal complete for ${publicId}.`);
 }
 } else {
 log("Deletion cancelled by user.");
-hidePromptModal(); // Hides the confirmation prompt if "Cancel" is clicked
+await hidePromptModal();
 }
 }
 });
@@ -1788,4 +1812,3 @@ loadMoreBtn.innerHTML = 'Load More Videos';
 </script>
 </body>
 </html>
-
