@@ -84,6 +84,14 @@ def serve_verification_file():
 @app.route("/sitemap.xml")
 def sitemap():
     return send_from_directory(api_dir, "sitemap.xml", mimetype="application/xml")
+@app.route("/.well-known/discord")
+def serve_discord_verification():
+    return send_from_directory(
+        os.path.join(app.template_folder, '.well-known'),
+        'discord',
+        mimetype="application/json"  # or text/plain depending on content
+    )
+
 
 # Run the Flask app (this will not be triggered on Vercel; it's for local testing)
 if __name__ == "__main__":
